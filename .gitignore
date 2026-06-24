@@ -39,3 +39,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Plans and specs
+.plan/
+.specs/
+
+# Temp
+/tmp
+
+# Playwright
+playwright-report/
+test-results/
