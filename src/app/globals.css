@@ -21,6 +21,36 @@
   }
 }
 
+@keyframes leafFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.06;
+  }
+  50% {
+    transform: translateY(-8px) rotate(3deg);
+    opacity: 0.12;
+  }
+}
+
+@keyframes leafFloatSlow {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.04;
+  }
+  50% {
+    transform: translateY(-5px) rotate(-2deg);
+    opacity: 0.1;
+  }
+}
+
+.animate-leaf-float {
+  animation: leafFloat 6s ease-in-out infinite;
+}
+
+.animate-leaf-float-slow {
+  animation: leafFloatSlow 8s ease-in-out infinite;
+}
+
 body {
   background: var(--color-wedding-cream);
   font-family: var(--font-body);
