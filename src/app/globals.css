@@ -6,6 +6,15 @@
   --color-wedding-gold: #D4AF37;
   --color-wedding-wood: #5C4033;
   --color-wedding-cream: #FAFAFA;
+  --color-nature-green: #2D5A3D;
+  --color-nature-green-light: #4A7C5C;
+  --color-nature-green-dark: #1A3A2A;
+  --color-nature-brown: #8B6F47;
+  --color-nature-brown-light: #B8976A;
+  --color-nature-sunset: #E8956A;
+  --color-nature-sky: #87CEEB;
+  --color-nature-mountain: #3A5A6C;
+  --color-nature-mountain-far: #5A7A8C;
   --font-heading: 'Playfair Display', serif;
   --font-body: 'Montserrat', sans-serif;
 }
@@ -43,6 +52,61 @@
   }
 }
 
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes sway {
+  0%, 100% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+}
+
+@keyframes fireFlicker {
+  0%, 100% {
+    transform: scaleY(1) scaleX(1);
+    opacity: 0.8;
+  }
+  25% {
+    transform: scaleY(1.1) scaleX(0.95);
+    opacity: 1;
+  }
+  50% {
+    transform: scaleY(0.95) scaleX(1.05);
+    opacity: 0.9;
+  }
+  75% {
+    transform: scaleY(1.05) scaleX(0.98);
+    opacity: 0.85;
+  }
+}
+
+.animate-twinkle {
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+.animate-twinkle-delay {
+  animation: twinkle 3s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+.animate-sway {
+  animation: sway 4s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+.animate-fire {
+  animation: fireFlicker 0.8s ease-in-out infinite;
+}
+
 .animate-leaf-float {
   animation: leafFloat 6s ease-in-out infinite;
 }
@@ -51,7 +115,33 @@
   animation: leafFloatSlow 8s ease-in-out infinite;
 }
 
+/* Mountain mist animation */
+@keyframes mistFloat {
+  0%, 100% {
+    transform: translateX(0) translateY(0);
+    opacity: 0.08;
+  }
+  50% {
+    transform: translateX(10px) translateY(-3px);
+    opacity: 0.15;
+  }
+}
+
+.animate-mist {
+  animation: mistFloat 10s ease-in-out infinite;
+}
+
+html {
+  overflow-x: hidden;
+}
+
 body {
   background: var(--color-wedding-cream);
   font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+/* Nature gradient helper */
+.nature-gradient-sunset {
+  background: linear-gradient(180deg, #1a2a4a 0%, #2a4a6a 30%, #4a7a8a 60%, #e8956a 85%, #d4a574 100%);
 }
