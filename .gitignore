@@ -41,8 +41,8 @@ yarn-error.log*
 next-env.d.ts
 
 # Plans and specs
-.plan/
-.specs/
+.plans
+.specs
 
 # Temp
 /tmp

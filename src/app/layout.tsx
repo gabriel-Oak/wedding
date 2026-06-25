@@ -1,20 +1,20 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Playfair_Display, Montserrat } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const playfair = Playfair_Display({
+  variable: "--font-heading",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const montserrat = Montserrat({
+  variable: "--font-body",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Wedding",
-  description: "Wedding event page",
+  title: "Save the Date",
+  description: "Casamento — 08 de Novembro de 2026",
 };
 
 export default function RootLayout({
@@ -24,8 +24,8 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      lang="pt-BR"
+      className={`${playfair.variable} ${montserrat.variable} h-full scroll-smooth antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
