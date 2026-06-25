@@ -70,6 +70,15 @@
   }
 }
 
+@keyframes branchFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
 @keyframes fireFlicker {
   0%, 100% {
     transform: scaleY(1) scaleX(1);
@@ -101,6 +110,10 @@
 .animate-sway {
   animation: sway 4s ease-in-out infinite;
   transform-origin: bottom center;
+}
+
+.animate-branch-float {
+  animation: branchFloat 6s ease-in-out infinite;
 }
 
 .animate-fire {
@@ -141,7 +154,4 @@ body {
   overflow-x: hidden;
 }
 
-/* Nature gradient helper */
-.nature-gradient-sunset {
-  background: linear-gradient(180deg, #1a2a4a 0%, #2a4a6a 30%, #4a7a8a 60%, #e8956a 85%, #d4a574 100%);
-}
+
