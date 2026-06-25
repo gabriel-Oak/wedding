@@ -51,7 +51,8 @@ test.describe('Save the Date Landing Page', () => {
     await expect(page.getByText('08 . 11 . 2026')).toBeVisible();
     await expect(page.getByText('Contagem Regressiva')).toBeVisible();
     await expect(page.getByText(/nos vemos em 08 de novembro/i)).toBeVisible();
-    
+
+    await page.close();
     await context.close();
   });
 
