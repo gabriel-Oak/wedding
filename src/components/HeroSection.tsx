@@ -393,8 +393,12 @@ export default function HeroSection() {
 
       {/* Eucalyptus branches — corners (wedding palette) */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <EucalyptusBranch className="absolute top-0 left-0 h-16 w-40 text-wedding-gold/40 rotate-45" />
-        <EucalyptusBranch className="absolute bottom-0 right-0 h-16 w-40 text-wedding-gold/40 -rotate-135" />
+        <div className="animate-branch-float">
+          <EucalyptusBranch className="absolute top-0 left-0 h-16 w-40 text-wedding-gold/40 rotate-45" />
+        </div>
+        <div className="animate-branch-float">
+          <EucalyptusBranch className="absolute bottom-0 right-0 h-16 w-40 text-wedding-gold/40 -rotate-135" />
+        </div>
       </div>
 
       {/* Decorative camping elements (wedding palette) */}
