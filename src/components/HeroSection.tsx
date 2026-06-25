@@ -1,5 +1,12 @@
 "use client";
 
+/* Wedding palette gradient background */
+function WeddingGradient() {
+  return (
+    <div className="absolute inset-0 bg-gradient-to-b from-wedding-blue via-[#2a5a9a] to-wedding-gold/30" />
+  );
+}
+
 /* Small leaf SVG component */
 function LeafIcon({ className = "" }: { className?: string }) {
   return (
@@ -260,29 +267,6 @@ function Stars({ className = "" }: { className?: string }) {
   );
 }
 
-/* Sunset glow effect */
-function SunsetGlow({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 1440 600"
-      fill="none"
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-      preserveAspectRatio="none"
-    >
-      {/* Sun glow */}
-      <circle cx="720" cy="400" r="120" fill="url(#sunsetGlow)" opacity="0.3" />
-      <defs>
-        <radialGradient id="sunsetGlow" cx="0.5" cy="0.8" r="0.5">
-          <stop offset="0%" stopColor="#E8956A" stopOpacity="0.6" />
-          <stop offset="50%" stopColor="#D4AF37" stopOpacity="0.3" />
-          <stop offset="100%" stopColor="#1E5FA7" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-    </svg>
-  );
-}
-
 /* Tent / camping icon */
 function TentIcon({ className = "" }: { className?: string }) {
   return (
@@ -346,79 +330,74 @@ function CampfireIcon({ className = "" }: { className?: string }) {
 export default function HeroSection() {
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
-      {/* Sunset gradient background */}
-      <div className="absolute inset-0 nature-gradient-sunset" />
+      {/* Wedding palette gradient background */}
+      <WeddingGradient />
 
       {/* Dark overlay for readability */}
       <div className="absolute inset-0 bg-black/40" />
 
-      {/* Stars in the sky */}
+      {/* Subtle sparkle effect */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <Stars className="absolute inset-0" />
       </div>
 
-      {/* Sunset glow */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <SunsetGlow className="absolute inset-0" />
-      </div>
-
       {/* Subtle background leaf motifs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <BackgroundLeaf className="absolute -left-10 top-1/4 h-40 w-40 text-white animate-leaf-float" />
-        <BackgroundLeaf className="absolute -right-10 top-1/2 h-36 w-36 text-white animate-leaf-float-slow" />
-        <BackgroundLeaf className="absolute left-1/4 bottom-1/4 h-28 w-28 text-white animate-leaf-float" />
+        <BackgroundLeaf className="absolute -left-10 top-1/4 h-40 w-40 text-wedding-gold/20 animate-leaf-float" />
+        <BackgroundLeaf className="absolute -right-10 top-1/2 h-36 w-36 text-wedding-gold/20 animate-leaf-float-slow" />
+        <BackgroundLeaf className="absolute left-1/4 bottom-1/4 h-28 w-28 text-wedding-gold/20 animate-leaf-float" />
       </div>
 
-      {/* Mountain layers — far */}
+      {/* Mountain layers — far (wedding palette) */}
       <div className="pointer-events-none absolute bottom-0 left-0 right-0 overflow-hidden">
-        <MountainFar className="absolute bottom-0 w-full text-[#5A7A8C]" />
+        <MountainFar className="absolute bottom-0 w-full text-wedding-wood" />
       </div>
 
-      {/* Mountain layers — mid */}
+      {/* Mountain layers — mid (wedding palette) */}
       <div className="pointer-events-none absolute bottom-0 left-0 right-0 overflow-hidden">
-        <MountainMid className="absolute bottom-0 w-full text-[#3A5A6C]" />
+        <MountainMid className="absolute bottom-0 w-full text-wedding-wood/90" />
       </div>
 
-      {/* Mountain layers — near */}
+      {/* Mountain layers — near (wedding palette) */}
       <div className="pointer-events-none absolute bottom-0 left-0 right-0 overflow-hidden">
-        <MountainNear className="absolute bottom-0 w-full text-[#2A3A4A]" />
+        <MountainNear className="absolute bottom-0 w-full text-wedding-wood/80" />
       </div>
 
-      {/* Pine trees — left side */}
+      {/* Pine trees — left side (wedding palette) */}
       <div className="pointer-events-none absolute bottom-0 left-0 right-0 overflow-hidden">
         <PineTree
-          className="absolute bottom-0 -left-4 text-[#1A3A2A] animate-sway"
+          className="absolute bottom-0 -left-4 text-wedding-wood/60 animate-sway"
           height={180}
           width={90}
         />
         <PineTree
-          className="absolute bottom-0 left-[5%] text-[#1A3A2A]/80 animate-sway"
+          className="absolute bottom-0 left-[5%] text-wedding-wood/50 animate-sway"
           height={140}
           width={70}
         />
       </div>
 
-      {/* Pine trees — right side */}
+      {/* Pine trees — right side (wedding palette) */}
       <div className="pointer-events-none absolute bottom-0 left-0 right-0 overflow-hidden">
         <PineTree
-          className="absolute bottom-0 -right-4 text-[#1A3A2A] animate-sway"
+          className="absolute bottom-0 -right-4 text-wedding-wood/60 animate-sway"
           height={170}
           width={85}
         />
         <PineTree
-          className="absolute bottom-0 right-[5%] text-[#1A3A2A]/80 animate-sway"
+          className="absolute bottom-0 right-[5%] text-wedding-wood/50 animate-sway"
           height={130}
           width={65}
         />
       </div>
 
-      {/* Eucalyptus branches — corners */}
+      {/* Eucalyptus branches — corners (wedding palette) */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <EucalyptusBranch className="absolute top-0 left-0 h-16 w-40 text-nature-green-light/40 rotate-45" />
-        <EucalyptusBranch className="absolute bottom-0 right-0 h-16 w-40 text-nature-green-light/40 -rotate-135" />
+        <EucalyptusBranch className="absolute top-0 left-0 h-16 w-40 text-wedding-gold/40 rotate-45" />
+        <EucalyptusBranch className="absolute bottom-0 right-0 h-16 w-40 text-wedding-gold/40 -rotate-135" />
       </div>
 
-      {/* Camping elements — small tent and campfire */}
+      {/* Decorative camping elements (wedding palette) */}
       <div className="pointer-events-none absolute bottom-8 left-8 text-wedding-gold/20 animate-sway">
         <TentIcon className="h-10 w-10" />
       </div>

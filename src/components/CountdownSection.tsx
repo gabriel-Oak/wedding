@@ -116,35 +116,35 @@ export default function CountdownSection() {
 
   return (
     <section className="relative bg-wedding-cream py-16 md:py-24 overflow-hidden">
-      {/* Background eucalyptus branch top-left */}
+      {/* Background eucalyptus branch top-left (wedding palette) */}
       <div className="pointer-events-none absolute left-0 top-0 overflow-hidden">
-        <EucalyptusBranch className="h-16 w-40 text-nature-green/20 -rotate-90" />
+        <EucalyptusBranch className="h-16 w-40 text-wedding-gold/20 -rotate-90" />
       </div>
 
-      {/* Background eucalyptus branch bottom-right */}
+      {/* Background eucalyptus branch bottom-right (wedding palette) */}
       <div className="pointer-events-none absolute bottom-0 right-0 overflow-hidden">
-        <EucalyptusBranch className="h-16 w-40 text-nature-green/20 rotate-90" />
+        <EucalyptusBranch className="h-16 w-40 text-wedding-gold/20 rotate-90" />
       </div>
 
-      {/* Small mountain accents */}
-      <div className="pointer-events-none absolute bottom-4 left-8 text-nature-mountain-far/30">
+      {/* Small mountain accents (wedding palette) */}
+      <div className="pointer-events-none absolute bottom-4 left-8 text-wedding-wood/20">
         <MiniMountain className="h-6 w-8" />
       </div>
-      <div className="pointer-events-none absolute bottom-6 left-20 text-nature-mountain-far/20">
+      <div className="pointer-events-none absolute bottom-6 left-20 text-wedding-wood/15">
         <MiniMountain className="h-4 w-6" />
       </div>
 
-      <div className="pointer-events-none absolute bottom-4 right-8 text-nature-mountain-far/30">
+      <div className="pointer-events-none absolute bottom-4 right-8 text-wedding-wood/20">
         <MiniMountain className="h-6 w-8" />
       </div>
-      <div className="pointer-events-none absolute bottom-6 right-20 text-nature-mountain-far/20">
+      <div className="pointer-events-none absolute bottom-6 right-20 text-wedding-wood/15">
         <MiniMountain className="h-4 w-6" />
       </div>
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center">
-        {/* Decorative eucalyptus above title */}
-        <div className="mb-6 text-nature-green/20">
+        {/* Decorative eucalyptus above title (wedding palette) */}
+        <div className="mb-6 text-wedding-gold/20">
           <EucalyptusBranch className="h-8 w-48" />
         </div>
 
@@ -158,12 +158,12 @@ export default function CountdownSection() {
           Um dia especial à beira da natureza
         </p>
 
-        {/* Nature-themed divider */}
-        <div className="mb-10 flex items-center gap-3 text-nature-green/20">
+        {/* Decorative divider (wedding palette) */}
+        <div className="mb-10 flex items-center gap-3 text-wedding-gold/20">
           <MiniMountain className="h-4 w-5" />
-          <div className="h-px w-16 bg-nature-green/20" />
-          <LeafIcon className="h-3 w-3 text-nature-green/30" />
-          <div className="h-px w-16 bg-nature-green/20" />
+          <div className="h-px w-16 bg-wedding-gold/20" />
+          <LeafIcon className="h-3 w-3 text-wedding-gold/30" />
+          <div className="h-px w-16 bg-wedding-gold/20" />
           <MiniMountain className="h-4 w-5" />
         </div>
 
@@ -179,13 +179,13 @@ export default function CountdownSection() {
               {/* Decorative leaf accent below each block */}
               <LeafIcon className="mt-1 h-3 w-3 text-wedding-gold/30" />
               {/* Tiny mountain under each block */}
-              <MiniMountain className="mt-0.5 h-2 w-3 text-nature-mountain-far/20" />
+              <MiniMountain className="mt-0.5 h-2 w-3 text-wedding-wood/15" />
             </div>
           ))}
         </div>
 
-        {/* Camping elements at bottom */}
-        <div className="mt-12 flex items-center gap-6 text-nature-green/15">
+        {/* Decorative elements at bottom (wedding palette) */}
+        <div className="mt-12 flex items-center gap-6 text-wedding-gold/15">
           <MiniTent className="h-5 w-5" />
           <MiniMountain className="h-4 w-6" />
           <LeafIcon className="h-3 w-3" />
