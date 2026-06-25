@@ -10,6 +10,17 @@
   --font-body: 'Montserrat', sans-serif;
 }
 
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 body {
   background: var(--color-wedding-cream);
   font-family: var(--font-body);
