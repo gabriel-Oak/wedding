@@ -70,6 +70,15 @@
   }
 }
 
+@keyframes cornerFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-4px) rotate(1deg);
+  }
+}
+
 @keyframes branchFloat {
   0%, 100% {
     transform: translateY(0);
@@ -126,6 +135,10 @@
 
 .animate-leaf-float-slow {
   animation: leafFloatSlow 8s ease-in-out infinite;
+}
+
+.animate-corner-float {
+  animation: cornerFloat 6s ease-in-out infinite;
 }
 
 /* Mountain mist animation */

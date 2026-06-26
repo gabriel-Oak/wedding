@@ -54,14 +54,14 @@ function CornerLeaf({ className = "" }: { className?: string }) {
         stroke="currentColor"
         strokeWidth="1.5"
         strokeLinecap="round"
-        opacity="0.3"
+        opacity="0.7"
       />
       <path
         d="M10 30C15 20 25 10 35 5"
         stroke="currentColor"
         strokeWidth="1"
         strokeLinecap="round"
-        opacity="0.2"
+        opacity="0.5"
       />
     </svg>
   );
@@ -140,8 +140,8 @@ export default function CTASection() {
   return (
     <section className="relative bg-wedding-blue py-16 md:py-24 overflow-hidden">
       {/* Decorative corner leaves */}
-      <CornerLeaf className="absolute left-0 top-0 h-16 w-16 text-white md:h-20 md:w-20" />
-      <CornerLeaf className="absolute right-0 bottom-0 h-16 w-16 rotate-180 text-white md:h-20 md:w-20" />
+      <CornerLeaf className="absolute left-0 top-1 h-16 w-16 animate-corner-float text-white md:h-20 md:w-20" />
+      <CornerLeaf className="absolute right-0 bottom-1 h-16 w-16 animate-corner-float rotate-180 text-white md:h-20 md:w-20" />
 
       {/* Eucalyptus branches in corners */}
       <CornerEucalyptus className="absolute left-0 top-8 h-12 w-32 text-white/10 rotate-12" />
