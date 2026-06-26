@@ -5,7 +5,7 @@ test.describe('Save the Date Landing Page', () => {
   test('hero section is visible', async ({ page }) => {
     await page.goto('/');
     // Assert hero heading is visible
-    await expect(page.getByRole('heading', { name: 'Save the Date' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Gabriel & Mariana' })).toBeVisible();
     // Assert date badge is visible
     await expect(page.getByText('08 . 11 . 2026')).toBeVisible();
     // Assert "SAVE THE DATE" label is visible
