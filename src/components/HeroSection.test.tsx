@@ -12,9 +12,9 @@ describe("HeroSection", () => {
     expect(screen.getByText("SAVE THE DATE")).toBeInTheDocument();
   });
 
-  it("renders the main heading \"Save the Date\"", () => {
+  it("renders the main heading \"Gabriel & Mariana\"", () => {
     render(<HeroSection />);
-    expect(screen.getByText("Save the Date")).toBeInTheDocument();
+    expect(screen.getByText("Gabriel & Mariana")).toBeInTheDocument();
   });
 
   it('renders the date badge "08 . 11 . 2026"', () => {
@@ -33,7 +33,7 @@ describe("HeroSection", () => {
 
   it("has the min-h-screen class on the section", () => {
     render(<HeroSection />);
-    const section = screen.getByRole("heading", { name: "Save the Date" })
+    const section = screen.getByRole("heading", { name: "Gabriel & Mariana" })
       .closest("section") as HTMLElement;
     expect(section).toHaveClass("min-h-screen");
   });
