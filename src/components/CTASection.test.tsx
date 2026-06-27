@@ -14,7 +14,7 @@ describe("CTASection", () => {
 
   it("renders the download button", () => {
     render(<CTASection />);
-    expect(screen.getByRole("button", { name: /Salve a Data/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Adicionar ao Calendário/i })).toBeInTheDocument();
   });
 
   it("renders the subtitle text", () => {
