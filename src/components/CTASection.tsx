@@ -2,43 +2,7 @@
 
 import { generateIcs } from "@/utils/generateIcs";
 
-/* Small leaf SVG for decorative accents */
-function LeafIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M12 2C12 2 4 8 4 15C4 19.42 7.58 23 12 23C16.42 23 20 19.42 20 15C20 8 12 2 12 2Z"
-        fill="currentColor"
-        opacity="0.9"
-      />
-      <path
-        d="M12 6V21"
-        stroke="currentColor"
-        strokeWidth="0.8"
-        opacity="0.4"
-      />
-      <path
-        d="M12 10C10 10 8 11 7 13"
-        stroke="currentColor"
-        strokeWidth="0.6"
-        opacity="0.3"
-        fill="none"
-      />
-      <path
-        d="M12 14C14 14 15.5 15 16.5 16.5"
-        stroke="currentColor"
-        strokeWidth="0.6"
-        opacity="0.3"
-        fill="none"
-      />
-    </svg>
-  );
-}
+import LeafIcon from "@/components/ui/LeafIcon";
 
 /* Corner leaf accent */
 function CornerLeaf({ className = "" }: { className?: string }) {
@@ -116,10 +80,10 @@ function MountainIcon({ className = "" }: { className?: string }) {
 export default function CTASection() {
   const handleDownload = () => {
     const event = {
-      title: "Casamento — 08 de Novembro de 2026",
+      title: "Casamento — Gabriel & Mariana",
       startDate: new Date("2026-11-08T16:00:00"),
       endDate: new Date("2026-11-08T23:00:00"),
-      location: "Casamento",
+      location: "Casamento de Gabriel & Mariana — 08/11/2026 às 16h",
       description: "Save the Date — Nos vemos lá!",
     };
 
@@ -179,14 +143,10 @@ export default function CTASection() {
           className="group mt-10 flex cursor-pointer items-center gap-2 rounded-full bg-wedding-gold px-8 py-3 font-body text-lg font-semibold text-white shadow-lg transition-all hover:bg-[#c49f2a] hover:shadow-xl"
         >
           <LeafIcon className="h-4 w-4 transition-transform group-hover:rotate-12" />
-          Salve a Data
+          Adicionar ao Calendário
           <LeafIcon className="h-4 w-4 transition-transform group-hover:-rotate-12" />
         </button>
 
-        {/* Small nature quote */}
-        <p className="mt-8 font-body text-sm italic text-white/30">
-          🌿 No meio da natureza, nosso amor encontra seu lar 🌿
-        </p>
       </div>
     </section>
   );

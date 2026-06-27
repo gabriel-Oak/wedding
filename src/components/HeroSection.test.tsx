@@ -26,7 +26,7 @@ describe("HeroSection", () => {
     render(<HeroSection />);
     expect(
       screen.getByText(
-        /A nossa história ganha um novo capítulo no lugar onde o azul do céu encontra o nosso amor/i
+        /Uma frase bonita para ficar bem no layout/i
       )
     ).toBeInTheDocument();
   });

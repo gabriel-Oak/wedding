@@ -27,7 +27,7 @@ test.describe('Save the Date Landing Page', () => {
   test('calendar button is visible and clickable', async ({ page }) => {
     await page.goto('/');
     // Assert CTA button is visible
-    const button = page.getByRole('button', { name: /salve a data/i });
+    const button = page.getByRole('button', { name: /adicionar ao calendário/i });
     await expect(button).toBeVisible();
     // Button should be clickable
     await expect(button).toBeEnabled();
@@ -38,7 +38,7 @@ test.describe('Save the Date Landing Page', () => {
     // Assert footer romantic phrase is visible
     await expect(page.getByText(/nos vemos em 08 de novembro/i)).toBeVisible();
     // Assert RSVP notice is visible
-    await expect(page.getByText(/convite oficial/i)).toBeVisible();
+    await expect(page.getByText(/convite com mais informações/i)).toBeVisible();
   });
 
   test('page is responsive — mobile viewport', async ({ browser }) => {

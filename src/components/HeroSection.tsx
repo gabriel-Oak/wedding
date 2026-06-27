@@ -7,43 +7,7 @@ function WeddingGradient() {
   );
 }
 
-/* Small leaf SVG component */
-function LeafIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M12 2C12 2 4 8 4 15C4 19.42 7.58 23 12 23C16.42 23 20 19.42 20 15C20 8 12 2 12 2Z"
-        fill="currentColor"
-        opacity="0.9"
-      />
-      <path
-        d="M12 6V21"
-        stroke="currentColor"
-        strokeWidth="0.8"
-        opacity="0.4"
-      />
-      <path
-        d="M12 10C10 10 8 11 7 13"
-        stroke="currentColor"
-        strokeWidth="0.6"
-        opacity="0.3"
-        fill="none"
-      />
-      <path
-        d="M12 14C14 14 15.5 15 16.5 16.5"
-        stroke="currentColor"
-        strokeWidth="0.6"
-        opacity="0.3"
-        fill="none"
-      />
-    </svg>
-  );
-}
+import LeafIcon from "@/components/ui/LeafIcon";
 
 /* Decorative vine divider SVG */
 function VineDivider({ className = "" }: { className?: string }) {
@@ -81,15 +45,15 @@ function BackgroundLeaf({
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M40 5C40 5 65 20 65 45C65 60 55 70 40 70C25 70 15 60 15 45C15 20 40 5 40 5Z"
+        d="M40 3C40 3 60 15 62 40C64 60 50 73 40 73C30 73 16 60 18 40C20 15 40 3 40 3Z"
         stroke="currentColor"
-        strokeWidth="1"
+        strokeWidth="1.2"
         opacity="0.5"
       />
       <path
-        d="M40 15V65"
+        d="M40 10V73"
         stroke="currentColor"
-        strokeWidth="0.8"
+        strokeWidth="1"
         opacity="0.4"
       />
     </svg>
@@ -449,9 +413,14 @@ export default function HeroSection() {
           <p
             className="animate-[fadeInUp_0.8s_ease-out_forwards] opacity-0 delay-500 font-body mt-4 max-w-2xl text-center text-lg font-light text-white transition-opacity md:text-xl"
           >
-            A nossa história ganha um novo capítulo no lugar onde o azul do céu
-            encontra o nosso amor.
+            - Uma frase bonita para ficar bem no layout
           </p>
+          <p
+           className="animate-[fadeInUp_0.8s_ease-out_forwards] opacity-0 delay-500 font-body mt-4 max-w-2xl text-center text-lg font-light text-white transition-opacity md:text-xl"
+          >
+          - Bobo
+          </p>
+
         </div>
       </div>
     </section>

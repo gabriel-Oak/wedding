@@ -41,12 +41,19 @@ export function generateIcs(event: IcsEvent): string {
   lines.push("BEGIN:VCALENDAR");
   lines.push("VERSION:2.0");
   lines.push("PRODID:-//Wedding//PT-BR");
+  lines.push("CALSCALE:GREGORIAN");
+  lines.push("METHOD:PUBLISH");
+  lines.push("X-WR-CALNAME:Casamento Gabriel & Mariana");
   lines.push("BEGIN:VEVENT");
-  lines.push(`SUMMARY:${escapeIcalText(event.title)}`);
+  lines.push(`UID:${Date.now()}@wedding`);
+  lines.push(`DTSTAMP:${formatIcalDate(new Date())}`);
   lines.push(`DTSTART:${formatIcalDate(event.startDate)}`);
   lines.push(`DTEND:${formatIcalDate(event.endDate)}`);
+  lines.push(`SUMMARY:${escapeIcalText(event.title)}`);
   lines.push(`LOCATION:${escapeIcalText(event.location)}`);
   lines.push(`DESCRIPTION:${escapeIcalText(event.description)}`);
+  lines.push("STATUS:CONFIRMED");
+  lines.push("TRANSP:TRANSPARENT");
   lines.push("END:VEVENT");
   lines.push("END:VCALENDAR");
 

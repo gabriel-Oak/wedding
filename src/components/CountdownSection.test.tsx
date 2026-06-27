@@ -17,7 +17,7 @@ describe("CountdownSection", () => {
   it("renders the subtitle", () => {
     render(<CountdownSection />);
     expect(
-      screen.getByText("Um dia especial à beira da natureza")
+      screen.getByText("Um dia especial à beira do Rio Grande")
     ).toBeInTheDocument();
   });
 

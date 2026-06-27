@@ -2,43 +2,7 @@
 
 import { useCountdown } from "@/hooks/useCountdown";
 
-/* Small leaf SVG for decorative accents */
-function LeafIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M12 2C12 2 4 8 4 15C4 19.42 7.58 23 12 23C16.42 23 20 19.42 20 15C20 8 12 2 12 2Z"
-        fill="currentColor"
-        opacity="0.9"
-      />
-      <path
-        d="M12 6V21"
-        stroke="currentColor"
-        strokeWidth="0.8"
-        opacity="0.4"
-      />
-      <path
-        d="M12 10C10 10 8 11 7 13"
-        stroke="currentColor"
-        strokeWidth="0.6"
-        opacity="0.3"
-        fill="none"
-      />
-      <path
-        d="M12 14C14 14 15.5 15 16.5 16.5"
-        stroke="currentColor"
-        strokeWidth="0.6"
-        opacity="0.3"
-        fill="none"
-      />
-    </svg>
-  );
-}
+import LeafIcon from "@/components/ui/LeafIcon";
 
 /* Eucalyptus branch decoration */
 function EucalyptusBranch({ className = "" }: { className?: string }) {
@@ -149,19 +113,23 @@ export default function CountdownSection() {
         </div>
 
         <h2 className="font-heading text-3xl font-bold text-wedding-wood md:text-4xl">
-          <span className="mr-2 inline-block text-wedding-gold">
+          <span className="mr-3 inline-block text-wedding-gold">
             <LeafIcon className="h-5 w-5 md:h-6 md:w-6" />
           </span>
           Contagem Regressiva
+          <span className="ml-3 inline-block text-wedding-gold">
+            <LeafIcon className="h-5 w-5 md:h-6 md:w-6" />
+          </span>
         </h2>
         <p className="font-body mb-10 text-lg opacity-70 text-wedding-wood">
-          Um dia especial à beira da natureza
+          Um dia especial à beira do Rio Grande
         </p>
 
         {/* Decorative divider (wedding palette) */}
         <div className="mb-10 flex items-center gap-3 text-wedding-gold/20">
           <MiniMountain className="h-4 w-5" />
           <div className="h-px w-16 bg-wedding-gold/20" />
+          <LeafIcon className="h-3 w-3 text-wedding-gold/30" />
           <LeafIcon className="h-3 w-3 text-wedding-gold/30" />
           <div className="h-px w-16 bg-wedding-gold/20" />
           <MiniMountain className="h-4 w-5" />
@@ -176,10 +144,8 @@ export default function CountdownSection() {
               <span className="mt-2 text-sm uppercase tracking-widest text-wedding-gold md:text-base">
                 {labels[index]}
               </span>
-              {/* Decorative leaf accent below each block */}
-              <LeafIcon className="mt-1 h-3 w-3 text-wedding-gold/30" />
               {/* Tiny mountain under each block */}
-              <MiniMountain className="mt-0.5 h-2 w-3 text-wedding-wood/15" />
+              <MiniMountain className="mt-1 h-2 w-3 text-wedding-wood/15" />
             </div>
           ))}
         </div>
@@ -187,9 +153,9 @@ export default function CountdownSection() {
         {/* Decorative elements at bottom (wedding palette) */}
         <div className="mt-12 flex items-center gap-6 text-wedding-gold/15">
           <MiniTent className="h-5 w-5" />
-          <MiniMountain className="h-4 w-6" />
           <LeafIcon className="h-3 w-3" />
           <MiniMountain className="h-4 w-6" />
+          <LeafIcon className="h-3 w-3" />
           <MiniTent className="h-5 w-5" />
         </div>
       </div>

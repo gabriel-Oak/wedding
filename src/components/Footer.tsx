@@ -1,42 +1,6 @@
 "use client";
 
-/* Small leaf SVG for decorative accents */
-function LeafIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M12 2C12 2 4 8 4 15C4 19.42 7.58 23 12 23C16.42 23 20 19.42 20 15C20 8 12 2 12 2Z"
-        fill="currentColor"
-        opacity="0.9"
-      />
-      <path
-        d="M12 6V21"
-        stroke="currentColor"
-        strokeWidth="0.8"
-        opacity="0.4"
-      />
-      <path
-        d="M12 10C10 10 8 11 7 13"
-        stroke="currentColor"
-        strokeWidth="0.6"
-        opacity="0.3"
-        fill="none"
-      />
-      <path
-        d="M12 14C14 14 15.5 15 16.5 16.5"
-        stroke="currentColor"
-        strokeWidth="0.6"
-        opacity="0.3"
-        fill="none"
-      />
-    </svg>
-  );
-}
+import LeafIcon from "@/components/ui/LeafIcon";
 
 /* Decorative vine divider */
 function VineDivider({ className = "" }: { className?: string }) {
@@ -163,11 +127,10 @@ export default function Footer() {
           </div>
 
           <p className="font-heading text-white text-xl md:text-2xl font-semibold mb-3">
-            Nos vemos em 08 de Novembro de 2026 💍
+            Nos vemos em 08 de novembro de 2026 💍
           </p>
           <p className="font-body text-white opacity-70 text-sm md:text-base font-light text-center">
-            O convite oficial com horário, local exato e RSVP será enviado em
-            breve.
+            O convite com mais informações será enviado em breve.
           </p>
           {/* Small nature elements at bottom */}
           <div className="mt-4 flex items-center gap-3 text-wedding-gold/40">
