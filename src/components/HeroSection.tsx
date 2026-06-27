@@ -428,7 +428,7 @@ export default function HeroSection() {
           <h1
             className="animate-[fadeInUp_0.8s_ease-out_forwards] opacity-0 delay-200 font-heading text-5xl font-bold text-white transition-opacity md:text-6xl lg:text-7xl"
           >
-            Save the Date
+            Gabriel & Mariana
           </h1>
 
           {/* Date badge */}
