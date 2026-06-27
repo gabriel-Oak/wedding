@@ -1,5 +1,7 @@
 "use client";
 
+import { WEDDING_EVENT } from "@/utils/eventConfig";
+import { generateCalendarLinks } from "@/utils/calendarLinks";
 import { generateIcs } from "@/utils/generateIcs";
 
 import LeafIcon from "@/components/ui/LeafIcon";
@@ -77,17 +79,102 @@ function MountainIcon({ className = "" }: { className?: string }) {
   );
 }
 
-export default function CTASection() {
-  const handleDownload = () => {
-    const event = {
-      title: "Casamento — Gabriel & Mariana",
-      startDate: new Date("2026-11-08T16:00:00"),
-      endDate: new Date("2026-11-08T23:00:00"),
-      location: "Casamento de Gabriel & Mariana — 08/11/2026 às 16h",
-      description: "Save the Date — Nos vemos lá!",
-    };
+function GoogleIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      className="h-6 w-6"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" strokeWidth="1.5" />
+      <line x1="3" y1="9" x2="21" y2="9" stroke="currentColor" strokeWidth="1.5" />
+      <line x1="9" y1="5" x2="9" y2="9" stroke="currentColor" strokeWidth="1.5" />
+      <text
+        x="12"
+        y="17"
+        textAnchor="middle"
+        fill="currentColor"
+        fontSize="8"
+        fontWeight="bold"
+        fontFamily="sans-serif"
+      >
+        G
+      </text>
+    </svg>
+  );
+}
 
-    const icsContent = generateIcs(event);
+function OutlookIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      className="h-6 w-6"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" strokeWidth="1.5" />
+      <line x1="3" y1="9" x2="21" y2="9" stroke="currentColor" strokeWidth="1.5" />
+      <text
+        x="12"
+        y="17"
+        textAnchor="middle"
+        fill="currentColor"
+        fontSize="8"
+        fontWeight="bold"
+        fontFamily="sans-serif"
+      >
+        O
+      </text>
+    </svg>
+  );
+}
+
+function AppleIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      className="h-6 w-6"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M17.5 13.5C17.5 16.5 14 18 12 18C10 18 7 16.5 7 13.5C7 10 10 6 12 4C14 6 17.5 10 17.5 13.5Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        fill="currentColor"
+        opacity="0.3"
+      />
+      <path
+        d="M15 3C15.5 2 16.5 1 15.5 0.5C14.5 0 13.5 1 13 2"
+        stroke="currentColor"
+        strokeWidth="1.2"
+        strokeLinecap="round"
+      />
+      <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1" />
+    </svg>
+  );
+}
+
+const calendarPlatforms: Array<{
+  key: "google" | "outlook" | "apple";
+  label: string;
+  icon: React.ComponentType;
+}> = [
+  { key: "google", label: "Google Agenda", icon: GoogleIcon },
+  { key: "outlook", label: "Outlook", icon: OutlookIcon },
+  { key: "apple", label: "Apple Calendar", icon: AppleIcon },
+];
+
+export default function CTASection() {
+  const handleAddToCalendar = (platform: "google" | "outlook" | "apple") => {
+    const links = generateCalendarLinks(WEDDING_EVENT);
+    const url = links[platform];
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
+  const handleDownload = () => {
+    const icsContent = generateIcs(WEDDING_EVENT);
     const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
     const url = URL.createObjectURL(blob);
 
@@ -138,12 +225,27 @@ export default function CTASection() {
           especial.
         </p>
 
+        {/* Calendar platform buttons */}
+        <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:gap-4">
+          {calendarPlatforms.map(({ key, label, icon: Icon }) => (
+            <button
+              key={key}
+              onClick={() => handleAddToCalendar(key)}
+              className="group flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-wedding-blue px-6 py-3 font-body text-base font-semibold text-white shadow-lg transition-all hover:bg-wedding-gold sm:w-auto"
+            >
+              <Icon />
+              <span>{label}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* ICS fallback button */}
         <button
           onClick={handleDownload}
-          className="group mt-10 flex cursor-pointer items-center gap-2 rounded-full bg-wedding-gold px-8 py-3 font-body text-lg font-semibold text-white shadow-lg transition-all hover:bg-[#c49f2a] hover:shadow-xl"
+          className="group mt-4 flex cursor-pointer items-center gap-2 rounded-full border-2 border-wedding-gold px-6 py-3 font-body text-base font-semibold text-wedding-gold transition-all hover:bg-wedding-gold hover:text-white sm:mt-6"
         >
           <LeafIcon className="h-4 w-4 transition-transform group-hover:rotate-12" />
-          Adicionar ao Calendário
+          Outro calendário
           <LeafIcon className="h-4 w-4 transition-transform group-hover:-rotate-12" />
         </button>
 

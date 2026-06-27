@@ -12,9 +12,16 @@ describe("CTASection", () => {
     expect(screen.getByRole("heading", { name: "Salve a Data" })).toBeInTheDocument();
   });
 
-  it("renders the download button", () => {
+  it("renders the 3 calendar platform buttons", () => {
     render(<CTASection />);
-    expect(screen.getByRole("button", { name: /Adicionar ao Calendário/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Google Agenda/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Outlook/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Apple Calendar/i })).toBeInTheDocument();
+  });
+
+  it("renders the ICS fallback button", () => {
+    render(<CTASection />);
+    expect(screen.getByRole("button", { name: /Outro calendário/i })).toBeInTheDocument();
   });
 
   it("renders the subtitle text", () => {
