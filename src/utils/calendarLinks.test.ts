@@ -11,11 +11,10 @@ describe("generateCalendarLinks", () => {
     description: "Save the Date",
   };
 
-  it("returns an object with google, outlook, apple, and ics keys", () => {
+  it("returns an object with google, outlook, and ics keys", () => {
     const result = generateCalendarLinks(baseEvent);
     expect(result).toHaveProperty("google");
     expect(result).toHaveProperty("outlook");
-    expect(result).toHaveProperty("apple");
     expect(result).toHaveProperty("ics");
   });
 
@@ -23,7 +22,6 @@ describe("generateCalendarLinks", () => {
     const result = generateCalendarLinks(baseEvent);
     expect(typeof result.google).toBe("string");
     expect(typeof result.outlook).toBe("string");
-    expect(typeof result.apple).toBe("string");
     expect(typeof result.ics).toBe("string");
   });
 
@@ -59,7 +57,7 @@ describe("generateCalendarLinks", () => {
   describe("Outlook URL", () => {
     it("starts with the correct base URL", () => {
       const result = generateCalendarLinks(baseEvent);
-      expect(result.outlook).toMatch(/^https:\/\/outlook\.live\.com\/calendar\/0\/compose\?/);
+      expect(result.outlook).toMatch(/^https:\/\/outlook\.live\.com\/calendar\/action\/compose\?/);
     });
 
     it("includes rru=addevent", () => {
@@ -69,25 +67,16 @@ describe("generateCalendarLinks", () => {
 
     it("includes subject, body, and location", () => {
       const result = generateCalendarLinks(baseEvent);
-      expect(result.outlook).toContain(encodeURIComponent("Casamento de Nome & Nome"));
-      expect(result.outlook).toContain(encodeURIComponent("Save the Date"));
-      expect(result.outlook).toContain(encodeURIComponent("Local do Casamento"));
+      expect(result.outlook).toContain("Casamento%20de%20Nome%20%26%20Nome");
+      expect(result.outlook).toContain("Save%20the%20Date");
+      expect(result.outlook).toContain("Local%20do%20Casamento");
     });
 
-    it("includes dtstart and dtend with timezone offset", () => {
+    it("includes dtstart and dtend with timezone offset (colons preserved)", () => {
       const result = generateCalendarLinks(baseEvent);
-      // Should contain ISO 8601 dates with offset like -03:00
-      // Colons are URL-encoded as %3A
-      expect(result.outlook).toMatch(/dtstart=\d{4}-\d{2}-\d{2}T\d{2}%3A\d{2}%3A\d{2}-03%3A00/);
-      expect(result.outlook).toMatch(/dtend=\d{4}-\d{2}-\d{2}T\d{2}%3A\d{2}%3A\d{2}-03%3A00/);
-    });
-  });
-
-  describe("Apple Calendar URL", () => {
-    it("returns a data URI containing ICS content", () => {
-      const result = generateCalendarLinks(baseEvent);
-      expect(result.apple).toMatch(/^data:text\/calendar;charset=utf-8,/);
-      expect(result.apple).toContain("BEGIN%3AVEVENT");
+      // Colons in datetime should NOT be encoded (safeEncode preserves them)
+      expect(result.outlook).toMatch(/dtstart=\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-03:00/);
+      expect(result.outlook).toMatch(/dtend=\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-03:00/);
     });
   });
 
@@ -115,7 +104,8 @@ describe("generateCalendarLinks", () => {
       };
       const result = generateCalendarLinks(event);
       expect(result.google).toContain(encodeURIComponent("Casamento & Festa!!!"));
-      expect(result.outlook).toContain(encodeURIComponent("Casamento & Festa!!!"));
+      // Outlook uses safeEncode: colons preserved, spaces become %20
+      expect(result.outlook).toContain("Casamento%20%26%20Festa!!!");
     });
 
     it("encodes special characters in description", () => {

@@ -4,7 +4,6 @@ import { generateIcs } from "@/utils/generateIcs";
 export interface CalendarLinks {
   google: string;
   outlook: string;
-  apple: string;
   ics: string;
 }
 
@@ -54,10 +53,14 @@ function getTimezoneOffset(date: Date, timezone: string): string {
   return "-03:00";
 }
 
+function safeEncode(str: string): string {
+  return encodeURIComponent(str).replace(/%3A/gi, ":");
+}
+
 /**
  * Generates calendar platform URLs for a given event.
  *
- * Returns links for Google Calendar, Outlook (web), Apple Calendar (via ICS blob),
+ * Returns links for Google Calendar, Outlook (web),
  * and a direct ICS download link.
  */
 export function generateCalendarLinks(event: IcsEvent): CalendarLinks {
@@ -66,40 +69,37 @@ export function generateCalendarLinks(event: IcsEvent): CalendarLinks {
   // Google Calendar — uses UTC dates
   const googleStart = formatDateForGoogle(startDate);
   const googleEnd = formatDateForGoogle(endDate);
-  const googleUrl = [
-    "https://calendar.google.com/calendar/render?",
+  const googleParams = [
     `action=TEMPLATE`,
     `text=${encodeURIComponent(title)}`,
     `dates=${googleStart}/${googleEnd}`,
     `details=${encodeURIComponent(description)}`,
     `location=${encodeURIComponent(location)}`,
   ].join("&");
+  const googleUrl = `https://calendar.google.com/calendar/render?${googleParams}`;
 
   // Outlook (web) — uses ISO 8601 with timezone offset
+  // safeEncode preserves colons in datetime (e.g. 2026-11-08T16:00:00)
   const startISO = formatDateForOutlook(startDate);
   const endISO = formatDateForOutlook(endDate);
-  const outlookUrl = [
-    "https://outlook.live.com/calendar/0/compose?",
+  const outlookParams = [
     `rru=addevent`,
-    `subject=${encodeURIComponent(title)}`,
-    `dtstart=${encodeURIComponent(startISO)}`,
-    `dtend=${encodeURIComponent(endISO)}`,
-    `body=${encodeURIComponent(description)}`,
-    `location=${encodeURIComponent(location)}`,
+    `subject=${safeEncode(title)}`,
+    `dtstart=${safeEncode(startISO)}`,
+    `dtend=${safeEncode(endISO)}`,
+    `body=${safeEncode(description)}`,
+    `location=${safeEncode(location)}`,
   ].join("&");
-
-  // Apple Calendar — ICS content encoded as data URI (works across tabs)
-  const icsContent = generateIcs(event);
-  const appleUrl = `data:text/calendar;charset=utf-8,${encodeURIComponent(icsContent)}`;
+  const outlookUrl = `https://outlook.live.com/calendar/action/compose?${outlookParams}`;
 
   // ICS download — blob URL (works within same tab)
+  const icsContent = generateIcs(event);
   const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
   const icsUrl = URL.createObjectURL(blob);
 
   return {
     google: googleUrl,
     outlook: outlookUrl,
-    apple: appleUrl,
     ics: icsUrl,
   };
 }

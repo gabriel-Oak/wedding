@@ -130,44 +130,19 @@ function OutlookIcon() {
   );
 }
 
-function AppleIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      className="h-6 w-6"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M17.5 13.5C17.5 16.5 14 18 12 18C10 18 7 16.5 7 13.5C7 10 10 6 12 4C14 6 17.5 10 17.5 13.5Z"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        fill="currentColor"
-        opacity="0.3"
-      />
-      <path
-        d="M15 3C15.5 2 16.5 1 15.5 0.5C14.5 0 13.5 1 13 2"
-        stroke="currentColor"
-        strokeWidth="1.2"
-        strokeLinecap="round"
-      />
-      <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1" />
-    </svg>
-  );
-}
+
 
 const calendarPlatforms: Array<{
-  key: "google" | "outlook" | "apple";
+  key: "google" | "outlook";
   label: string;
   icon: React.ComponentType;
 }> = [
   { key: "google", label: "Google Agenda", icon: GoogleIcon },
   { key: "outlook", label: "Outlook", icon: OutlookIcon },
-  { key: "apple", label: "Apple Calendar", icon: AppleIcon },
 ];
 
 export default function CTASection() {
-  const handleAddToCalendar = (platform: "google" | "outlook" | "apple") => {
+  const handleAddToCalendar = (platform: "google" | "outlook") => {
     const links = generateCalendarLinks(WEDDING_EVENT);
     const url = links[platform];
     window.open(url, "_blank", "noopener,noreferrer");

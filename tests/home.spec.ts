@@ -34,10 +34,6 @@ test.describe('Save the Date Landing Page', () => {
     const outlookBtn = page.getByRole('button', { name: /Outlook/i });
     await expect(outlookBtn).toBeVisible();
     await expect(outlookBtn).toBeEnabled();
-    // Assert Apple Calendar button is visible
-    const appleBtn = page.getByRole('button', { name: /Apple Calendar/i });
-    await expect(appleBtn).toBeVisible();
-    await expect(appleBtn).toBeEnabled();
     // Assert ICS fallback button is visible
     const icsBtn = page.getByRole('button', { name: /Outro calendário/i });
     await expect(icsBtn).toBeVisible();
