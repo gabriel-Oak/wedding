@@ -1,5 +1,7 @@
 "use client";
 
+import { WEDDING_EVENT } from "@/utils/eventConfig";
+import { generateCalendarLinks } from "@/utils/calendarLinks";
 import { generateIcs } from "@/utils/generateIcs";
 
 import LeafIcon from "@/components/ui/LeafIcon";
@@ -77,17 +79,77 @@ function MountainIcon({ className = "" }: { className?: string }) {
   );
 }
 
-export default function CTASection() {
-  const handleDownload = () => {
-    const event = {
-      title: "Casamento — Gabriel & Mariana",
-      startDate: new Date("2026-11-08T16:00:00"),
-      endDate: new Date("2026-11-08T23:00:00"),
-      location: "Casamento de Gabriel & Mariana — 08/11/2026 às 16h",
-      description: "Save the Date — Nos vemos lá!",
-    };
+function GoogleIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      className="h-6 w-6"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" strokeWidth="1.5" />
+      <line x1="3" y1="9" x2="21" y2="9" stroke="currentColor" strokeWidth="1.5" />
+      <line x1="9" y1="5" x2="9" y2="9" stroke="currentColor" strokeWidth="1.5" />
+      <text
+        x="12"
+        y="17"
+        textAnchor="middle"
+        fill="currentColor"
+        fontSize="8"
+        fontWeight="bold"
+        fontFamily="sans-serif"
+      >
+        G
+      </text>
+    </svg>
+  );
+}
 
-    const icsContent = generateIcs(event);
+function OutlookIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      className="h-6 w-6"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" strokeWidth="1.5" />
+      <line x1="3" y1="9" x2="21" y2="9" stroke="currentColor" strokeWidth="1.5" />
+      <text
+        x="12"
+        y="17"
+        textAnchor="middle"
+        fill="currentColor"
+        fontSize="8"
+        fontWeight="bold"
+        fontFamily="sans-serif"
+      >
+        O
+      </text>
+    </svg>
+  );
+}
+
+
+
+const calendarPlatforms: Array<{
+  key: "google" | "outlook";
+  label: string;
+  icon: React.ComponentType;
+}> = [
+  { key: "google", label: "Google Agenda", icon: GoogleIcon },
+  { key: "outlook", label: "Outlook", icon: OutlookIcon },
+];
+
+export default function CTASection() {
+  const handleAddToCalendar = (platform: "google" | "outlook") => {
+    const links = generateCalendarLinks(WEDDING_EVENT);
+    const url = links[platform];
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
+  const handleDownload = () => {
+    const icsContent = generateIcs(WEDDING_EVENT);
     const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
     const url = URL.createObjectURL(blob);
 
@@ -104,12 +166,16 @@ export default function CTASection() {
   return (
     <section className="relative bg-wedding-blue py-16 md:py-24 overflow-hidden">
       {/* Decorative corner leaves */}
-      <CornerLeaf className="absolute left-0 top-1 h-16 w-16 animate-corner-float text-white md:h-20 md:w-20" />
-      <CornerLeaf className="absolute right-0 bottom-1 h-16 w-16 animate-corner-float rotate-180 text-white md:h-20 md:w-20" />
+      <div className="absolute left-0 top-1 h-16 w-16 md:h-20 md:w-20">
+        <CornerLeaf className="h-full w-full animate-corner-float text-white" />
+      </div>
+      <div className="absolute right-0 bottom-1 h-16 w-16 rotate-180 md:h-20 md:w-20">
+        <CornerLeaf className="h-full w-full animate-corner-float text-white" />
+      </div>
 
       {/* Eucalyptus branches in corners */}
-      <CornerEucalyptus className="absolute left-0 top-8 h-12 w-32 text-white/10 rotate-12" />
-      <CornerEucalyptus className="absolute right-0 bottom-8 h-12 w-32 text-white/10 -rotate-12" />
+      <CornerEucalyptus className="absolute left-0 top-8 h-12 w-32 animate-eucalyptus-float text-white/10 rotate-12" />
+      <CornerEucalyptus className="absolute right-0 bottom-8 h-12 w-32 animate-eucalyptus-float text-white/10 -rotate-12" />
 
       {/* Mountain silhouettes at bottom */}
       <div className="pointer-events-none absolute bottom-0 left-0 right-0 overflow-hidden">
@@ -138,12 +204,27 @@ export default function CTASection() {
           especial.
         </p>
 
+        {/* Calendar platform buttons */}
+        <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:gap-4">
+          {calendarPlatforms.map(({ key, label, icon: Icon }) => (
+            <button
+              key={key}
+              onClick={() => handleAddToCalendar(key)}
+              className="group flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-wedding-blue px-6 py-3 font-body text-base font-semibold text-white shadow-lg transition-all hover:bg-wedding-gold sm:w-auto"
+            >
+              <Icon />
+              <span>{label}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* ICS fallback button */}
         <button
           onClick={handleDownload}
-          className="group mt-10 flex cursor-pointer items-center gap-2 rounded-full bg-wedding-gold px-8 py-3 font-body text-lg font-semibold text-white shadow-lg transition-all hover:bg-[#c49f2a] hover:shadow-xl"
+          className="group mt-4 flex cursor-pointer items-center gap-2 rounded-full border-2 border-wedding-gold px-6 py-3 font-body text-base font-semibold text-wedding-gold transition-all hover:bg-wedding-gold hover:text-white sm:mt-6"
         >
           <LeafIcon className="h-4 w-4 transition-transform group-hover:rotate-12" />
-          Adicionar ao Calendário
+          Outro calendário
           <LeafIcon className="h-4 w-4 transition-transform group-hover:-rotate-12" />
         </button>
 
