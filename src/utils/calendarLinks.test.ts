@@ -49,12 +49,6 @@ describe("generateCalendarLinks", () => {
       expect(result.google).toMatch(/dates=\d{8}T\d{6}Z\/\d{8}T\d{6}Z/);
     });
 
-    it("includes sf=true and output=xml", () => {
-      const result = generateCalendarLinks(baseEvent);
-      expect(result.google).toContain("sf=true");
-      expect(result.google).toContain("output=xml");
-    });
-
     it("includes details and location", () => {
       const result = generateCalendarLinks(baseEvent);
       expect(result.google).toContain(encodeURIComponent("Save the Date"));
@@ -90,14 +84,10 @@ describe("generateCalendarLinks", () => {
   });
 
   describe("Apple Calendar URL", () => {
-    it("returns a blob URL (blob:...)", () => {
+    it("returns a data URI containing ICS content", () => {
       const result = generateCalendarLinks(baseEvent);
-      expect(result.apple).toMatch(/^blob:/);
-    });
-
-    it("returns the same format as ics URL", () => {
-      const result = generateCalendarLinks(baseEvent);
-      expect(result.apple).toBe(result.ics);
+      expect(result.apple).toMatch(/^data:text\/calendar;charset=utf-8,/);
+      expect(result.apple).toContain("BEGIN%3AVEVENT");
     });
   });
 

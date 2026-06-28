@@ -67,20 +67,19 @@ export function generateCalendarLinks(event: IcsEvent): CalendarLinks {
   const googleStart = formatDateForGoogle(startDate);
   const googleEnd = formatDateForGoogle(endDate);
   const googleUrl = [
-    "https://calendar.google.com/calendar/render",
+    "https://calendar.google.com/calendar/render?",
     `action=TEMPLATE`,
     `text=${encodeURIComponent(title)}`,
     `dates=${googleStart}/${googleEnd}`,
     `details=${encodeURIComponent(description)}`,
     `location=${encodeURIComponent(location)}`,
-    `sf=true`,
-    `output=xml`,
-  ].join("?");
+  ].join("&");
 
   // Outlook (web) — uses ISO 8601 with timezone offset
   const startISO = formatDateForOutlook(startDate);
   const endISO = formatDateForOutlook(endDate);
-  const outlookParams = [
+  const outlookUrl = [
+    "https://outlook.live.com/calendar/0/compose?",
     `rru=addevent`,
     `subject=${encodeURIComponent(title)}`,
     `dtstart=${encodeURIComponent(startISO)}`,
@@ -88,15 +87,14 @@ export function generateCalendarLinks(event: IcsEvent): CalendarLinks {
     `body=${encodeURIComponent(description)}`,
     `location=${encodeURIComponent(location)}`,
   ].join("&");
-  const outlookUrl = `https://outlook.live.com/calendar/0/compose?${outlookParams}`;
 
-  // Apple Calendar — ICS blob URL
+  // Apple Calendar — ICS content encoded as data URI (works across tabs)
   const icsContent = generateIcs(event);
-  const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
-  const appleUrl = URL.createObjectURL(blob);
+  const appleUrl = `data:text/calendar;charset=utf-8,${encodeURIComponent(icsContent)}`;
 
-  // ICS download — same blob URL
-  const icsUrl = appleUrl;
+  // ICS download — blob URL (works within same tab)
+  const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
+  const icsUrl = URL.createObjectURL(blob);
 
   return {
     google: googleUrl,
