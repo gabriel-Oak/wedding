@@ -24,13 +24,24 @@ test.describe('Save the Date Landing Page', () => {
     await expect(numbers).toHaveCount(4);
   });
 
-  test('calendar button is visible and clickable', async ({ page }) => {
+  test('calendar buttons are visible and clickable', async ({ page }) => {
     await page.goto('/');
-    // Assert CTA button is visible
-    const button = page.getByRole('button', { name: /adicionar ao calendário/i });
-    await expect(button).toBeVisible();
-    // Button should be clickable
-    await expect(button).toBeEnabled();
+    // Assert Google Agenda button is visible
+    const googleBtn = page.getByRole('button', { name: /Google Agenda/i });
+    await expect(googleBtn).toBeVisible();
+    await expect(googleBtn).toBeEnabled();
+    // Assert Outlook button is visible
+    const outlookBtn = page.getByRole('button', { name: /Outlook/i });
+    await expect(outlookBtn).toBeVisible();
+    await expect(outlookBtn).toBeEnabled();
+    // Assert Apple Calendar button is visible
+    const appleBtn = page.getByRole('button', { name: /Apple Calendar/i });
+    await expect(appleBtn).toBeVisible();
+    await expect(appleBtn).toBeEnabled();
+    // Assert ICS fallback button is visible
+    const icsBtn = page.getByRole('button', { name: /Outro calendário/i });
+    await expect(icsBtn).toBeVisible();
+    await expect(icsBtn).toBeEnabled();
   });
 
   test('footer contains RSVP message', async ({ page }) => {
