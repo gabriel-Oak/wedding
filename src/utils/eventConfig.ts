@@ -14,7 +14,7 @@ import type { IcsEvent } from "./generateIcs";
 export const WEDDING_EVENT: IcsEvent = {
   title: "Casamento — Gabriel & Mariana",
   description: "Save the Date — Nos vemos lá!",
-  startDate: new Date("2026-11-08T16:00:00"),
-  endDate: new Date("2026-11-08T23:00:00"),
-  location: "Casamento de Gabriel & Mariana — 08/11/2026 às 16h",
+  startDate: new Date("2026-11-08T12:00:00-03:00"),
+  endDate: new Date("2026-11-08T20:00:00-03:00"),
+  location: "Casamento de Gabriel & Mariana — 08/11/2026 às 12h",
 };
