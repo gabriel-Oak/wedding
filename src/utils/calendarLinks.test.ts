@@ -117,4 +117,42 @@ describe("generateCalendarLinks", () => {
       expect(result.google).toContain(encodeURIComponent("Line1\nLine2"));
     });
   });
+
+  describe("formatDateForOutlook (via generateCalendarLinks)", () => {
+    it("includes seconds in dtstart and dtend", () => {
+      const result = generateCalendarLinks(baseEvent);
+      expect(result.outlook).toMatch(/dtstart=.*\d{2}:\d{2}:\d{2}-03:00/);
+      expect(result.outlook).toMatch(/dtend=.*\d{2}:\d{2}:\d{2}-03:00/);
+    });
+
+    it("handles year boundary (Dec 31 -> Jan 1)", () => {
+      const yearBoundaryEvent: IcsEvent = {
+        title: "Virada de Ano",
+        startDate: new Date("2026-12-31T23:30:00-03:00"),
+        endDate: new Date("2027-01-01T00:30:00-03:00"),
+        location: "Copacabana",
+        description: "Réveillon",
+      };
+      const result = generateCalendarLinks(yearBoundaryEvent);
+      // dtstart should be 2026-12-31
+      expect(result.outlook).toMatch(/dtstart=2026-12-31/);
+      // dtend should be 2027-01-01
+      expect(result.outlook).toMatch(/dtend=2027-01-01/);
+    });
+
+    it("handles leap year date (Feb 29)", () => {
+      const leapYearEvent: IcsEvent = {
+        title: "Carnaval",
+        startDate: new Date("2024-02-29T12:00:00-03:00"),
+        endDate: new Date("2024-02-29T18:00:00-03:00"),
+        location: "Rio de Janeiro",
+        description: "Dia de Carnaval",
+      };
+      const result = generateCalendarLinks(leapYearEvent);
+      // dtstart should contain 2024-02-29
+      expect(result.outlook).toMatch(/dtstart=2024-02-29/);
+      // dtend should contain 2024-02-29
+      expect(result.outlook).toMatch(/dtend=2024-02-29/);
+    });
+  });
 });
