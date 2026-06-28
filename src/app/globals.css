@@ -17,6 +17,7 @@
   --color-nature-mountain-far: #5A7A8C;
   --font-heading: 'Playfair Display', serif;
   --font-body: 'Montserrat', sans-serif;
+  --animation-corner-float: cornerFloat 6s ease-in-out infinite;
 }
 
 @keyframes fadeInUp {
@@ -76,6 +77,15 @@
   }
   50% {
     transform: translateY(-4px) rotate(1deg);
+  }
+}
+
+@keyframes eucalyptusFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
   }
 }
 
@@ -139,6 +149,10 @@
 
 .animate-corner-float {
   animation: cornerFloat 6s ease-in-out infinite;
+}
+
+.animate-eucalyptus-float {
+  animation: eucalyptusFloat 7s ease-in-out infinite;
 }
 
 /* Mountain mist animation */

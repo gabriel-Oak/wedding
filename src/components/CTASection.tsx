@@ -191,12 +191,16 @@ export default function CTASection() {
   return (
     <section className="relative bg-wedding-blue py-16 md:py-24 overflow-hidden">
       {/* Decorative corner leaves */}
-      <CornerLeaf className="absolute left-0 top-1 h-16 w-16 animate-corner-float text-white md:h-20 md:w-20" />
-      <CornerLeaf className="absolute right-0 bottom-1 h-16 w-16 animate-corner-float rotate-180 text-white md:h-20 md:w-20" />
+      <div className="absolute left-0 top-1 h-16 w-16 md:h-20 md:w-20">
+        <CornerLeaf className="h-full w-full animate-corner-float text-white" />
+      </div>
+      <div className="absolute right-0 bottom-1 h-16 w-16 rotate-180 md:h-20 md:w-20">
+        <CornerLeaf className="h-full w-full animate-corner-float text-white" />
+      </div>
 
       {/* Eucalyptus branches in corners */}
-      <CornerEucalyptus className="absolute left-0 top-8 h-12 w-32 text-white/10 rotate-12" />
-      <CornerEucalyptus className="absolute right-0 bottom-8 h-12 w-32 text-white/10 -rotate-12" />
+      <CornerEucalyptus className="absolute left-0 top-8 h-12 w-32 animate-eucalyptus-float text-white/10 rotate-12" />
+      <CornerEucalyptus className="absolute right-0 bottom-8 h-12 w-32 animate-eucalyptus-float text-white/10 -rotate-12" />
 
       {/* Mountain silhouettes at bottom */}
       <div className="pointer-events-none absolute bottom-0 left-0 right-0 overflow-hidden">
