@@ -26,10 +26,26 @@ function formatDateForGoogle(date: Date): string {
  * Formats a Date to ISO 8601 string with timezone offset for Outlook (e.g. 2026-11-08T16:00:00-03:00).
  */
 function formatDateForOutlook(date: Date): string {
-  const sv = date.toLocaleString("sv-SE", { timeZone: TIMEZONE });
+  const formatter = new Intl.DateTimeFormat("en-CA", {
+    timeZone: TIMEZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  });
+  const parts = formatter.formatToParts(date);
+  const get = (type: string) => parts.find((p) => p.type === type)?.value ?? "";
+  const year = get("year");
+  const month = get("month");
+  const day = get("day");
+  const hour = get("hour");
+  const minute = get("minute");
+  const second = get("second");
   const offset = getTimezoneOffset(date, TIMEZONE);
-  // sv-SE uses space as separator; replace with T for ISO 8601
-  return `${sv.replace(" ", "T")}${offset}`;
+  return `${year}-${month}-${day}T${hour}:${minute}:${second}${offset}`;
 }
 
 /**
