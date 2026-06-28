@@ -7,8 +7,6 @@ export interface CalendarLinks {
   ics: string;
 }
 
-const TIMEZONE = "America/Sao_Paulo";
-
 /**
  * Formats a Date to UTC string in YYYYMMDDTHHMMSSZ format for Google Calendar.
  */
@@ -23,34 +21,18 @@ function formatDateForGoogle(date: Date): string {
 }
 
 /**
- * Formats a Date to ISO 8601 string with timezone offset for Outlook (e.g. 2026-11-08T16:00:00-03:00).
+ * Formats a Date to UTC string in ISO 8601 format for Outlook deep link.
+ * Format: YYYY-MM-DDTHH:MM:SSZ (with colons, UTC with Z suffix).
+ * Example: 2026-11-08T15:00:00Z
  */
 function formatDateForOutlook(date: Date): string {
-  const sv = date.toLocaleString("sv-SE", { timeZone: TIMEZONE });
-  const offset = getTimezoneOffset(date, TIMEZONE);
-  // sv-SE uses space as separator; replace with T for ISO 8601
-  return `${sv.replace(" ", "T")}${offset}`;
-}
-
-/**
- * Gets the timezone offset string (e.g. "-03:00") for a date in a given timezone.
- */
-function getTimezoneOffset(date: Date, timezone: string): string {
-  const formatter = new Intl.DateTimeFormat("en-GB", {
-    timeZone: timezone,
-    timeZoneName: "longOffset",
-  });
-  const parts = formatter.formatToParts(date);
-  const tzPart = parts.find((p) => p.type === "timeZoneName");
-  if (tzPart) {
-    const offset = tzPart.value;
-    // Format: "UTC-03:00" → "-03:00"
-    const match = offset.match(/([+-]\d{2}:\d{2})/);
-    if (match) {
-      return match[1];
-    }
-  }
-  return "-03:00";
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const hours = String(date.getUTCHours()).padStart(2, "0");
+  const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+  const seconds = String(date.getUTCSeconds()).padStart(2, "0");
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
 }
 
 function safeEncode(str: string): string {
@@ -78,19 +60,19 @@ export function generateCalendarLinks(event: IcsEvent): CalendarLinks {
   ].join("&");
   const googleUrl = `https://calendar.google.com/calendar/render?${googleParams}`;
 
-  // Outlook (web) — uses ISO 8601 with timezone offset
-  // safeEncode preserves colons in datetime (e.g. 2026-11-08T16:00:00)
-  const startISO = formatDateForOutlook(startDate);
-  const endISO = formatDateForOutlook(endDate);
+  // Outlook (web deep link) — uses ISO 8601 UTC format with startdt/enddt
+  // URL: outlook.office.com/calendar/0/deeplink/compose?path=/calendar/action/compose
+  const startOutlook = formatDateForOutlook(startDate);
+  const endOutlook = formatDateForOutlook(endDate);
   const outlookParams = [
-    `rru=addevent`,
+    `path=/calendar/action/compose`,
+    `startdt=${startOutlook}`,
+    `enddt=${endOutlook}`,
     `subject=${safeEncode(title)}`,
-    `dtstart=${safeEncode(startISO)}`,
-    `dtend=${safeEncode(endISO)}`,
     `body=${safeEncode(description)}`,
     `location=${safeEncode(location)}`,
   ].join("&");
-  const outlookUrl = `https://outlook.live.com/calendar/action/compose?${outlookParams}`;
+  const outlookUrl = `https://outlook.office.com/calendar/0/deeplink/compose?${outlookParams}`;
 
   // ICS download — blob URL (works within same tab)
   const icsContent = generateIcs(event);

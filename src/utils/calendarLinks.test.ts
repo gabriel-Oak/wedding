@@ -55,14 +55,14 @@ describe("generateCalendarLinks", () => {
   });
 
   describe("Outlook URL", () => {
-    it("starts with the correct base URL", () => {
+    it("starts with the correct deep link URL", () => {
       const result = generateCalendarLinks(baseEvent);
-      expect(result.outlook).toMatch(/^https:\/\/outlook\.live\.com\/calendar\/action\/compose\?/);
+      expect(result.outlook).toMatch(/^https:\/\/outlook\.office\.com\/calendar\/0\/deeplink\/compose\?/);
     });
 
-    it("includes rru=addevent", () => {
+    it("includes path parameter", () => {
       const result = generateCalendarLinks(baseEvent);
-      expect(result.outlook).toContain("rru=addevent");
+      expect(result.outlook).toContain("path=/calendar/action/compose");
     });
 
     it("includes subject, body, and location", () => {
@@ -72,11 +72,11 @@ describe("generateCalendarLinks", () => {
       expect(result.outlook).toContain("Local%20do%20Casamento");
     });
 
-    it("includes dtstart and dtend with timezone offset (colons preserved)", () => {
+    it("includes startdt and enddt in ISO 8601 UTC format", () => {
       const result = generateCalendarLinks(baseEvent);
-      // Colons in datetime should NOT be encoded (safeEncode preserves them)
-      expect(result.outlook).toMatch(/dtstart=\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-03:00/);
-      expect(result.outlook).toMatch(/dtend=\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-03:00/);
+      // YYYY-MM-DDTHH:MM:SSZ format with colons and Z suffix
+      expect(result.outlook).toMatch(/startdt=\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/);
+      expect(result.outlook).toMatch(/enddt=\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/);
     });
   });
 
@@ -115,6 +115,45 @@ describe("generateCalendarLinks", () => {
       };
       const result = generateCalendarLinks(event);
       expect(result.google).toContain(encodeURIComponent("Line1\nLine2"));
+    });
+  });
+
+  describe("formatDateForOutlook (via generateCalendarLinks)", () => {
+    it("includes seconds in startdt and enddt", () => {
+      const result = generateCalendarLinks(baseEvent);
+      // YYYY-MM-DDTHH:MM:SSZ format with colons
+      expect(result.outlook).toMatch(/startdt=\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/);
+      expect(result.outlook).toMatch(/enddt=\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/);
+    });
+
+    it("handles year boundary (Dec 31 -> Jan 1)", () => {
+      const yearBoundaryEvent: IcsEvent = {
+        title: "Virada de Ano",
+        startDate: new Date("2026-12-31T23:30:00-03:00"),
+        endDate: new Date("2027-01-01T00:30:00-03:00"),
+        location: "Copacabana",
+        description: "Réveillon",
+      };
+      const result = generateCalendarLinks(yearBoundaryEvent);
+      // startdt: Dec 31 23:30 -03:00 = Jan 1 02:30 UTC
+      expect(result.outlook).toMatch(/startdt=2027-01-01T02:30:00Z/);
+      // enddt: Jan 1 00:30 -03:00 = Jan 1 03:30 UTC
+      expect(result.outlook).toMatch(/enddt=2027-01-01T03:30:00Z/);
+    });
+
+    it("handles leap year date (Feb 29)", () => {
+      const leapYearEvent: IcsEvent = {
+        title: "Carnaval",
+        startDate: new Date("2024-02-29T12:00:00-03:00"),
+        endDate: new Date("2024-02-29T18:00:00-03:00"),
+        location: "Rio de Janeiro",
+        description: "Dia de Carnaval",
+      };
+      const result = generateCalendarLinks(leapYearEvent);
+      // startdt should be 2024-02-29 15:00 UTC (local 12:00 -03:00 → UTC +3)
+      expect(result.outlook).toMatch(/startdt=2024-02-29T15:00:00Z/);
+      // enddt should be 2024-02-29 21:00 UTC (local 18:00 -03:00 → UTC +3)
+      expect(result.outlook).toMatch(/enddt=2024-02-29T21:00:00Z/);
     });
   });
 });

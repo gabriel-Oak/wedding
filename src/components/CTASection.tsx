@@ -216,17 +216,15 @@ export default function CTASection() {
               <span>{label}</span>
             </button>
           ))}
+          <button
+            onClick={handleDownload}
+            className="group flex w-full cursor-pointer items-center gap-2 rounded-full bg-wedding-blue px-6 py-3 font-body text-base font-semibold text-white shadow-lg transition-all hover:bg-wedding-gold sm:w-auto"
+          >
+            <LeafIcon className="h-4 w-4 transition-transform group-hover:rotate-12" />
+            Outro calendário
+            <LeafIcon className="h-4 w-4 transition-transform group-hover:-rotate-12" />
+          </button>
         </div>
-
-        {/* ICS fallback button */}
-        <button
-          onClick={handleDownload}
-          className="group mt-4 flex cursor-pointer items-center gap-2 rounded-full border-2 border-wedding-gold px-6 py-3 font-body text-base font-semibold text-wedding-gold transition-all hover:bg-wedding-gold hover:text-white sm:mt-6"
-        >
-          <LeafIcon className="h-4 w-4 transition-transform group-hover:rotate-12" />
-          Outro calendário
-          <LeafIcon className="h-4 w-4 transition-transform group-hover:-rotate-12" />
-        </button>
 
       </div>
     </section>
