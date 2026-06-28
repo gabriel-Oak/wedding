@@ -21,8 +21,9 @@ function formatDateForGoogle(date: Date): string {
 }
 
 /**
- * Formats a Date to UTC string in YYYYMMDDTHHMMSSZ format for Outlook.com.
- * Outlook.com expects UTC timestamps without colons and with a Z suffix.
+ * Formats a Date to UTC string in ISO 8601 format for Outlook deep link.
+ * Format: YYYY-MM-DDTHH:MM:SSZ (with colons, UTC with Z suffix).
+ * Example: 2026-11-08T15:00:00Z
  */
 function formatDateForOutlook(date: Date): string {
   const year = date.getUTCFullYear();
@@ -31,7 +32,7 @@ function formatDateForOutlook(date: Date): string {
   const hours = String(date.getUTCHours()).padStart(2, "0");
   const minutes = String(date.getUTCMinutes()).padStart(2, "0");
   const seconds = String(date.getUTCSeconds()).padStart(2, "0");
-  return `${year}${month}${day}T${hours}${minutes}${seconds}Z`;
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
 }
 
 function safeEncode(str: string): string {
@@ -59,18 +60,19 @@ export function generateCalendarLinks(event: IcsEvent): CalendarLinks {
   ].join("&");
   const googleUrl = `https://calendar.google.com/calendar/render?${googleParams}`;
 
-  // Outlook (web) — uses UTC timestamp in YYYYMMDDTHHMMSSZ format
+  // Outlook (web deep link) — uses ISO 8601 UTC format with startdt/enddt
+  // URL: outlook.office.com/calendar/0/deeplink/compose?path=/calendar/action/compose
   const startOutlook = formatDateForOutlook(startDate);
   const endOutlook = formatDateForOutlook(endDate);
   const outlookParams = [
-    `rru=addevent`,
+    `path=/calendar/action/compose`,
+    `startdt=${startOutlook}`,
+    `enddt=${endOutlook}`,
     `subject=${safeEncode(title)}`,
-    `dtstart=${startOutlook}`,
-    `dtend=${endOutlook}`,
     `body=${safeEncode(description)}`,
     `location=${safeEncode(location)}`,
   ].join("&");
-  const outlookUrl = `https://outlook.live.com/calendar/action/compose?${outlookParams}`;
+  const outlookUrl = `https://outlook.office.com/calendar/0/deeplink/compose?${outlookParams}`;
 
   // ICS download — blob URL (works within same tab)
   const icsContent = generateIcs(event);
