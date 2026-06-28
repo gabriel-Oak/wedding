@@ -72,11 +72,11 @@ describe("generateCalendarLinks", () => {
       expect(result.outlook).toContain("Local%20do%20Casamento");
     });
 
-    it("includes dtstart and dtend with timezone offset (colons preserved)", () => {
+    it("includes dtstart and dtend in YYYYMMDDTHHMMSSZ format (UTC)", () => {
       const result = generateCalendarLinks(baseEvent);
-      // Colons in datetime should NOT be encoded (safeEncode preserves them)
-      expect(result.outlook).toMatch(/dtstart=\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-03:00/);
-      expect(result.outlook).toMatch(/dtend=\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-03:00/);
+      // UTC timestamps without colons, with Z suffix
+      expect(result.outlook).toMatch(/dtstart=\d{8}T\d{6}Z/);
+      expect(result.outlook).toMatch(/dtend=\d{8}T\d{6}Z/);
     });
   });
 
@@ -121,8 +121,9 @@ describe("generateCalendarLinks", () => {
   describe("formatDateForOutlook (via generateCalendarLinks)", () => {
     it("includes seconds in dtstart and dtend", () => {
       const result = generateCalendarLinks(baseEvent);
-      expect(result.outlook).toMatch(/dtstart=.*\d{2}:\d{2}:\d{2}-03:00/);
-      expect(result.outlook).toMatch(/dtend=.*\d{2}:\d{2}:\d{2}-03:00/);
+      // YYYYMMDDTHHMMSSZ format has exactly 6 digits for time
+      expect(result.outlook).toMatch(/dtstart=\d{8}T\d{6}Z/);
+      expect(result.outlook).toMatch(/dtend=\d{8}T\d{6}Z/);
     });
 
     it("handles year boundary (Dec 31 -> Jan 1)", () => {
@@ -134,10 +135,10 @@ describe("generateCalendarLinks", () => {
         description: "Réveillon",
       };
       const result = generateCalendarLinks(yearBoundaryEvent);
-      // dtstart should be 2026-12-31
-      expect(result.outlook).toMatch(/dtstart=2026-12-31/);
-      // dtend should be 2027-01-01
-      expect(result.outlook).toMatch(/dtend=2027-01-01/);
+      // dtstart: Dec 31 23:30 -03:00 = Jan 1 02:30 UTC
+      expect(result.outlook).toMatch(/dtstart=20270101T023000Z/);
+      // dtend: Jan 1 00:30 -03:00 = Jan 1 03:30 UTC
+      expect(result.outlook).toMatch(/dtend=20270101T033000Z/);
     });
 
     it("handles leap year date (Feb 29)", () => {
@@ -149,10 +150,10 @@ describe("generateCalendarLinks", () => {
         description: "Dia de Carnaval",
       };
       const result = generateCalendarLinks(leapYearEvent);
-      // dtstart should contain 2024-02-29
-      expect(result.outlook).toMatch(/dtstart=2024-02-29/);
-      // dtend should contain 2024-02-29
-      expect(result.outlook).toMatch(/dtend=2024-02-29/);
+      // dtstart should be 2024-02-29 15:00 UTC (local 12:00 -03:00 → UTC +3)
+      expect(result.outlook).toMatch(/dtstart=20240229T150000Z/);
+      // dtend should be 2024-02-29 21:00 UTC (local 18:00 -03:00 → UTC +3)
+      expect(result.outlook).toMatch(/dtend=20240229T210000Z/);
     });
   });
 });
