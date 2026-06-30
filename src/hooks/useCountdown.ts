@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+/* eslint-disable react-hooks/set-state-in-effect */
+import { useState, useLayoutEffect, useEffect } from 'react';
 
 export interface CountdownValues {
   days: number;
@@ -29,9 +30,19 @@ function calculateCountdown(targetDate: Date): CountdownValues {
 }
 
 export function useCountdown(targetDate: Date | string): CountdownValues {
-  const [countdown, setCountdown] = useState<CountdownValues>(() =>
-    calculateCountdown(new Date(targetDate))
-  );
+  const [countdown, setCountdown] = useState<CountdownValues>({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+
+  // useLayoutEffect fires synchronously after render, before browser paint.
+  // This ensures the real countdown value is set before the user sees anything,
+  // while the initial zero values match SSR to prevent hydration mismatch.
+  useLayoutEffect(() => {
+    setCountdown(calculateCountdown(new Date(targetDate)));
+  }, [targetDate]);
 
   useEffect(() => {
     const interval = setInterval(() => {
