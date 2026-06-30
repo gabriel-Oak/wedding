@@ -1,4 +1,4 @@
-import type { IcsEvent } from "@/utils/eventConfig";
+import type { IcsEvent } from "@/modules/invite/save-the-date/utils/eventConfig";
 import { generateIcs } from "@/utils/generateIcs";
 
 export interface CalendarLinks {

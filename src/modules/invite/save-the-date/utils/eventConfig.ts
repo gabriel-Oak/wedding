@@ -1,6 +1,6 @@
-// Re-export IcsEvent type from generateIcs to avoid duplication.
-export type { IcsEvent } from "./generateIcs";
-import type { IcsEvent } from "./generateIcs";
+import type { IcsEvent } from "@/shared/types/ics-event";
+
+export type { IcsEvent };
 
 /**
  * Central configuration for the wedding event.

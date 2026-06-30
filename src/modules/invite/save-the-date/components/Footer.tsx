@@ -1,6 +1,6 @@
 "use client";
 
-import LeafIcon from "@/components/ui/LeafIcon";
+import LeafIcon from "@/shared/ui/LeafIcon";
 
 /* Decorative vine divider */
 function VineDivider({ className = "" }: { className?: string }) {

@@ -2,11 +2,11 @@
 
 import { useMemo } from "react";
 
-import { WEDDING_EVENT } from "@/utils/eventConfig";
-import { generateCalendarLinks } from "@/utils/calendarLinks";
-import { generateIcs } from "@/utils/generateIcs";
+import { WEDDING_EVENT } from "@/modules/invite/save-the-date/utils/eventConfig";
+import { generateCalendarLinks } from "@/shared/utils/calendarLinks";
+import { generateIcs } from "@/shared/utils/generateIcs";
 
-import LeafIcon from "@/components/ui/LeafIcon";
+import LeafIcon from "@/shared/ui/LeafIcon";
 
 /* Corner leaf accent */
 function CornerLeaf({ className = "" }: { className?: string }) {
