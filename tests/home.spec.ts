@@ -26,14 +26,14 @@ test.describe('Save the Date Landing Page', () => {
 
   test('calendar buttons are visible and clickable', async ({ page }) => {
     await page.goto('/');
-    // Assert Google Agenda button is visible
-    const googleBtn = page.getByRole('button', { name: /Google Agenda/i });
-    await expect(googleBtn).toBeVisible();
-    await expect(googleBtn).toBeEnabled();
-    // Assert Outlook button is visible
-    const outlookBtn = page.getByRole('button', { name: /Outlook/i });
-    await expect(outlookBtn).toBeVisible();
-    await expect(outlookBtn).toBeEnabled();
+    // Assert Google Agenda link is visible
+    const googleLink = page.getByRole('link', { name: /Google Agenda/i });
+    await expect(googleLink).toBeVisible();
+    await expect(googleLink).toBeEnabled();
+    // Assert Outlook link is visible
+    const outlookLink = page.getByRole('link', { name: /Outlook/i });
+    await expect(outlookLink).toBeVisible();
+    await expect(outlookLink).toBeEnabled();
     // Assert ICS fallback button is visible
     const icsBtn = page.getByRole('button', { name: /Outro calendário/i });
     await expect(icsBtn).toBeVisible();
