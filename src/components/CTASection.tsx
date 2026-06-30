@@ -1,5 +1,7 @@
 "use client";
 
+import { useMemo } from "react";
+
 import { WEDDING_EVENT } from "@/utils/eventConfig";
 import { generateCalendarLinks } from "@/utils/calendarLinks";
 import { generateIcs } from "@/utils/generateIcs";
@@ -132,21 +134,18 @@ function OutlookIcon() {
 
 
 
-const calendarPlatforms: Array<{
-  key: "google" | "outlook";
-  label: string;
-  icon: React.ComponentType;
-}> = [
-  { key: "google", label: "Google Agenda", icon: GoogleIcon },
-  { key: "outlook", label: "Outlook", icon: OutlookIcon },
-];
-
 export default function CTASection() {
-  const handleAddToCalendar = (platform: "google" | "outlook") => {
-    const links = generateCalendarLinks(WEDDING_EVENT);
-    const url = links[platform];
-    window.open(url, "_blank", "noopener,noreferrer");
-  };
+  const links = useMemo(() => generateCalendarLinks(WEDDING_EVENT), []);
+
+  const calendarPlatforms: Array<{
+    key: "google" | "outlook";
+    label: string;
+    icon: React.ComponentType;
+    href: string;
+  }> = [
+    { key: "google", label: "Google Agenda", icon: GoogleIcon, href: links.google },
+    { key: "outlook", label: "Outlook", icon: OutlookIcon, href: links.outlook },
+  ];
 
   const handleDownload = () => {
     const icsContent = generateIcs(WEDDING_EVENT);
@@ -206,15 +205,17 @@ export default function CTASection() {
 
         {/* Calendar platform buttons */}
         <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:gap-4">
-          {calendarPlatforms.map(({ key, label, icon: Icon }) => (
-            <button
+          {calendarPlatforms.map(({ key, label, icon: Icon, href }) => (
+            <a
               key={key}
-              onClick={() => handleAddToCalendar(key)}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-wedding-blue px-6 py-3 font-body text-base font-semibold text-white shadow-lg transition-all hover:bg-wedding-gold sm:w-auto"
             >
               <Icon />
               <span>{label}</span>
-            </button>
+            </a>
           ))}
           <button
             onClick={handleDownload}

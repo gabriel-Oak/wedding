@@ -35,9 +35,7 @@ function formatDateForOutlook(date: Date): string {
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
 }
 
-function safeEncode(str: string): string {
-  return encodeURIComponent(str).replace(/%3A/gi, ":");
-}
+
 
 /**
  * Generates calendar platform URLs for a given event.
@@ -68,9 +66,9 @@ export function generateCalendarLinks(event: IcsEvent): CalendarLinks {
     `path=/calendar/action/compose`,
     `startdt=${startOutlook}`,
     `enddt=${endOutlook}`,
-    `subject=${safeEncode(title)}`,
-    `body=${safeEncode(description)}`,
-    `location=${safeEncode(location)}`,
+    `subject=${encodeURIComponent(title)}`,
+    `body=${encodeURIComponent(description)}`,
+    `location=${encodeURIComponent(location)}`,
   ].join("&");
   const outlookUrl = `https://outlook.office.com/calendar/0/deeplink/compose?${outlookParams}`;
 
