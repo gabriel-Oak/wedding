@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo } from "react";
-
 import { WEDDING_EVENT } from "@/modules/invite/save-the-date/utils/eventConfig";
 import { generateCalendarLinks } from "@/shared/utils/calendarLinks";
 import { generateIcs } from "@/shared/utils/generateIcs";
