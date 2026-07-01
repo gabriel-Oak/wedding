@@ -1,8 +1,8 @@
 "use client";
 
-import { useCountdown } from "@/hooks/useCountdown";
+import { useCountdown } from "@/shared/hooks/useCountdown";
 
-import LeafIcon from "@/components/ui/LeafIcon";
+import LeafIcon from "@/shared/ui/LeafIcon";
 
 /* Eucalyptus branch decoration */
 function EucalyptusBranch({ className = "" }: { className?: string }) {

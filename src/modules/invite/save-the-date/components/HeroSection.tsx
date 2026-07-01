@@ -7,7 +7,7 @@ function WeddingGradient() {
   );
 }
 
-import LeafIcon from "@/components/ui/LeafIcon";
+import LeafIcon from "@/shared/ui/LeafIcon";
 
 /* Decorative vine divider SVG */
 function VineDivider({ className = "" }: { className?: string }) {

@@ -1,5 +1,5 @@
-import type { IcsEvent } from "@/utils/eventConfig";
-import { generateIcs } from "@/utils/generateIcs";
+import type { IcsEvent } from "@/modules/invite/save-the-date/utils/eventConfig";
+import { generateIcs } from "./generateIcs";
 
 export interface CalendarLinks {
   google: string;
