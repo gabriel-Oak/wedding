@@ -2,7 +2,7 @@ import VineDivider from '@/shared/ui/VineDivider';
 import EucalyptusBranch from '@/shared/ui/EucalyptusBranch';
 
 const BACHELORETTE_IMAGE =
-  'https://images.unsplash.com/photo-1496337589254-7-e19d01cedbb?auto=format&fit=crop&q=80&w=600';
+  'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400"%3E%3Crect fill="%231E5FA7" width="600" height="400"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" fill="%23D4AF37" font-family="sans-serif" font-size="24"%3E🎉 Festa%3C/text%3E%3C/svg%3E';
 
 export function BacheloretteCard() {
   return (
