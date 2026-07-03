@@ -72,7 +72,7 @@ export default function ConvitePageClient({
     <div className="min-h-screen bg-wedding-cream">
       <ConviteHeroSection />
 
-      <div className="relative max-w-xl mx-auto px-4 py-12 space-y-10">
+      <div className="relative max-w-4xl mx-auto px-4 py-12 space-y-10">
         {/* Corner decorations */}
         <CornerLeaf className="absolute top-0 left-0 w-16 md:w-24 opacity-10 md:opacity-20 animate-sway" />
         <CornerEucalyptus className="absolute top-0 right-0 w-16 md:w-24 opacity-10 md:opacity-20 animate-sway" />

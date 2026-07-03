@@ -14,7 +14,7 @@ export function RSVPForm({ guestId, initialStatus }: { guestId: string; initialS
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="w-full max-w-xl mx-auto">
       <div className="flex items-center justify-center gap-3">
         {STATUSES.map((status) => {
           const isActive = rsvp_status === status;
