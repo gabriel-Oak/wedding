@@ -1,6 +1,6 @@
 'use client';
 
-import { VineDivider } from '@/shared/ui/VineDivider';
+import VineDivider from '@/shared/ui/VineDivider';
 import { useRSVP } from '@/modules/invite/hooks/useRSVP';
 
 type RSVPStatus = 'Pendente' | 'Confirmado' | 'Recusado';
