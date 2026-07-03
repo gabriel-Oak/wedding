@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { Guest } from '@/shared/types';
-import { createClient } from '@/lib/supabase/client';
+import { createSupabaseClient } from '@/lib/supabase/client';
 
 const HAS_READ_SESSION_KEY = 'invite_has_read_done';
 
-async function fetchGuest(client: ReturnType<typeof createClient>, phone: string) {
+async function fetchGuest(client: ReturnType<typeof createSupabaseClient>, phone: string) {
   const { data, error } = await client
     .from('guests')
     .select('*')
@@ -27,7 +27,7 @@ export function useGuest(guestPhone: string | null) {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
 
-    const client = createClient();
+    const client = createSupabaseClient();
 
     fetchGuest(client, guestPhone)
       .then(({ data, error }) => {
@@ -52,7 +52,7 @@ export function useGuest(guestPhone: string | null) {
     const alreadyDone = sessionStorage.getItem(HAS_READ_SESSION_KEY);
     if (alreadyDone) return;
 
-    const client = createClient();
+    const client = createSupabaseClient();
 
     client
       .from('guests')
@@ -62,9 +62,6 @@ export function useGuest(guestPhone: string | null) {
         if (!error) {
           sessionStorage.setItem(HAS_READ_SESSION_KEY, 'true');
         }
-      })
-      .catch(() => {
-        // silently ignore
       });
   }, [guest]);
 

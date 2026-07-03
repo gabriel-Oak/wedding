@@ -12,8 +12,8 @@ export default async function ConvitePage({
 
   let initialGuest = null;
   if (guestPhone) {
-    const { createClient } = await import('@/lib/supabase/server');
-    const supabase = createClient();
+    const { createSupabaseClient } = await import('@/lib/supabase/server');
+    const supabase = createSupabaseClient();
     const { data } = await supabase
       .from('guests')
       .select('*')

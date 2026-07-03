@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
+import { createSupabaseClient } from '@/lib/supabase/client';
 
-type RsvpStatus = 'Confirmado' | 'Recusado';
+type RsvpStatus = 'Pendente' | 'Confirmado' | 'Recusado';
 
-const VALID_STATUSES: RsvpStatus[] = ['Confirmado', 'Recusado'];
+const VALID_STATUSES: RsvpStatus[] = ['Pendente', 'Confirmado', 'Recusado'];
 
 export function useRSVP(guestId: string, currentStatus: string) {
   const [rsvp_status, setRsvpStatus] = useState<string>(currentStatus);
@@ -20,7 +20,7 @@ export function useRSVP(guestId: string, currentStatus: string) {
     setRsvpStatus(newStatus);
     setIsSubmitting(true);
 
-    const client = createClient();
+    const client = createSupabaseClient();
 
     try {
       const { error } = await client

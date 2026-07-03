@@ -1,14 +1,8 @@
-import { createServerClient } from '@supabase/supabase-js';
+import { createClient } from '@supabase/supabase-js';
 
-export function createClient() {
-  return createServerClient(
+export function createSupabaseClient() {
+  return createClient(
     process.env.SUPABASE_URL!,
-    process.env.SUPABASE_KEY!,
-    {
-      cookies: {
-        getAll() { return []; },
-        setAll() {},
-      },
-    }
+    process.env.SUPABASE_KEY!
   );
 }

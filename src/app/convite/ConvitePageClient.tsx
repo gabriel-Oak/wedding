@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import { Guest } from '@/shared/types';
 import HeroSection from '@/modules/invite/save-the-date/components/HeroSection';
-import WeddingDayCard from '@/modules/invite/invite-page/components/WeddingDayCard';
-import BacheloretteCard from '@/modules/invite/invite-page/components/BacheloretteCard';
-import NatureCard from '@/modules/invite/invite-page/components/NatureCard';
+import { WeddingDayCard } from '@/modules/invite/invite-page/components/WeddingDayCard';
+import { BacheloretteCard } from '@/modules/invite/invite-page/components/BacheloretteCard';
+import { NatureCard } from '@/modules/invite/invite-page/components/NatureCard';
 import { RSVPForm } from '@/modules/invite/invite-page/components/RSVPForm';
 import { useGuest } from '@/modules/invite/hooks/useGuest';
 import CornerLeaf from '@/shared/ui/CornerLeaf';
