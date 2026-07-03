@@ -75,8 +75,8 @@ export default function ConvitePageClient({
 
       <div className="relative max-w-xl mx-auto px-4 py-12 space-y-10">
         {/* Corner decorations */}
-        <CornerLeaf className="absolute top-0 left-0 w-24 md:w-32 opacity-20 md:opacity-40" />
-        <CornerEucalyptus className="absolute top-0 right-0 w-24 md:w-32 opacity-20 md:opacity-40" />
+        <CornerLeaf className="absolute top-0 left-0 w-16 md:w-24 opacity-10 md:opacity-20" />
+        <CornerEucalyptus className="absolute top-0 right-0 w-16 md:w-24 opacity-10 md:opacity-20" />
 
         {/* Personalized greeting */}
         <div className="max-w-md mx-auto text-center bg-wedding-blue rounded-2xl p-6 shadow-lg">
