@@ -31,7 +31,7 @@ export function WeddingDayCard() {
         </p>
 
         {/* Decorative vine */}
-        <VineDivider className="text-wedding-gold/40" />
+        <VineDivider className="text-wedding-gold/40" thin={true} />
       </div>
 
       {/* Decorative corner */}

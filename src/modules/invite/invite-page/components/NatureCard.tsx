@@ -45,7 +45,7 @@ export function NatureCard() {
         </div>
 
         {/* Decorative bottom vine */}
-        <VineDivider className="mt-4 text-wedding-gold/30" />
+        <VineDivider className="mt-4 text-wedding-gold/30" thin={true} />
       </div>
 
       {/* Decorative corner */}

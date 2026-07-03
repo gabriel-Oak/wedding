@@ -59,7 +59,7 @@ export default function ConvitePageClient({
             </p>
           </div>
 
-          <VineDivider className="text-wedding-gold/40 mx-auto" />
+          <VineDivider className="text-wedding-gold/40 mx-auto" thin={false} />
 
           {/* Wedding Day Card - always visible */}
           <WeddingDayCard />
@@ -106,7 +106,7 @@ export default function ConvitePageClient({
         {/* RSVP Form - only for guests with phone */}
         {guestPhone && activeGuest.rsvp_status !== null && (
           <>
-            <VineDivider className="text-wedding-gold/40 mx-auto" />
+            <VineDivider className="text-wedding-gold/40 mx-auto" thin={true} />
             <div className="text-center">
               <h3 className="font-heading text-xl text-wedding-wood mb-4">
                 Confirme sua presença
@@ -120,7 +120,7 @@ export default function ConvitePageClient({
         )}
 
         {/* Bottom decoration */}
-        <VineDivider className="text-wedding-gold/30 mx-auto" />
+        <VineDivider className="text-wedding-gold/30 mx-auto" thin={true} />
       </div>
     </div>
   );
