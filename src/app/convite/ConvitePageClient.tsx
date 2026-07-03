@@ -79,7 +79,7 @@ export default function ConvitePageClient({
         <CornerEucalyptus className="absolute top-0 right-0 w-24 md:w-32 opacity-20 md:opacity-40" />
 
         {/* Personalized greeting */}
-        <div className="text-center bg-wedding-blue rounded-2xl p-6 shadow-lg">
+        <div className="max-w-md mx-auto text-center bg-wedding-blue rounded-2xl p-6 shadow-lg">
           <EucalyptusBranch className="absolute top-0 right-0 w-16 md:w-24 opacity-10 md:opacity-20 text-wedding-cream pointer-events-none" />
           <h2 className="font-heading text-2xl text-wedding-cream">
             Olá, {activeGuest.name}!
