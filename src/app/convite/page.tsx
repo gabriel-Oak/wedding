@@ -1,6 +1,12 @@
+import type { Metadata } from 'next';
 import ConvitePageClient from './ConvitePageClient';
 
 type SearchParams = Promise<{ guestPhone?: string }>;
+
+export const metadata: Metadata = {
+  title: 'Convite de Casamento',
+  description: 'Confirme sua presença no casamento de Gabriel e Mariana',
+};
 
 export default async function ConvitePage({
   searchParams,
