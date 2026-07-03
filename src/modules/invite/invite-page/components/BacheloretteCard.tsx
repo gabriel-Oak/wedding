@@ -30,7 +30,7 @@ export function BacheloretteCard() {
         </div>
 
         <h3 className="font-heading text-2xl text-wedding-gold mb-2">
-          Despedida de Solteiro Picante
+          Despedida de Solteiro
         </h3>
         <p className="font-body text-wedding-cream/80 text-sm leading-relaxed mb-4">
           Uma noite inesquecível de descontração e diversão antes do grande dia. Prepare-se para celebrar com as melhores amigas!
