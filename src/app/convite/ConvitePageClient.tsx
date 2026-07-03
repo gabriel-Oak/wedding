@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { Guest } from '@/shared/types';
-import HeroSection from '@/modules/invite/save-the-date/components/HeroSection';
 import ConviteHeroSection from '@/modules/invite/invite-page/components/ConviteHeroSection';
 import { WeddingDayCard } from '@/modules/invite/invite-page/components/WeddingDayCard';
 import { BacheloretteCard } from '@/modules/invite/invite-page/components/BacheloretteCard';
@@ -72,7 +71,7 @@ export default function ConvitePageClient({
 
   return (
     <div className="min-h-screen bg-wedding-cream">
-      <HeroSection />
+      <ConviteHeroSection />
 
       <div className="relative max-w-xl mx-auto px-4 py-12 space-y-10">
         {/* Corner decorations */}
