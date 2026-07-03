@@ -8,7 +8,7 @@ export function NatureCard() {
   return (
     <div className="relative w-full max-w-md mx-auto overflow-hidden rounded-2xl bg-white text-wedding-wood shadow-lg border-2 border-wedding-gold/30">
       {/* Decorative top branch */}
-      <EucalyptusBranch className="absolute top-0 right-0 w-32 opacity-30 text-wedding-gold pointer-events-none" />
+      <EucalyptusBranch className="absolute top-0 right-0 w-32 opacity-30 text-wedding-gold pointer-events-none animate-sway" />
 
       {/* Image section */}
       <div className="relative h-56 overflow-hidden">
@@ -49,7 +49,7 @@ export function NatureCard() {
       </div>
 
       {/* Decorative corner */}
-      <EucalyptusBranch className="absolute bottom-0 left-0 w-32 opacity-30 text-wedding-gold pointer-events-none" />
+      <EucalyptusBranch className="absolute bottom-0 left-0 w-32 opacity-30 text-wedding-gold pointer-events-none animate-sway" />
     </div>
   );
 }

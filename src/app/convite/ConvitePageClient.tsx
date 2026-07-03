@@ -75,12 +75,12 @@ export default function ConvitePageClient({
 
       <div className="relative max-w-xl mx-auto px-4 py-12 space-y-10">
         {/* Corner decorations */}
-        <CornerLeaf className="absolute top-0 left-0 w-16 md:w-24 opacity-10 md:opacity-20" />
-        <CornerEucalyptus className="absolute top-0 right-0 w-16 md:w-24 opacity-10 md:opacity-20" />
+        <CornerLeaf className="absolute top-0 left-0 w-16 md:w-24 opacity-10 md:opacity-20 animate-sway" />
+        <CornerEucalyptus className="absolute top-0 right-0 w-16 md:w-24 opacity-10 md:opacity-20 animate-sway" />
 
         {/* Personalized greeting */}
         <div className="max-w-md mx-auto text-center bg-wedding-blue rounded-2xl p-6 shadow-lg">
-          <EucalyptusBranch className="absolute top-0 right-0 w-16 md:w-24 opacity-10 md:opacity-20 text-wedding-cream pointer-events-none" />
+          <EucalyptusBranch className="absolute top-0 right-0 w-16 md:w-24 opacity-10 md:opacity-20 text-wedding-cream pointer-events-none animate-sway" />
           <h2 className="font-heading text-2xl text-wedding-cream">
             Olá, {activeGuest.name}!
           </h2>
