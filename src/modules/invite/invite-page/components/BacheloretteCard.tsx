@@ -6,7 +6,7 @@ const BACHELORETTE_IMAGE =
 
 export function BacheloretteCard() {
   return (
-    <div className="relative w-full max-w-xl mx-auto overflow-hidden rounded-2xl bg-wedding-blue text-wedding-cream shadow-lg">
+    <div className="relative w-full max-w-5xl mx-auto overflow-hidden rounded-2xl bg-wedding-blue text-wedding-cream shadow-lg">
       {/* Decorative top branch */}
       <EucalyptusBranch className="absolute top-0 left-0 w-32 opacity-40 text-wedding-gold pointer-events-none animate-sway" />
 
