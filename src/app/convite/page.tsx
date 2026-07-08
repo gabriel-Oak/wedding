@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import type { Guest } from '@/shared/types';
 import ConvitePageClient from './ConvitePageClient';
 
 type SearchParams = Promise<{ guestPhone?: string }>;
@@ -16,16 +17,13 @@ export default async function ConvitePage({
   const params = await searchParams;
   const guestPhone = params.guestPhone;
 
-  let initialGuest = null;
+  let initialGuest: Guest | null = null;
   if (guestPhone) {
-    const { createSupabaseClient } = await import('@/lib/supabase/server');
-    const supabase = createSupabaseClient();
-    const { data } = await supabase
-      .from('guests')
-      .select('*')
-      .eq('phone', guestPhone)
-      .single();
-    initialGuest = data;
+    const res = await fetch(`/api/supabase?phone=${encodeURIComponent(guestPhone)}&table=guests`);
+    const json = await res.json();
+    if (json.data && json.data.length > 0) {
+      initialGuest = json.data[0];
+    }
   }
 
   return (
