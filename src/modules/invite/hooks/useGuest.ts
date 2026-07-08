@@ -2,22 +2,37 @@
 
 import { useEffect, useState } from 'react';
 import { Guest } from '@/shared/types';
-import { createSupabaseClient } from '@/lib/supabase/client';
 
 const HAS_READ_SESSION_KEY = 'invite_has_read_done';
 
-async function fetchGuest(client: ReturnType<typeof createSupabaseClient>, phone: string) {
-  const { data, error } = await client
-    .from('guests')
-    .select('*')
-    .eq('phone', phone)
-    .single();
-  return { data, error };
+async function fetchGuestByPhone(phone: string) {
+  const res = await fetch(`/api/supabase?phone=${encodeURIComponent(phone)}&table=guests`);
+  const json = await res.json();
+  if (json.error) {
+    return { data: null, error: json.error };
+  }
+  const records = (json.data as Guest[]) || [];
+  const guest = records.at(0) ?? null;
+  return { data: guest, error: null };
+}
+
+async function markHasRead(phone: string) {
+  const res = await fetch(`/api/supabase?phone=${encodeURIComponent(phone)}&table=guests`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ has_read: true }),
+  });
+  const json = await res.json();
+  if (json.error) {
+    return { success: false, error: json.error };
+  }
+  return { success: true };
 }
 
 export function useGuest(guestPhone: string | null) {
   const [guest, setGuest] = useState<Guest | null>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!guestPhone) {
@@ -26,10 +41,9 @@ export function useGuest(guestPhone: string | null) {
 
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
+    setError(null);
 
-    const client = createSupabaseClient();
-
-    fetchGuest(client, guestPhone)
+    fetchGuestByPhone(guestPhone)
       .then(({ data, error }) => {
         if (error || !data) {
           setGuest(null);
@@ -37,10 +51,11 @@ export function useGuest(guestPhone: string | null) {
           return;
         }
 
-        setGuest(data as Guest);
+        setGuest(data);
         setLoading(false);
       })
       .catch(() => {
+        setError('Failed to load guest data');
         setGuest(null);
         setLoading(false);
       });
@@ -52,18 +67,16 @@ export function useGuest(guestPhone: string | null) {
     const alreadyDone = sessionStorage.getItem(HAS_READ_SESSION_KEY);
     if (alreadyDone) return;
 
-    const client = createSupabaseClient();
-
-    client
-      .from('guests')
-      .update({ has_read: true })
-      .eq('id', guest.id)
-      .then(({ error }) => {
-        if (!error) {
+    markHasRead(guestPhone!)
+      .then(({ success }) => {
+        if (success) {
           sessionStorage.setItem(HAS_READ_SESSION_KEY, 'true');
         }
+      })
+      .catch(() => {
+        // Silently ignore — marking has_read is best-effort
       });
-  }, [guest]);
+  }, [guest, guestPhone]);
 
-  return { guest, loading };
+  return { guest, loading, error };
 }

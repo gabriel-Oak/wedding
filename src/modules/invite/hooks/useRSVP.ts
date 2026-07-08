@@ -1,13 +1,42 @@
 'use client';
 
 import { useState } from 'react';
-import { createSupabaseClient } from '@/lib/supabase/client';
 
 type RsvpStatus = 'Pendente' | 'Confirmado' | 'Recusado';
 
 const VALID_STATUSES: RsvpStatus[] = ['Pendente', 'Confirmado', 'Recusado'];
 
-export function useRSVP(guestId: string, currentStatus: string) {
+async function patchRsvpStatus(phone: string, newStatus: RsvpStatus) {
+  const res = await fetch(
+    `/api/supabase?phone=${encodeURIComponent(phone)}&table=confirmations`,
+    {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ rsvp_status: newStatus }),
+    },
+  );
+  const json = await res.json();
+  if (json.error) {
+    throw new Error(json.error);
+  }
+}
+
+async function createConfirmation(phone: string, newStatus: RsvpStatus) {
+  const res = await fetch(
+    `/api/supabase?phone=${encodeURIComponent(phone)}&table=confirmations`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone, rsvp_status: newStatus }),
+    },
+  );
+  const json = await res.json();
+  if (json.error) {
+    throw new Error(json.error);
+  }
+}
+
+export function useRSVP(phone: string, currentStatus: string) {
   const [rsvp_status, setRsvpStatus] = useState<string>(currentStatus);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -20,19 +49,15 @@ export function useRSVP(guestId: string, currentStatus: string) {
     setRsvpStatus(newStatus);
     setIsSubmitting(true);
 
-    const client = createSupabaseClient();
-
     try {
-      const { error } = await client
-        .from('guests')
-        .update({ rsvp_status: newStatus })
-        .eq('id', guestId);
-
-      if (error) {
-        throw error;
-      }
+      // Try PATCH first; if it fails (e.g., no existing record), try POST
+      await patchRsvpStatus(phone, newStatus);
     } catch {
-      setRsvpStatus(previousStatus);
+      try {
+        await createConfirmation(phone, newStatus);
+      } catch {
+        setRsvpStatus(previousStatus);
+      }
     } finally {
       setIsSubmitting(false);
     }
