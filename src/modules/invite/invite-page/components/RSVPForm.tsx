@@ -6,8 +6,8 @@ type RSVPStatus = 'Pendente' | 'Confirmado' | 'Recusado';
 
 const STATUSES: RSVPStatus[] = ['Pendente', 'Confirmado', 'Recusado'];
 
-export function RSVPForm({ guestId, initialStatus }: { guestId: string; initialStatus: string }) {
-  const { rsvp_status, updateRSVP, isSubmitting } = useRSVP(guestId, initialStatus);
+export function RSVPForm({ phone, initialStatus }: { phone: string; initialStatus: string }) {
+  const { rsvp_status, updateRSVP, isSubmitting } = useRSVP(phone, initialStatus);
 
   const handleStatusChange = (status: RSVPStatus) => {
     updateRSVP(status);

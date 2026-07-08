@@ -112,7 +112,7 @@ export default function ConvitePageClient({
                 Confirme sua presença
               </h3>
               <RSVPForm
-                guestId={activeGuest.id}
+                phone={guestPhone}
                 initialStatus={activeGuest.rsvp_status}
               />
             </div>
