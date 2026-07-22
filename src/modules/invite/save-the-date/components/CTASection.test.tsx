@@ -37,7 +37,7 @@ describe("CTASection", () => {
     const mockCreateObjectURL = vi.spyOn(URL, "createObjectURL");
     const mockRevokeObjectURL = vi.spyOn(URL, "revokeObjectURL");
 
-    const { container } = render(<CTASection />);
+    render(<CTASection />);
     const button = screen.getByRole("button", { name: /Outro calendário/i });
     button.click();
 
@@ -51,7 +51,6 @@ describe("CTASection", () => {
   it("handleDownload triggers download with correct filename", () => {
     render(<CTASection />);
 
-    const mockClick = vi.fn();
     const mockRevoke = vi.fn();
 
     // Spy after render to avoid breaking the render process
