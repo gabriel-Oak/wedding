@@ -74,7 +74,7 @@ export default function ConvitePageClient({
     <div className="min-h-screen bg-wedding-cream">
       <ConviteHeroSection />
 
-      <div className="relative max-w-5xl mx-auto px-4 py-12 space-y-10">
+      <div className="relative max-w-5xl mx-auto px-4 py-12">
         {/* Corner decorations */}
         <CornerLeaf className="absolute top-0 left-0 w-16 md:w-12 opacity-10 md:opacity-20 animate-sway" />
         <CornerEucalyptus className="absolute top-0 right-0 w-16 md:w-12 opacity-10 md:opacity-20 animate-sway" />
@@ -96,14 +96,17 @@ export default function ConvitePageClient({
           <div className="h-px flex-1 bg-wedding-gold/30" />
         </div>
 
-        {/* Conditional Bachelorette Card */}
-        {activeGuest.is_hot_guest && <BacheloretteCard />}
+        {/* Event Cards Grid - 1 col mobile, 3 cols desktop */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Conditional Bachelorette Card */}
+          {activeGuest.is_hot_guest && <BacheloretteCard />}
 
-        {/* Conditional Nature Card */}
-        {activeGuest.is_natural_guest && <NatureCard />}
+          {/* Conditional Nature Card */}
+          {activeGuest.is_natural_guest && <NatureCard />}
 
-        {/* Wedding Day Card - always visible */}
-        <WeddingDayCard />
+          {/* Wedding Day Card - always visible */}
+          <WeddingDayCard />
+        </div>
 
         {/* RSVP Form - only for guests with phone and existing confirmation */}
         {guestPhone && rsvp_status !== null && (
