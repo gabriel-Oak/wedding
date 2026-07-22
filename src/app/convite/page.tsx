@@ -19,7 +19,7 @@ export default async function ConvitePage({
 
   let initialGuest: Guest | null = null;
   if (guestPhone) {
-    const res = await fetch(`/api/supabase?phone=${encodeURIComponent(guestPhone)}&table=guests`);
+    const res = await fetch(`/api/guests?phone=${encodeURIComponent(guestPhone)}`);
     const json = await res.json();
     if (json.data && json.data.length > 0) {
       initialGuest = json.data[0];
