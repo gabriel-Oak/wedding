@@ -5,6 +5,13 @@ const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 const SUPABASE_REST_URL = `${SUPABASE_URL}/rest/v1`;
 
+// Whitelist de tabelas permitidas — impede acesso a tabelas arbitrarias
+const ALLOWED_TABLES = new Set(["guests", "events", "rsvps"]);
+
+function isAllowedTable(table: string): boolean {
+  return ALLOWED_TABLES.has(table);
+}
+
 function getSupabaseHeaders(): Record<string, string> {
   return {
     "apikey": SUPABASE_ANON_KEY,
@@ -69,9 +76,11 @@ function addPhoneFilter(searchParams: URLSearchParams, phone: string): void {
 }
 
 async function handleRequest(request: Request): Promise<Response> {
-  const url = new URL(request.url);
-  const phone = url.searchParams.get("phone");
-  const table = url.searchParams.get("table");
+  // Parse query params from request URL — handle both absolute and relative URLs
+  const urlStr = request.url.startsWith("http") ? request.url : `http://localhost${request.url}`;
+  const requestUrl = new URL(urlStr);
+  const phone = requestUrl.searchParams.get("phone");
+  const table = requestUrl.searchParams.get("table");
 
   // Validate phone
   const validatedPhone = validatePhone(phone);
@@ -83,13 +92,16 @@ async function handleRequest(request: Request): Promise<Response> {
   if (!table) {
     return formatPhoneError("Missing 'table' query parameter");
   }
+  if (!isAllowedTable(table)) {
+    return formatPhoneError(`Table '${table}' is not allowed`);
+  }
 
   const supabaseUrl = `${SUPABASE_REST_URL}/${table}`;
 
   switch (request.method) {
     case "GET": {
-      addPhoneFilter(url.searchParams, validatedPhone);
-      const fullUrl = `${supabaseUrl}?${url.searchParams.toString()}`;
+      addPhoneFilter(requestUrl.searchParams, validatedPhone);
+      const fullUrl = `${supabaseUrl}?${requestUrl.searchParams.toString()}`;
       return forwardToSupabase("GET", fullUrl);
     }
 
