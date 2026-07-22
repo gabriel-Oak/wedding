@@ -90,14 +90,14 @@ export default function ConvitePageClient({
         </div>
 
         {/* Timeline divider */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 my-8">
           <div className="h-px flex-1 bg-wedding-gold/30" />
           <span className="font-heading text-wedding-gold text-sm">Cronograma</span>
           <div className="h-px flex-1 bg-wedding-gold/30" />
         </div>
 
         {/* Event Cards Grid - 1 col mobile, 3 cols desktop */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Conditional Bachelorette Card */}
           {activeGuest.is_hot_guest && <BacheloretteCard />}
 
@@ -111,7 +111,7 @@ export default function ConvitePageClient({
         {/* RSVP Form - only for guests with phone and existing confirmation */}
         {guestPhone && rsvp_status !== null && (
           <>
-            <VineDivider className="text-wedding-gold/40 mx-auto" thin={true} />
+            <VineDivider className="text-wedding-gold/40 mx-auto my-8" thin={true} />
             <div className="text-center">
               <h3 className="font-heading text-xl text-wedding-wood mb-4">
                 Confirme sua presença
