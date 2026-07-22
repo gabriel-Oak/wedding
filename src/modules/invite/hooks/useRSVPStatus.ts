@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 type RsvpStatus = 'Pendente' | 'Confirmado' | 'Recusado' | null;
 
@@ -10,56 +10,32 @@ interface RSVPStatusData {
   error: string | null;
 }
 
-async function fetchRSVPStatus(phone: string): Promise<RSVPStatusData> {
-  try {
-    const res = await fetch(`/api/confirmations?phone=${encodeURIComponent(phone)}`);
-    const json = await res.json();
-    
-    if (json.error) {
-      return { rsvp_status: null, loading: false, error: json.error };
-    }
-    
-    const records = json.data as Array<{ rsvp_status: RsvpStatus }>;
-    const confirmation = records.at(0);
-    
-    return {
-      rsvp_status: confirmation?.rsvp_status ?? null,
-      loading: false,
-      error: null,
-    };
-  } catch (error) {
-    return {
-      rsvp_status: null,
-      loading: false,
-      error: error instanceof Error ? error.message : 'Failed to load RSVP status',
-    };
-  }
-}
-
 export function useRSVPStatus(phone: string | null): RSVPStatusData {
-  const [rsvp_status, setRsvpStatus] = useState<RsvpStatus>(null);
-  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<RsvpStatus>(null);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (!phone) {
-      return;
-    }
-
+  if (phone && !loading && !status && !error) {
     setLoading(true);
-    setError(null);
-
-    fetchRSVPStatus(phone)
-      .then((data) => {
-        setRsvpStatus(data.rsvp_status);
-        setError(data.error);
+    fetch(`/api/confirmations?phone=${encodeURIComponent(phone)}`)
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.error) {
+          setError(json.error);
+          setStatus(null);
+        } else {
+          const records = json.data as Array<{ rsvp_status: RsvpStatus }>;
+          const confirmation = records.at(0);
+          setStatus(confirmation?.rsvp_status ?? null);
+        }
         setLoading(false);
       })
       .catch((err) => {
         setError(err instanceof Error ? err.message : 'Failed to load RSVP status');
+        setStatus(null);
         setLoading(false);
       });
-  }, [phone]);
+  }
 
-  return { rsvp_status, loading, error };
+  return { rsvp_status: status, loading, error };
 }

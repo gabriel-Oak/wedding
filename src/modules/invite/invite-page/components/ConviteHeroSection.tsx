@@ -3,7 +3,6 @@
 
 import EucalyptusBranch from '@/shared/ui/EucalyptusBranch';
 import LeafIcon from '@/shared/ui/LeafIcon';
-import VineDivider from '@/shared/ui/VineDivider';
 
 export default function ConviteHeroSection() {
   return (
