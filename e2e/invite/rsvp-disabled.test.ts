@@ -2,6 +2,13 @@ import { test, expect } from '@playwright/test';
 
 test.describe('RSVP Form - Disabled State', () => {
   test('should disable buttons when status is Confirmado', async ({ page }) => {
+    // Log environment variables
+    console.log('NEXT_PUBLIC_SUPABASE_URL:', process.env.NEXT_PUBLIC_SUPABASE_URL);
+    console.log('NEXT_PUBLIC_SUPABASE_ANON_KEY:', process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'SET' : 'NOT SET');
+    console.log('SUPABASE_URL:', process.env.SUPABASE_URL);
+    console.log('SUPABASE_KEY:', process.env.SUPABASE_KEY ? 'SET' : 'NOT SET');
+    console.log('NEXT_PUBLIC_URL:', process.env.NEXT_PUBLIC_URL);
+    
     // Rayane's phone is already "Confirmado" in the database
     await page.goto('/convite?guestPhone=+553891364011');
     
