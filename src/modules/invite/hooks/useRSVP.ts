@@ -8,7 +8,7 @@ const VALID_STATUSES: RsvpStatus[] = ['Pendente', 'Confirmado', 'Recusado'];
 
 async function patchRsvpStatus(phone: string, newStatus: RsvpStatus) {
   const res = await fetch(
-    `/api/supabase?phone=${encodeURIComponent(phone)}&table=confirmations`,
+    `/api/confirmations?phone=${encodeURIComponent(phone)}`,
     {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -23,7 +23,7 @@ async function patchRsvpStatus(phone: string, newStatus: RsvpStatus) {
 
 async function createConfirmation(phone: string, newStatus: RsvpStatus) {
   const res = await fetch(
-    `/api/supabase?phone=${encodeURIComponent(phone)}&table=confirmations`,
+    `/api/confirmations?phone=${encodeURIComponent(phone)}`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
