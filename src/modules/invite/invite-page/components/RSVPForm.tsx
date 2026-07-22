@@ -6,7 +6,7 @@ type RSVPStatus = 'Pendente' | 'Confirmado' | 'Recusado';
 
 const STATUSES: RSVPStatus[] = ['Pendente', 'Confirmado', 'Recusado'];
 
-export function RSVPForm({ phone, initialStatus }: { phone: string; initialStatus: string }) {
+export function RSVPForm({ phone, initialStatus, disabled = false }: { phone: string; initialStatus: string; disabled?: boolean }) {
   const { rsvp_status, updateRSVP, isSubmitting } = useRSVP(phone, initialStatus);
 
   const handleStatusChange = (status: RSVPStatus) => {
@@ -29,9 +29,9 @@ export function RSVPForm({ phone, initialStatus }: { phone: string; initialStatu
           return (
             <button
               key={status}
-              onClick={() => handleStatusChange(status)}
-              disabled={isSubmitting}
-              className={`${baseClasses} ${isSubmitting ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}`}
+              onClick={() => !disabled && !isSubmitting && handleStatusChange(status)}
+              disabled={disabled || isSubmitting}
+              className={`${baseClasses} ${(disabled || isSubmitting) ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}`}
               aria-pressed={isActive}
               aria-label={`Status: ${status}`}
             >

@@ -5,6 +5,5 @@ export interface Guest {
   is_hot_guest: boolean;
   is_natural_guest: boolean;
   has_read: boolean;
-  rsvp_status: 'Pendente' | 'Confirmado' | 'Recusado' | null;
   updated_at: string;
 }

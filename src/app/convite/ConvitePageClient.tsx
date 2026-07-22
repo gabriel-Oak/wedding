@@ -8,6 +8,7 @@ import { BacheloretteCard } from '@/modules/invite/invite-page/components/Bachel
 import { NatureCard } from '@/modules/invite/invite-page/components/NatureCard';
 import { RSVPForm } from '@/modules/invite/invite-page/components/RSVPForm';
 import { useGuest } from '@/modules/invite/hooks/useGuest';
+import { useRSVPStatus } from '@/modules/invite/hooks/useRSVPStatus';
 import CornerLeaf from '@/shared/ui/CornerLeaf';
 import CornerEucalyptus from '@/shared/ui/CornerEucalyptus';
 import VineDivider from '@/shared/ui/VineDivider';
@@ -23,12 +24,13 @@ export default function ConvitePageClient({
   initialGuest,
   guestPhone,
 }: ConvitePageClientProps) {
-  const { guest, loading } = useGuest(guestPhone);
+  const { guest, loading: guestLoading } = useGuest(guestPhone);
+  const { rsvp_status, loading: rsvpLoading } = useRSVPStatus(guestPhone);
   const activeGuest = guest || initialGuest;
 
   const [mounted] = useState(true);
 
-  if (!mounted || loading) {
+  if (!mounted || guestLoading || rsvpLoading) {
     return (
       <div className="min-h-screen bg-wedding-cream flex items-center justify-center">
         <div className="text-center">
@@ -103,8 +105,8 @@ export default function ConvitePageClient({
         {/* Wedding Day Card - always visible */}
         <WeddingDayCard />
 
-        {/* RSVP Form - only for guests with phone */}
-        {guestPhone && activeGuest.rsvp_status !== null && (
+        {/* RSVP Form - only for guests with phone and existing confirmation */}
+        {guestPhone && rsvp_status !== null && (
           <>
             <VineDivider className="text-wedding-gold/40 mx-auto" thin={true} />
             <div className="text-center">
@@ -113,7 +115,8 @@ export default function ConvitePageClient({
               </h3>
               <RSVPForm
                 phone={guestPhone}
-                initialStatus={activeGuest.rsvp_status}
+                initialStatus={rsvp_status}
+                disabled={rsvp_status !== 'Pendente'}
               />
             </div>
           </>
