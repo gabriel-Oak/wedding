@@ -10,7 +10,7 @@ export function BacheloretteCard() {
       {/* Image section */}
       <div className="relative h-56 overflow-hidden">
         <img
-          src="/images/rancho_azuel_arvores.png"
+          src="/images/rancho_azul_arvores.png"
           alt="Rancho Vista Alegre"
           className="w-full h-full object-cover"
         />
