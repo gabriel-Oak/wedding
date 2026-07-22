@@ -6,7 +6,7 @@ import { Guest } from '@/shared/types';
 const HAS_READ_SESSION_KEY = 'invite_has_read_done';
 
 async function fetchGuestByPhone(phone: string) {
-  const res = await fetch(`/api/supabase?phone=${encodeURIComponent(phone)}&table=guests`);
+  const res = await fetch(`/api/guests?phone=${encodeURIComponent(phone)}`);
   const json = await res.json();
   if (json.error) {
     return { data: null, error: json.error };
@@ -17,7 +17,7 @@ async function fetchGuestByPhone(phone: string) {
 }
 
 async function markHasRead(phone: string) {
-  const res = await fetch(`/api/supabase?phone=${encodeURIComponent(phone)}&table=guests`, {
+  const res = await fetch(`/api/guests?phone=${encodeURIComponent(phone)}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ has_read: true }),
