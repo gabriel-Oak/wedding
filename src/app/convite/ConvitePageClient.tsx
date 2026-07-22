@@ -80,11 +80,11 @@ export default function ConvitePageClient({
         <CornerEucalyptus className="absolute top-0 right-0 w-16 md:w-12 opacity-10 md:opacity-20 animate-sway" />
 
         {/* Personalized greeting */}
-        <div className="max-w-5xl mx-auto text-center bg-wedding-blue rounded-2xl p-6 shadow-lg">
-          <h2 className="font-heading text-2xl text-wedding-cream">
+        <div className="max-w-5xl mx-auto text-center py-6">
+          <h2 className="font-heading text-3xl text-wedding-wood">
             Olá, {activeGuest.name}!
           </h2>
-          <p className="font-body text-wedding-cream/70 text-sm mt-2">
+          <p className="font-body text-wedding-wood/70 text-sm mt-2">
             Estamos muito felizes em contar com a sua presença!
           </p>
         </div>
