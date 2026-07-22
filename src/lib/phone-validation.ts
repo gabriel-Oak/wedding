@@ -1,10 +1,11 @@
-const PHONE_REGEX = /^\+55\d{10,11}$/;
+// Aceita +55XX... ou apenas XX... (com ou sem o + inicial)
+const PHONE_REGEX = /^(\+55)?\d{10,11}$/;
 const CLEAN_PHONE_REGEX = /[\s\-\(\)]/g;
 
 /**
  * Validate and normalize a phone number.
  * Removes spaces, dashes, and parentheses, then checks
- * the normalized number matches +55 followed by 10 or 11 digits.
+ * the normalized number matches (+55)? followed by 10 or 11 digits.
  * Returns the normalized phone string, or null if invalid.
  */
 export function validatePhone(phone: string | null): string | null {
@@ -13,10 +14,13 @@ export function validatePhone(phone: string | null): string | null {
   // Remove spaces, dashes, parentheses, and other whitespace characters
   const cleaned = phone.replace(CLEAN_PHONE_REGEX, "");
 
-  // Verify the cleaned phone matches the Brazilian format: +55 + 10 or 11 digits
+  // Verify the cleaned phone matches the Brazilian format: (+55)? + 10 or 11 digits
   if (!PHONE_REGEX.test(cleaned)) return null;
 
-  return cleaned;
+  // Normalize: add +55 prefix if not present
+  const normalized = cleaned.startsWith("+55") ? cleaned : `+55${cleaned}`;
+
+  return normalized;
 }
 
 /**
