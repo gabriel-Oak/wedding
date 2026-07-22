@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import VineDivider from '@/shared/ui/VineDivider';
 import EucalyptusBranch from '@/shared/ui/EucalyptusBranch';
 
@@ -9,10 +10,12 @@ export function NatureCard() {
 
       {/* Image section */}
       <div className="relative h-56 overflow-hidden">
-        <img
+        <Image
           src="/images/cachoeira.png"
           alt="Cachoeira do Rancho"
-          className="w-full h-full object-cover"
+          fill
+          className="object-cover"
+          sizes="100%"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-transparent" />
       </div>

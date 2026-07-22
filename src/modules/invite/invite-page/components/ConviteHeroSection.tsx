@@ -1,6 +1,7 @@
 /* Convite Hero — versão genérica para a página de convite */
 'use client';
 
+import Image from 'next/image';
 import EucalyptusBranch from '@/shared/ui/EucalyptusBranch';
 import LeafIcon from '@/shared/ui/LeafIcon';
 
@@ -9,7 +10,13 @@ export default function ConviteHeroSection() {
     <section className="relative min-h-[50vh] md:min-h-[60vh] overflow-hidden bg-wedding-blue">
       {/* Photo background */}
       <div className="absolute inset-0">
-        <img src="/images/por_do_sol_serra.png" alt="" className="w-full h-full object-cover object-center" />
+        <Image
+          src="/images/por_do_sol_serra.png"
+          alt=""
+          fill
+          className="object-cover object-center"
+          priority
+        />
       </div>
 
       {/* Gradient overlay for text legibility */}
