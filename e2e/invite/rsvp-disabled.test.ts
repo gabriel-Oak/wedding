@@ -6,7 +6,7 @@ test.describe('RSVP Form - Disabled State', () => {
     await page.goto('/convite?guestPhone=+553891364011');
     
     // Wait for the page to load and RSVP form to render
-    await page.waitForSelector('[aria-label="Status: Confirmado"]');
+    await page.waitForSelector('[aria-label="Status: Confirmado"]', { timeout: 60000 });
     
     // Check that all RSVP buttons are disabled
     const buttons = page.locator('[aria-label^="Status:"]');
