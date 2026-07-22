@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import CTASection from "./CTASection";
 
 describe("CTASection", () => {
@@ -28,5 +28,38 @@ describe("CTASection", () => {
     expect(
       screen.getByText(/Adicione o evento ao seu calendário/i)
     ).toBeInTheDocument();
+  });
+
+  it("handleDownload creates a blob and triggers download", () => {
+    const mockAppendChild = vi.spyOn(document.body, "appendChild");
+    const mockRemoveChild = vi.spyOn(document.body, "removeChild");
+    const mockCreateElement = vi.spyOn(document, "createElement");
+    const mockCreateObjectURL = vi.spyOn(URL, "createObjectURL");
+    const mockRevokeObjectURL = vi.spyOn(URL, "revokeObjectURL");
+
+    render(<CTASection />);
+    const button = screen.getByRole("button", { name: /Outro calendário/i });
+    button.click();
+
+    expect(mockCreateElement).toHaveBeenCalledWith("a");
+    expect(mockAppendChild).toHaveBeenCalled();
+    expect(mockRemoveChild).toHaveBeenCalled();
+    expect(mockCreateObjectURL).toHaveBeenCalled();
+    expect(mockRevokeObjectURL).toHaveBeenCalled();
+  });
+
+  it("handleDownload triggers download with correct filename", () => {
+    render(<CTASection />);
+
+    const mockRevoke = vi.fn();
+
+    // Spy after render to avoid breaking the render process
+    vi.spyOn(URL, "createObjectURL").mockReturnValue("blob:test");
+    vi.spyOn(URL, "revokeObjectURL").mockImplementation(mockRevoke);
+
+    const button = screen.getByRole("button", { name: /Outro calendário/i });
+    button.click();
+
+    expect(mockRevoke).toHaveBeenCalled();
   });
 });
