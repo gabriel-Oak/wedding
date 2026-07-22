@@ -1,21 +1,21 @@
+import Image from 'next/image';
 import VineDivider from '@/shared/ui/VineDivider';
 import EucalyptusBranch from '@/shared/ui/EucalyptusBranch';
 
-const NATURE_IMAGE =
-  'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format=fit=crop&w=600&q=80';
-
 export function NatureCard() {
   return (
-    <div className="relative w-full max-w-5xl mx-auto overflow-hidden rounded-2xl bg-white text-wedding-wood shadow-lg border-2 border-wedding-gold/30">
+    <div className="relative w-full max-w-5xl mx-auto overflow-hidden rounded-2xl bg-white text-wedding-wood shadow-lg border-0">
       {/* Decorative top branch */}
       <EucalyptusBranch className="absolute top-0 right-0 w-32 opacity-30 text-wedding-gold pointer-events-none animate-sway" />
 
       {/* Image section */}
       <div className="relative h-56 overflow-hidden">
-        <img
-          src={NATURE_IMAGE}
-          alt="Rolê na Natureza"
-          className="w-full h-full object-cover"
+        <Image
+          src="/images/cachoeira.png"
+          alt="Cachoeira do Rancho"
+          fill
+          className="object-cover"
+          sizes="100%"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-transparent" />
       </div>

@@ -74,41 +74,44 @@ export default function ConvitePageClient({
     <div className="min-h-screen bg-wedding-cream">
       <ConviteHeroSection />
 
-      <div className="relative max-w-5xl mx-auto px-4 py-12 space-y-10">
+      <div className="relative max-w-5xl mx-auto px-4 py-12">
         {/* Corner decorations */}
         <CornerLeaf className="absolute top-0 left-0 w-16 md:w-12 opacity-10 md:opacity-20 animate-sway" />
         <CornerEucalyptus className="absolute top-0 right-0 w-16 md:w-12 opacity-10 md:opacity-20 animate-sway" />
 
         {/* Personalized greeting */}
-        <div className="max-w-5xl mx-auto text-center bg-wedding-blue rounded-2xl p-6 shadow-lg">
-          <h2 className="font-heading text-2xl text-wedding-cream">
+        <div className="max-w-5xl mx-auto text-center py-6">
+          <h2 className="font-heading text-3xl text-wedding-wood">
             Olá, {activeGuest.name}!
           </h2>
-          <p className="font-body text-wedding-cream/70 text-sm mt-2">
+          <p className="font-body text-wedding-wood/70 text-sm mt-2">
             Estamos muito felizes em contar com a sua presença!
           </p>
         </div>
 
         {/* Timeline divider */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 my-8">
           <div className="h-px flex-1 bg-wedding-gold/30" />
           <span className="font-heading text-wedding-gold text-sm">Cronograma</span>
           <div className="h-px flex-1 bg-wedding-gold/30" />
         </div>
 
-        {/* Conditional Bachelorette Card */}
-        {activeGuest.is_hot_guest && <BacheloretteCard />}
+        {/* Event Cards Grid - 1 col mobile, 3 cols desktop */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Conditional Bachelorette Card */}
+          {activeGuest.is_hot_guest && <BacheloretteCard />}
 
-        {/* Conditional Nature Card */}
-        {activeGuest.is_natural_guest && <NatureCard />}
+          {/* Conditional Nature Card */}
+          {activeGuest.is_natural_guest && <NatureCard />}
 
-        {/* Wedding Day Card - always visible */}
-        <WeddingDayCard />
+          {/* Wedding Day Card - always visible */}
+          <WeddingDayCard />
+        </div>
 
         {/* RSVP Form - only for guests with phone and existing confirmation */}
         {guestPhone && rsvp_status !== null && (
           <>
-            <VineDivider className="text-wedding-gold/40 mx-auto" thin={true} />
+            <VineDivider className="text-wedding-gold/40 mx-auto my-8" thin={true} />
             <div className="text-center">
               <h3 className="font-heading text-xl text-wedding-wood mb-4">
                 Confirme sua presença

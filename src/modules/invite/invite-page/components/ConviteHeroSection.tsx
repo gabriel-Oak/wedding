@@ -1,14 +1,26 @@
 /* Convite Hero — versão genérica para a página de convite */
 'use client';
 
+import Image from 'next/image';
 import EucalyptusBranch from '@/shared/ui/EucalyptusBranch';
 import LeafIcon from '@/shared/ui/LeafIcon';
 
 export default function ConviteHeroSection() {
   return (
     <section className="relative min-h-[50vh] md:min-h-[60vh] overflow-hidden bg-wedding-blue">
-      {/* Gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-wedding-blue via-[#2a5a9a] to-wedding-gold/30" />
+      {/* Photo background */}
+      <div className="absolute inset-0">
+        <Image
+          src="/images/por_do_sol_serra.png"
+          alt=""
+          fill
+          className="object-cover object-center"
+          priority
+        />
+      </div>
+
+      {/* Gradient overlay for text legibility */}
+      <div className="absolute inset-0 bg-gradient-to-t from-wedding-blue/80 via-wedding-blue/40 to-transparent" />
 
       {/* Content */}
       <div className="relative z-10 flex min-h-[50vh] md:min-h-[60vh] items-center justify-center px-4 py-12 text-center">
