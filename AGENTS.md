@@ -21,3 +21,17 @@ Inspired by the venue photo (`image_f83ac3.jpg`). Use these tokens throughout th
 
 - **Headings**: _Playfair Display_ (`font-heading`)
 - **Body**: _Montserrat_ (`font-body`)
+
+## 🔒 Restrições de Segurança
+
+### Confirmação de Presença (RSVP)
+
+- **Usuários não podem alterar confirmações** após envio
+- **RLS configurado**: apenas o criador do registro pode ler/atualizar
+- **Alterações manuais**: devem ser feitas manualmente pelo admin com a chave de admin (`SUPABASE_KEY`)
+- **Nunca usar** `SUPABASE_KEY` nas rotas de API — apenas `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+
+### Chaves Supabase
+
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` → usada nas rotas de API (permissões limitadas)
+- `SUPABASE_KEY` → **apenas** para operações manuais/admin (nunca expor no código)
