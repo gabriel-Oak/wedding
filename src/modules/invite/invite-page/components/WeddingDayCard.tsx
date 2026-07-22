@@ -4,6 +4,16 @@ import EucalyptusBranch from '@/shared/ui/EucalyptusBranch';
 export function WeddingDayCard() {
   return (
     <div className="relative w-full max-w-5xl mx-auto overflow-hidden rounded-2xl bg-wedding-blue shadow-xl border-2 border-wedding-gold/40">
+      {/* Image section */}
+      <div className="relative h-56 overflow-hidden">
+        <img
+          src="/images/quiosque_ensolarado.png"
+          alt="Rancho Vista Alegre"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-wedding-blue via-transparent to-transparent" />
+      </div>
+
       {/* Decorative top branch */}
       <EucalyptusBranch className="absolute top-0 right-0 w-32 opacity-20 text-wedding-cream pointer-events-none" />
 

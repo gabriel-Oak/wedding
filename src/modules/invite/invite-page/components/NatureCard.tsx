@@ -1,9 +1,6 @@
 import VineDivider from '@/shared/ui/VineDivider';
 import EucalyptusBranch from '@/shared/ui/EucalyptusBranch';
 
-const NATURE_IMAGE =
-  'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format=fit=crop&w=600&q=80';
-
 export function NatureCard() {
   return (
     <div className="relative w-full max-w-5xl mx-auto overflow-hidden rounded-2xl bg-white text-wedding-wood shadow-lg border-2 border-wedding-gold/30">
@@ -13,8 +10,8 @@ export function NatureCard() {
       {/* Image section */}
       <div className="relative h-56 overflow-hidden">
         <img
-          src={NATURE_IMAGE}
-          alt="Rolê na Natureza"
+          src="/images/cachoeira.png"
+          alt="Cachoeira do Rancho"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-transparent" />

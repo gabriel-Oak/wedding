@@ -1,9 +1,6 @@
 import VineDivider from '@/shared/ui/VineDivider';
 import EucalyptusBranch from '@/shared/ui/EucalyptusBranch';
 
-const BACHELORETTE_IMAGE =
-  'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80';
-
 export function BacheloretteCard() {
   return (
     <div className="relative w-full max-w-5xl mx-auto overflow-hidden rounded-2xl bg-wedding-blue text-wedding-cream shadow-lg">
@@ -13,8 +10,8 @@ export function BacheloretteCard() {
       {/* Image section */}
       <div className="relative h-56 overflow-hidden">
         <img
-          src={BACHELORETTE_IMAGE}
-          alt="Despedida de Solteiro"
+          src="/images/rancho_azuel_arvores.png"
+          alt="Rancho Vista Alegre"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-wedding-blue via-transparent to-transparent" />
