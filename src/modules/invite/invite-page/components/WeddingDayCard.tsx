@@ -3,7 +3,7 @@ import EucalyptusBranch from '@/shared/ui/EucalyptusBranch';
 
 export function WeddingDayCard() {
   return (
-    <div className="relative w-full max-w-5xl mx-auto overflow-hidden rounded-2xl bg-wedding-blue shadow-xl border-2 border-wedding-gold/40">
+    <div className="relative w-full max-w-5xl mx-auto overflow-hidden rounded-2xl bg-wedding-blue shadow-xl border-0">
       {/* Image section */}
       <div className="relative h-56 overflow-hidden">
         <img
