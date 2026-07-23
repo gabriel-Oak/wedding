@@ -44,8 +44,7 @@ export default async function ConvitePage({
 
   let initialGuest: Guest | null = null;
   if (guestPhone) {
-    const baseUrl = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
-    const res = await fetch(`${baseUrl}/api/guests?phone=${encodeURIComponent(guestPhone)}`);
+    const res = await fetch(`/api/guests?phone=${encodeURIComponent(guestPhone)}`);
     const json = await res.json();
     if (json.data && json.data.length > 0) {
       initialGuest = json.data[0];
