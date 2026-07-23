@@ -29,7 +29,7 @@ describe('useAuth', () => {
     });
   });
 
-  function configureSupabase(getUserResult: { data: { user: any }; error: any }) {
+  function configureSupabase(getUserResult: { data: { user: import('@supabase/supabase-js').User | null }; error: unknown }) {
     mockGetUser = vi.fn().mockResolvedValue(getUserResult);
   }
 
@@ -72,9 +72,9 @@ describe('useAuth', () => {
   });
 
   it('should update user via onAuthStateChange listener', async () => {
-    let authStateCallback: ((event: string, session: any) => void) | null = null;
+    let authStateCallback: ((event: string, session: import('@supabase/supabase-js').Session | null) => void) | null = null;
 
-    mockOnAuthStateChange = vi.fn().mockImplementation((callback: any) => {
+    mockOnAuthStateChange = vi.fn().mockImplementation((callback: (event: string, session: import('@supabase/supabase-js').Session | null) => void) => {
       authStateCallback = callback;
       return {
         data: { subscription: { unsubscribe: vi.fn() } },
