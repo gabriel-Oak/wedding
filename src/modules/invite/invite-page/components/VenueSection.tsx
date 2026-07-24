@@ -18,18 +18,18 @@ export function VenueSection() {
   return (
     <section className="w-full py-12 md:py-16">
       <div className="max-w-5xl mx-auto px-4 space-y-6">
-        <h2 className="font-heading text-3xl text-wedding-cream">
+        <h2 className="font-heading text-3xl text-wedding-wood">
           Local do Evento
         </h2>
 
         <div className="space-y-2">
-          <p className="font-body text-wedding-cream text-xl md:text-2xl font-semibold">
+          <p className="font-body text-wedding-wood text-xl md:text-2xl font-semibold">
             Rancho Casa Azul
           </p>
-          <p className="font-body text-wedding-cream/80 text-base leading-relaxed">
+          <p className="font-body text-wedding-wood/70 text-base leading-relaxed">
             Estrada Não-Identificada
           </p>
-          <p className="font-body text-wedding-cream/80 text-base leading-relaxed">
+          <p className="font-body text-wedding-wood/70 text-base leading-relaxed">
             Ibiraci, MG
           </p>
           <a
