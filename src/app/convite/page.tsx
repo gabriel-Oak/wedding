@@ -42,14 +42,9 @@ export default async function ConvitePage({
     }
   }
 
-  let initialGuest: Guest | null = null;
-  if (guestPhone) {
-    const res = await fetch(`/api/guests?phone=${encodeURIComponent(guestPhone)}`);
-    const json = await res.json();
-    if (json.data && json.data.length > 0) {
-      initialGuest = json.data[0];
-    }
-  }
+  const initialGuest: Guest | null = null;
+  // Note: initialGuest is now loaded client-side via useGuest hook
+  // to avoid Next.js Turbopack URL parsing issues with + in phone numbers
 
   return (
     <main className="min-h-screen bg-wedding-cream">
