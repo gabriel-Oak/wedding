@@ -13,8 +13,40 @@ import { VenueSection } from '@/modules/invite/invite-page/components/VenueSecti
 import CornerLeaf from '@/shared/ui/CornerLeaf';
 import CornerEucalyptus from '@/shared/ui/CornerEucalyptus';
 import VineDivider from '@/shared/ui/VineDivider';
+import { useCountdown } from '@/shared/hooks/useCountdown';
+import LeafIcon from '@/shared/ui/LeafIcon';
 
 type InitialGuest = Guest | null;
+
+function MinimalCountdown() {
+  const { days, hours, minutes, seconds } = useCountdown("2026-11-08T16:00:00");
+  const values = [days, hours, minutes, seconds];
+  const labels = ["DIAS", "HORAS", "MINUTOS", "SEGUNDOS"];
+
+  return (
+    <section className="py-8">
+      <div className="flex items-center justify-center gap-3 mb-4 text-wedding-gold/40">
+        <LeafIcon className="h-4 w-4" />
+        <p className="font-body text-xs uppercase tracking-widest text-wedding-wood/60">
+          Contagem Regressiva
+        </p>
+        <LeafIcon className="h-4 w-4" />
+      </div>
+      <div className="grid grid-cols-4 gap-4 max-w-md mx-auto">
+        {values.map((value, index) => (
+          <div key={labels[index]} className="text-center">
+            <span className="font-heading text-3xl md:text-4xl font-bold text-wedding-wood">
+              {value}
+            </span>
+            <p className="mt-1 text-xs uppercase tracking-wider text-wedding-gold-darker">
+              {labels[index]}
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
 
 interface ConvitePageClientProps {
   initialGuest: InitialGuest;
@@ -75,10 +107,13 @@ export default function ConvitePageClient({
     <div className="min-h-screen bg-wedding-cream">
       <ConviteHeroSection />
 
-      <div className="relative max-w-5xl mx-auto px-4 py-12">
+      <div className="relative max-w-5xl mx-auto px-4 mt-3 py-12">
         {/* Corner decorations */}
         <CornerLeaf className="absolute top-0 left-0 w-16 md:w-12 opacity-10 md:opacity-20 animate-sway" />
         <CornerEucalyptus className="absolute top-0 right-0 w-16 md:w-12 opacity-10 md:opacity-20 animate-sway" />
+
+        {/* Countdown */}
+        <MinimalCountdown />
 
         {/* Personalized greeting */}
         <div className="max-w-5xl mx-auto text-center py-6">
@@ -109,6 +144,10 @@ export default function ConvitePageClient({
           <WeddingDayCard />
         </div>
 
+        {/* Sessão Local do Evento */}
+        <VineDivider className="text-wedding-gold/40 mx-auto my-8" thin={true} />
+        <VenueSection />
+
         {/* RSVP Form - only for guests with phone and existing confirmation */}
         {guestPhone && rsvp_status !== null && (
           <>
@@ -126,16 +165,9 @@ export default function ConvitePageClient({
           </>
         )}
 
-        {/* Sessão Local do Evento */}
-        <VineDivider className="text-wedding-gold/40 mx-auto my-8" thin={true} />
-        <VenueSection />
-
         {/* Bottom decoration */}
         <VineDivider className="text-wedding-gold/30 mx-auto" thin={true} />
       </div>
-
-      {/* Bottom spacer */}
-      <div className="h-16 md:h-24" />
     </div>
   );
 }

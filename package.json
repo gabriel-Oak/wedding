@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "npx eslint src/",
+    "lint": "npx eslint --max-warnings 0 src/",
     "test": "vitest",
     "test:e2e": "playwright test",
     "prepare": "husky"
@@ -39,5 +39,8 @@
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^4.1.9"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": "eslint --max-warnings 0"
   }
 }
