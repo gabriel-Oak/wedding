@@ -7,7 +7,7 @@ import LeafIcon from '@/shared/ui/LeafIcon';
 
 export default function ConviteHeroSection() {
   return (
-    <section className="relative min-h-[50vh] md:min-h-[60vh] overflow-hidden bg-wedding-blue">
+    <section className="relative h-screen overflow-hidden bg-wedding-blue">
       {/* Photo background */}
       <div className="absolute inset-0">
         <Image
@@ -23,7 +23,7 @@ export default function ConviteHeroSection() {
       <div className="absolute inset-0 bg-gradient-to-t from-wedding-blue/80 via-wedding-blue/40 to-transparent" />
 
       {/* Content */}
-      <div className="relative z-10 flex min-h-[50vh] md:min-h-[60vh] items-center justify-center px-4 py-12 text-center">
+      <div className="relative z-10 flex h-screen items-center justify-center px-4 py-12 text-center">
         <div className="flex flex-col items-center gap-2">
           {/* Label */}
           <div className="flex items-center gap-3 animate-[fadeInUp_0.8s_ease-out_forwards] opacity-0 delay-100">
