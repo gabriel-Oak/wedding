@@ -1,0 +1,38 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e8]:
+          - generic [ref=e9]:
+            - img [ref=e10]
+            - paragraph [ref=e18]: CONVITE DE CASAMENTO
+            - img [ref=e19]
+          - heading "Gabriel & Mariana" [level=1] [ref=e27]
+          - paragraph [ref=e28]: 08 . 11 . 2026
+          - paragraph [ref=e29]: Venha celebrar conosco este momento especial. Sua presença é o nosso maior presente.
+        - generic:
+          - img
+          - img
+      - generic [ref=e30]:
+        - img [ref=e31]
+        - img [ref=e34]
+        - generic [ref=e41]:
+          - heading "Você foi convidado!" [level=2] [ref=e42]
+          - paragraph [ref=e43]: Acesse o convite com seu número de telefone para ver informações personalizadas.
+        - img [ref=e44]
+        - generic [ref=e48]:
+          - img "Rancho Casa Azul" [ref=e50]
+          - img
+          - generic [ref=e52]:
+            - heading "O Grande Dia" [level=3] [ref=e57]
+            - paragraph [ref=e58]: 08/11
+            - paragraph [ref=e59]:
+              - text: Estrada Não-Identificada, Ibiraci, MG
+              - link "Ver no Maps" [ref=e60] [cursor=pointer]:
+                - /url: https://maps.app.goo.gl/bTiGgPg2TKULLF7L7
+                - text: Ver no Maps
+                - img [ref=e61]
+            - img [ref=e64]
+          - img
+  - button "Open Next.js Dev Tools" [ref=e73] [cursor=pointer]:
+    - img [ref=e74]

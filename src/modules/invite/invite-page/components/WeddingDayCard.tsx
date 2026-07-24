@@ -9,7 +9,7 @@ export function WeddingDayCard() {
       <div className="relative h-56 overflow-hidden">
         <Image
           src="/images/quiosque_ensolarado.png"
-          alt="Rancho Vista Alegre"
+          alt="Rancho Casa Azul"
           fill
           className="object-cover"
           sizes="100%"
@@ -29,19 +29,20 @@ export function WeddingDayCard() {
           <div className="h-px flex-1 bg-wedding-gold/40" />
         </div>
 
-        <h3 className="font-heading text-2xl text-wedding-gold mb-1">
+        <h3 className="font-heading text-2xl text-wedding-gold mb-2">
           O Grande Dia
         </h3>
-
-        {/* Date */}
-        <p className="font-heading text-4xl text-wedding-cream font-bold mb-4 tracking-wide">
-          08/11
-        </p>
-
-        {/* Location */}
         <p className="font-body text-wedding-cream/80 text-sm leading-relaxed mb-4">
-          Rancho Vista Alegre, KM 12, Estrada de Peixoto - Delfinópolis/MG
+          Uma celebração inesquecível para unir duas famílias. Venha compartilhar esse momento especial conosco.
         </p>
+
+        {/* Date badge */}
+        <div className="flex items-center gap-2 text-wedding-gold font-body text-sm">
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+          </svg>
+          <span>08 de Novembro</span>
+        </div>
 
         {/* Decorative vine */}
         <VineDivider className="text-wedding-gold/40" thin={true} />

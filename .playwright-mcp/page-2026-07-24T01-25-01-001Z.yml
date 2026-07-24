@@ -1,0 +1,32 @@
+- main [ref=e2]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e8]:
+        - generic [ref=e9]:
+          - img [ref=e10]
+          - paragraph [ref=e18]: CONVITE DE CASAMENTO
+          - img [ref=e19]
+        - heading "Gabriel & Mariana" [level=1] [ref=e27]
+        - paragraph [ref=e28]: 08 . 11 . 2026
+        - paragraph [ref=e29]: Venha celebrar conosco este momento especial. Sua presença é o nosso maior presente.
+      - generic:
+        - img
+        - img
+    - generic [ref=e30]:
+      - img [ref=e31]
+      - img [ref=e34]
+      - generic [ref=e41]:
+        - heading "Você foi convidado!" [level=2] [ref=e42]
+        - paragraph [ref=e43]: Acesse o convite com seu número de telefone para ver informações personalizadas.
+      - img [ref=e44]
+      - generic [ref=e48]:
+        - img "Rancho Casa Azul" [ref=e50]
+        - img
+        - generic [ref=e52]:
+          - heading "O Grande Dia" [level=3] [ref=e57]
+          - paragraph [ref=e58]: Uma celebração inesquecível para unir duas famílias. Venha compartilhar esse momento especial conosco.
+          - generic [ref=e59]:
+            - img [ref=e60]
+            - generic [ref=e62]: 08 de Novembro
+          - img [ref=e63]
+        - img
