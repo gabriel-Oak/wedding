@@ -9,7 +9,7 @@ import { NatureCard } from '@/modules/invite/invite-page/components/NatureCard';
 import { RSVPForm } from '@/modules/invite/invite-page/components/RSVPForm';
 import { useGuest } from '@/modules/invite/hooks/useGuest';
 import { useRSVPStatus } from '@/modules/invite/hooks/useRSVPStatus';
-import VenueSection from '@/modules/invite/invite-page/components/VenueSection';
+import { VenueSection } from '@/modules/invite/invite-page/components/VenueSection';
 import CornerLeaf from '@/shared/ui/CornerLeaf';
 import CornerEucalyptus from '@/shared/ui/CornerEucalyptus';
 import VineDivider from '@/shared/ui/VineDivider';
@@ -128,11 +128,7 @@ export default function ConvitePageClient({
 
         {/* Sessão Local do Evento */}
         <VineDivider className="text-wedding-gold/40 mx-auto my-8" thin={true} />
-        <section className="py-12 md:py-16">
-          <div className="max-w-5xl mx-auto px-4">
-            <VenueSection />
-          </div>
-        </section>
+        <VenueSection />
 
         {/* Bottom decoration */}
         <VineDivider className="text-wedding-gold/30 mx-auto" thin={true} />
