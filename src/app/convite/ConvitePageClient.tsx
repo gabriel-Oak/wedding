@@ -133,6 +133,9 @@ export default function ConvitePageClient({
         {/* Bottom decoration */}
         <VineDivider className="text-wedding-gold/30 mx-auto" thin={true} />
       </div>
+
+      {/* Bottom spacer */}
+      <div className="h-16 md:h-24" />
     </div>
   );
 }
