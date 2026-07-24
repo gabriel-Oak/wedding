@@ -16,7 +16,7 @@ const MapPinIcon = () => (
 
 export function VenueSection() {
   return (
-    <section className="w-full py-12 md:py-16">
+    <section className="w-full md:py-16">
       <div className="max-w-5xl mx-auto px-4 space-y-6">
         <h2 className="font-heading text-3xl text-wedding-wood">
           Local do Evento
