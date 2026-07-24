@@ -46,8 +46,8 @@ next-env.d.ts
 .plans
 .specs
 
-# Temp
-/tmp
+# Visual debug tmp
+tmp/
 
 # Playwright
 playwright-report/
