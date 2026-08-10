@@ -5,6 +5,8 @@ import { User } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
 import { Guest } from '@/shared/types/guest';
 import GuestsTable from './components/GuestsTable';
+import CreateGuestDialog from './components/CreateGuestDialog';
+import DeleteConfirmModal from './components/DeleteConfirmModal';
 
 interface AdminDashboardClientProps {
   user: User | null;
@@ -12,41 +14,14 @@ interface AdminDashboardClientProps {
 
 export default function AdminDashboardClient({ user }: AdminDashboardClientProps) {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [guests, setGuests] = useState<Guest[]>([]);
-
-  const fetchGuests = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch('/api/admin/guests');
-      if (!res.ok) throw new Error('Falha ao buscar convidados');
-      const data: Guest[] = await res.json();
-      setGuests(data);
-      setError(null);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Erro desconhecido');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
+  const [deletingGuest, setDeletingGuest] = useState<Guest | null>(null);
 
   useEffect(() => {
     if (!user) {
       router.replace('/admin/login');
-      return;
     }
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    fetchGuests();
   }, [user, router]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-wedding-cream flex items-center justify-center">
-        <p className="font-body text-wedding-wood text-lg">Carregando...</p>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-wedding-cream">
@@ -55,7 +30,7 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
         <div className="max-w-7xl mx-auto px-4 py-6 flex items-center justify-between">
           <h1 className="font-heading text-3xl text-white">Painel Admin</h1>
           <button
-            onClick={() => alert('CreateGuest dialog coming in Task 4')}
+            onClick={() => setShowCreateDialog(true)}
             className="font-body bg-wedding-gold text-wedding-wood px-5 py-2 rounded-lg font-semibold hover:bg-wedding-gold/90 transition-colors"
           >
             Adicionar Convidado
@@ -65,23 +40,40 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-8">
-        {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-300 rounded-lg">
-            <p className="font-body text-red-700">{error}</p>
-            <button
-              onClick={fetchGuests}
-              className="mt-2 font-body text-sm text-wedding-blue underline"
-            >
-              Tentar novamente
-            </button>
-          </div>
+        <GuestsTable
+          onDelete={(guest) => setDeletingGuest(guest)}
+        />
+
+        {showCreateDialog && (
+          <CreateGuestDialog
+            isOpen={showCreateDialog}
+            onClose={() => setShowCreateDialog(false)}
+            onSuccess={() => {
+              setShowCreateDialog(false);
+              fetchGuests();
+            }}
+          />
         )}
 
-        <GuestsTable
-          guests={guests}
-          loading={false}
-          onDelete={() => alert('DeleteConfirmModal coming in Task 5')}
-        />
+        {deletingGuest && (
+          <DeleteConfirmModal
+            guestId={deletingGuest.id}
+            guestName={deletingGuest.name}
+            guestPhone={deletingGuest.phone}
+            isOpen={true}
+            onClose={() => setDeletingGuest(null)}
+            onConfirm={async (id) => {
+              try {
+                const res = await fetch(`/api/admin/guests/${id}`, { method: 'DELETE' });
+                if (!res.ok) throw new Error('Falha ao excluir convidado');
+                setDeletingGuest(null);
+                fetchGuests();
+              } catch (e) {
+                setError(e instanceof Error ? e.message : 'Erro ao excluir');
+              }
+            }}
+          />
+        )}
       </main>
     </div>
   );
