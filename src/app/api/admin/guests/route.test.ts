@@ -96,7 +96,7 @@ describe('GET /api/admin/guests', () => {
     expect(res.status).toBe(200);
     expect(json).toHaveLength(1);
     expect(json[0].name).toBe('Joao');
-    expect(json[0].confirmation_status).toBe('Confirmado');
+    expect(json[0].rsvp_status).toBe('Confirmado');
   });
 
   it('returns empty array when no guests', async () => {

@@ -29,7 +29,7 @@ export async function GET() {
     const { confirmations, ...rest } = g as Record<string, unknown>;
     return {
       ...rest,
-      confirmation_status: (confirmations as Record<string, unknown>)?.rsvp_status ?? null,
+      rsvp_status: (confirmations as Record<string, unknown>)?.rsvp_status ?? rest.rsvp_status,
     };
   });
 
