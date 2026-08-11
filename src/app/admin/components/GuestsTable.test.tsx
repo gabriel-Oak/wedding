@@ -102,7 +102,7 @@ describe('GuestsTable', () => {
     expect(naturalElements.length).toBeGreaterThan(0);
   });
 
-  it('should display RSVP status in dropdowns', async () => {
+  it('should display RSVP status badges', async () => {
     mockFetchResponse(mockGuests);
     renderComponent();
 
@@ -110,11 +110,9 @@ describe('GuestsTable', () => {
       expect(screen.getByText('Maria Silva')).toBeInTheDocument();
     });
 
-    // Both Pendente and Confirmado should appear in select options
-    const allOptions = screen.getAllByRole('option');
-    const optionTexts = allOptions.map((o) => o.textContent);
-    expect(optionTexts).toContain('Pendente');
-    expect(optionTexts).toContain('Confirmado');
+    // Both Pendente and Confirmado should appear as badges
+    expect(screen.getByText('Pendente')).toBeInTheDocument();
+    expect(screen.getByText('Confirmado')).toBeInTheDocument();
   });
 
   it('should display has_read status', async () => {
@@ -177,7 +175,7 @@ describe('GuestsTable', () => {
     });
   });
 
-  it('should handle RSVP status change', async () => {
+  it('should display RSVP status as readonly', async () => {
     mockFetchResponse(mockGuests);
     renderComponent();
 
@@ -185,23 +183,9 @@ describe('GuestsTable', () => {
       expect(screen.getByText('Maria Silva')).toBeInTheDocument();
     });
 
-    // Find all selects (one per guest)
-    const selects = screen.getAllByRole('combobox');
-    expect(selects.length).toBe(2);
-
-    const firstSelect = selects[0] as HTMLSelectElement;
-    expect(firstSelect.value).toBe('Pendente');
-
-    // Change to Confirmado
-    fireEvent.change(firstSelect, { target: { value: 'Confirmado' } });
-
-    // Mock successful PATCH
-    const updatedGuest = { ...mockGuests[0], rsvp_status: 'Confirmado' };
-    mockFetchResponse(updatedGuest, true, 200);
-
-    await waitFor(() => {
-      expect(firstSelect.value).toBe('Confirmado');
-    });
+    // Verify RSVP status badges are displayed (readonly)
+    expect(screen.getByText('Pendente')).toBeInTheDocument();
+    expect(screen.getByText('Confirmado')).toBeInTheDocument();
   });
 
   it('should handle toggle hot guest', async () => {

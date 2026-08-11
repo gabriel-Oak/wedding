@@ -29,7 +29,7 @@ export async function GET() {
     const { confirmations, ...rest } = g as Record<string, unknown>;
     return {
       ...rest,
-      rsvp_status: (confirmations as Record<string, unknown>)?.rsvp_status ?? rest.rsvp_status,
+      rsvp_status: (confirmations as Record<string, unknown>)?.rsvp_status ?? 'Pendente',
     };
   });
 
@@ -90,7 +90,8 @@ export async function POST(request: NextRequest) {
 
 // ─── PATCH ───────────────────────────────────────────────────────────────────
 // Partial update of guest fields by id.
-// Body: { id, name?, phone?, is_hot_guest?, is_natural_guest?, rsvp_status? }
+// Body: { id, name?, phone?, is_hot_guest?, is_natural_guest? }
+// NOTE: rsvp_status is managed via /api/confirmations, not guests
 export async function PATCH(request: NextRequest) {
   await requireAdmin();
 
@@ -106,7 +107,7 @@ export async function PATCH(request: NextRequest) {
     );
   }
 
-  const allowedFields = ['name', 'phone', 'is_hot_guest', 'is_natural_guest', 'rsvp_status'];
+  const allowedFields = ['name', 'phone', 'is_hot_guest', 'is_natural_guest'];
   const updates: Record<string, unknown> = {};
 
   for (const key of allowedFields) {

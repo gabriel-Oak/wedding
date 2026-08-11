@@ -44,7 +44,6 @@ export default function GuestsTable({ onDelete }: GuestsTableProps) {
     value: string;
   } | null>(null);
   const [toggling, setToggling] = useState<Set<string>>(new Set());
-  const [changingRsvp, setChangingRsvp] = useState<Set<string>>(new Set());
 
   const toastTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
@@ -192,37 +191,6 @@ export default function GuestsTable({ onDelete }: GuestsTableProps) {
     }
   };
 
-  // ─── RSVP Status Change ────────────────────────────────────────────
-  const handleRsvpChange = async (guest: Guest, newStatus: RsvpStatus) => {
-    setChangingRsvp((prev) => new Set(prev).add(guest.id));
-
-    const oldStatus = guest.rsvp_status;
-
-    // Optimistic update
-    setGuests((prev) =>
-      prev.map((g) => (g.id === guest.id ? { ...g, rsvp_status: newStatus } : g)),
-    );
-
-    try {
-      const updated = await patchGuest(guest.id, { rsvp_status: newStatus });
-      setGuests((prev) =>
-        prev.map((g) => (g.id === updated.id ? updated : g)),
-      );
-    } catch (e) {
-      setGuests((prev) =>
-        prev.map((g) => (g.id === guest.id ? { ...g, rsvp_status: oldStatus } : g)),
-      );
-      const msg = e instanceof Error ? e.message : 'Erro ao atualizar RSVP';
-      showToast(msg, 'error');
-    } finally {
-      setChangingRsvp((prev) => {
-        const next = new Set(prev);
-        next.delete(guest.id);
-        return next;
-      });
-    }
-  };
-
   // ─── Loading ───────────────────────────────────────────────────────
   if (loading) {
     return (
@@ -300,7 +268,6 @@ export default function GuestsTable({ onDelete }: GuestsTableProps) {
                 editField={editingCell?.field}
                 editValue={editingCell?.value ?? ''}
                 isToggling={toggling.has(guest.id)}
-                isChangingRsvp={changingRsvp.has(guest.id)}
                 onStartEdit={(field) =>
                   setEditingCell({
                     guestId: guest.id,
@@ -312,7 +279,6 @@ export default function GuestsTable({ onDelete }: GuestsTableProps) {
                 onPhoneChange={(phone) => handlePhoneEdit(guest, phone)}
                 onToggleHot={(val) => handleToggleType(guest, 'is_hot_guest', val)}
                 onToggleNatural={(val) => handleToggleType(guest, 'is_natural_guest', val)}
-                onRsvpChange={(status) => handleRsvpChange(guest, status)}
                 onDelete={() => onDelete(guest)}
               />
             ))}
@@ -330,13 +296,11 @@ interface GuestRowProps {
   editField?: 'name' | 'phone';
   editValue: string;
   isToggling: boolean;
-  isChangingRsvp: boolean;
   onStartEdit: (field: 'name' | 'phone') => void;
   onNameChange: (name: string) => void;
   onPhoneChange: (phone: string) => void;
   onToggleHot: (val: boolean) => void;
   onToggleNatural: (val: boolean) => void;
-  onRsvpChange: (status: RsvpStatus) => void;
   onDelete: () => void;
 }
 
@@ -346,13 +310,11 @@ function GuestRow({
   editField,
   editValue,
   isToggling,
-  isChangingRsvp,
   onStartEdit,
   onNameChange,
   onPhoneChange,
   onToggleHot,
   onToggleNatural,
-  onRsvpChange,
   onDelete,
 }: GuestRowProps) {
   const nameInputRef = useRef<HTMLInputElement>(null);
@@ -463,26 +425,19 @@ function GuestRow({
         </div>
       </td>
 
-      {/* Status RSVP */}
+      {/* Status RSVP (readonly) */}
       <td className="px-6 py-4">
-        <select
-          value={guest.rsvp_status ?? ''}
-          onChange={(e) => onRsvpChange(e.target.value as RsvpStatus)}
-          disabled={isChangingRsvp}
-          className={`font-body text-sm rounded border px-2 py-1 w-full ${
+        <span
+          className={`font-body text-sm px-2 py-1 rounded-full inline-block ${
             guest.rsvp_status === 'Confirmado'
-              ? 'border-green-400 text-green-700'
+              ? 'bg-green-100 text-green-700'
               : guest.rsvp_status === 'Recusado'
-              ? 'border-red-400 text-red-700'
-              : 'border-wedding-wood/30 text-wedding-wood'
+              ? 'bg-red-100 text-red-700'
+              : 'bg-gray-100 text-gray-700'
           }`}
         >
-          {RSVP_OPTIONS.map((opt) => (
-            <option key={opt} value={opt}>
-              {opt}
-            </option>
-          ))}
-        </select>
+          {guest.rsvp_status ?? 'Pendente'}
+        </span>
       </td>
 
       {/* Leu? */}
