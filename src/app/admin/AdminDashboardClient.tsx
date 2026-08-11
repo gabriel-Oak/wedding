@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { User } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
 import { Guest } from '@/shared/types/guest';
-import GuestsTable from './components/GuestsTable';
+import { GuestsTable } from './components/GuestsTable';
 import CreateGuestDialog from './components/CreateGuestDialog';
 import DeleteConfirmModal from './components/DeleteConfirmModal';
 
@@ -16,7 +16,7 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
   const router = useRouter();
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [deletingGuest, setDeletingGuest] = useState<Guest | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const tableRef = useRef<{ refresh: () => void }>(null);
 
   useEffect(() => {
     if (!user) {
@@ -42,6 +42,7 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-8">
         <GuestsTable
+          ref={tableRef}
           onDelete={(guest) => setDeletingGuest(guest)}
         />
 
@@ -51,6 +52,7 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
             onClose={() => setShowCreateDialog(false)}
             onSuccess={() => {
               setShowCreateDialog(false);
+              tableRef.current?.refresh();
             }}
           />
         )}
@@ -67,7 +69,7 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
                 const res = await fetch(`/api/admin/guests/${id}`, { method: 'DELETE' });
                 if (!res.ok) throw new Error('Falha ao excluir convidado');
                 setDeletingGuest(null);
-                fetchGuests();
+                tableRef.current?.refresh();
               } catch (e) {
                 setError(e instanceof Error ? e.message : 'Erro ao excluir');
               }

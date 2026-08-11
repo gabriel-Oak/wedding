@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+/* eslint-disable react-hooks/set-state-in-effect */
+import { useState, useEffect, useCallback, useRef, useImperativeHandle, forwardRef } from 'react';
 import { Guest } from '@/shared/types/guest';
 import { validatePhone } from '@/lib/phone-validation';
 
@@ -32,7 +33,8 @@ function patchGuest(
   });
 }
 
-export default function GuestsTable({ onDelete, onGuestsUpdated }: GuestsTableProps) {
+export const GuestsTable = forwardRef<{ refresh: () => void }, GuestsTableProps>(
+  function GuestsTable({ onDelete }, ref) {
   const [guests, setGuests] = useState<Guest[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -48,39 +50,31 @@ export default function GuestsTable({ onDelete, onGuestsUpdated }: GuestsTablePr
 
   const toastTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
-  // Fetch guests on mount
-  useEffect(() => {
-    let cancelled = false;
-
-    const fetchGuests = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch(API_URL);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json() as Guest[];
-        if (!cancelled) {
-          setGuests(data);
-          setError(null);
-        }
-      } catch (e) {
-        if (!cancelled) {
-          setError(e instanceof Error ? e.message : 'Erro ao carregar convidados');
-        }
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    };
-
-    fetchGuests();
-    return () => { cancelled = true; };
+  const fetchGuests = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await fetch(API_URL);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json() as Guest[];
+      setGuests(data);
+      setError(null);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Erro ao carregar convidados');
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  // Refresh when parent requests it
+  // Fetch guests initially
   useEffect(() => {
-    if (onGuestsUpdated) {
-      fetchGuests();
-    }
-  }, [onGuestsUpdated]);
+    fetchGuests();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Expose refresh function to parent
+  useImperativeHandle(ref, () => ({
+    refresh: fetchGuests,
+  }));
 
   // Toast auto-dismiss
   useEffect(() => {
@@ -295,7 +289,7 @@ export default function GuestsTable({ onDelete, onGuestsUpdated }: GuestsTablePr
       </div>
     </div>
   );
-}
+});
 
 // ─── Guest Row Component ───────────────────────────────────────────────────
 interface GuestRowProps {
