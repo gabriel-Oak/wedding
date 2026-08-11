@@ -8,6 +8,7 @@ type RsvpStatus = 'Pendente' | 'Confirmado' | 'Recusado';
 
 interface GuestsTableProps {
   onDelete: (guest: Guest) => void;
+  onGuestsUpdated?: () => void;
 }
 
 const RSVP_OPTIONS: RsvpStatus[] = ['Pendente', 'Confirmado', 'Recusado'];
@@ -31,7 +32,7 @@ function patchGuest(
   });
 }
 
-export default function GuestsTable({ onDelete }: GuestsTableProps) {
+export default function GuestsTable({ onDelete, onGuestsUpdated }: GuestsTableProps) {
   const [guests, setGuests] = useState<Guest[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -73,6 +74,13 @@ export default function GuestsTable({ onDelete }: GuestsTableProps) {
     fetchGuests();
     return () => { cancelled = true; };
   }, []);
+
+  // Refresh when parent requests it
+  useEffect(() => {
+    if (onGuestsUpdated) {
+      fetchGuests();
+    }
+  }, [onGuestsUpdated]);
 
   // Toast auto-dismiss
   useEffect(() => {

@@ -50,7 +50,6 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
             onClose={() => setShowCreateDialog(false)}
             onSuccess={() => {
               setShowCreateDialog(false);
-              fetchGuests();
             }}
           />
         )}
