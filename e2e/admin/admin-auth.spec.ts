@@ -20,12 +20,12 @@ test.describe('Admin Auth - Redirects to Login When Not Authenticated', () => {
     await expect(page.locator('button:has-text("Enviar Magic Link")')).toBeVisible();
   });
 
-  test('should show login form with pre-filled email', async ({ page }) => {
+  test('should show login form', async ({ page }) => {
     await page.goto('/admin/login');
     
-    // Verify email input is pre-filled
+    // Verify email input is empty
     const emailInput = page.locator('input[type="email"]');
-    await expect(emailInput).toHaveValue('gabrielcarvalhocosta@live.com');
+    await expect(emailInput).toHaveValue('');
     
     // Verify form is visible
     await expect(page.locator('form')).toBeVisible();

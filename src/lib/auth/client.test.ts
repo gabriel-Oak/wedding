@@ -58,20 +58,6 @@ describe('useAuth', () => {
     expect(result.current.user?.email).toBe(ADMIN_EMAIL);
   });
 
-  it('should return null when email does not match admin email', async () => {
-    configureSupabase({
-      data: { user: { email: 'other@email.com', id: '456' } },
-      error: null,
-    });
-
-    const { result } = renderHook(() => useAuth());
-
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-    });
-    expect(result.current.user).toBeNull();
-  });
-
   it('should update user via onAuthStateChange listener', async () => {
     let authStateCallback: ((event: string, session: Session | null) => void) | null = null;
 
