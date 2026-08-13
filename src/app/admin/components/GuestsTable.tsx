@@ -5,14 +5,10 @@ import { useState, useEffect, useCallback, useRef, useImperativeHandle, forwardR
 import { Guest } from '@/shared/types/guest';
 import { validatePhone } from '@/lib/phone-validation';
 
-type RsvpStatus = 'Pendente' | 'Confirmado' | 'Recusado';
-
 interface GuestsTableProps {
   onDelete: (guest: Guest) => void;
   onGuestsUpdated?: () => void;
 }
-
-const RSVP_OPTIONS: RsvpStatus[] = ['Pendente', 'Confirmado', 'Recusado'];
 
 const API_URL = '/api/admin/guests';
 

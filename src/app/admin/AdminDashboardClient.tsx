@@ -16,7 +16,6 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
   const router = useRouter();
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [deletingGuest, setDeletingGuest] = useState<Guest | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const tableRef = useRef<{ refresh: () => void }>(null);
 
   useEffect(() => {
@@ -72,7 +71,7 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
                 setDeletingGuest(null);
                 tableRef.current?.refresh();
               } catch (e) {
-                setError(e instanceof Error ? e.message : 'Erro ao excluir');
+                console.error('Erro ao excluir convidado:', e);
               }
             }}
           />

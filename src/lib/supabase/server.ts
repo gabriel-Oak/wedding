@@ -25,6 +25,7 @@ export async function createServerSupabaseClient(): Promise<SupabaseClient> {
         getAll() {
           return cookieStore.getAll();
         },
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         setAll(cookiesToSet, _headers) {
           try {
             cookiesToSet.forEach(({ name, value, options }) =>
