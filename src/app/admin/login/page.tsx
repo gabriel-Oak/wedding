@@ -17,10 +17,8 @@ export default function AdminLoginPage() {
     const checkAuth = async () => {
       const supabase = createSupabaseClient();
       const { data: { user } } = await supabase.auth.getUser();
-      console.log('checkAuth login page', user);
-      
       if (user?.email) {
-        // router.replace('/admin');
+        router.replace('/admin');
       } else {
         setChecking(false);
       }
