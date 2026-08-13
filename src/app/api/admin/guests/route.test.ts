@@ -62,15 +62,15 @@ beforeEach(async () => {
 // ─── GET ─────────────────────────────────────────────────────────────────────
 
 describe('GET /api/admin/guests', () => {
-  it('returns 307 when admin not authenticated', async () => {
-    // redirect() throws a NEXT_REDIRECT error with status 307
+  it('returns 401 when admin not authenticated', async () => {
     (requireAdmin as ReturnType<typeof vi.fn>).mockImplementation(() => {
-      const err = new Error('Redirect to /admin/login');
-      Object.assign(err, { type: 'NEXT_REDIRECT', status: 307 });
-      throw err;
+      throw new Error('Unauthorized');
     });
 
-    await expect(GET()).rejects.toThrow('Redirect to /admin/login');
+    const res = await GET();
+    expect(res.status).toBe(401);
+    const json = await res.json();
+    expect(json.error).toBe('Unauthorized');
   });
 
   it('returns all guests with confirmation status', async () => {
