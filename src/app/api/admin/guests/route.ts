@@ -7,7 +7,11 @@ import { createSupabaseClient } from '@/lib/supabase/server';
 // SELECT guests.*, confirmations.rsvp_status AS confirmation_status
 // LEFT JOIN confirmations ON guests.phone = confirmations.phone
 export async function GET() {
-  await requireAdmin();
+  try {
+    await requireAdmin();
+  } catch {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
 
   const supabase = createSupabaseClient();
 
@@ -40,7 +44,11 @@ export async function GET() {
 // Creates a guest and a confirmation row with status 'Pendente'.
 // Body: { name, phone, is_hot_guest?, is_natural_guest? }
 export async function POST(request: NextRequest) {
-  await requireAdmin();
+  try {
+    await requireAdmin();
+  } catch {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
 
   const supabase = createSupabaseClient();
   const body = await request.json();
@@ -93,7 +101,11 @@ export async function POST(request: NextRequest) {
 // Body: { id, name?, phone?, is_hot_guest?, is_natural_guest? }
 // NOTE: rsvp_status is managed via /api/confirmations, not guests
 export async function PATCH(request: NextRequest) {
-  await requireAdmin();
+  try {
+    await requireAdmin();
+  } catch {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
 
   const supabase = createSupabaseClient();
   const body = await request.json();
@@ -144,7 +156,11 @@ export async function PATCH(request: NextRequest) {
 // Deletes guest by id and associated confirmation row.
 // Body: { id }
 export async function DELETE(request: NextRequest) {
-  await requireAdmin();
+  try {
+    await requireAdmin();
+  } catch {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
 
   const supabase = createSupabaseClient();
   const body = await request.json();

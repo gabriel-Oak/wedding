@@ -132,16 +132,26 @@ export default function ConvitePageClient({
           <div className="h-px flex-1 bg-wedding-gold/30" />
         </div>
 
-        {/* Event Cards Grid - 1 col mobile, 3 cols desktop */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Event Cards - 1 col mobile, 2 cols md, 3 cols lg, always centered */}
+        <div className="flex flex-wrap justify-center gap-8">
           {/* Conditional Bachelorette Card */}
-          {activeGuest.is_hot_guest && <BacheloretteCard />}
+          {activeGuest.is_hot_guest && (
+            <div className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.33%-1.33rem)]">
+              <BacheloretteCard />
+            </div>
+          )}
 
           {/* Conditional Nature Card */}
-          {activeGuest.is_natural_guest && <NatureCard />}
+          {activeGuest.is_natural_guest && (
+            <div className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.33%-1.33rem)]">
+              <NatureCard />
+            </div>
+          )}
 
           {/* Wedding Day Card - always visible */}
-          <WeddingDayCard />
+          <div className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.33%-1.33rem)]">
+            <WeddingDayCard />
+          </div>
         </div>
 
         {/* Sessão Local do Evento */}
