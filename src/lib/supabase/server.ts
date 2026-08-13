@@ -25,11 +25,10 @@ export async function createServerSupabaseClient(): Promise<SupabaseClient> {
         getAll() {
           return cookieStore.getAll();
         },
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        setAll(cookiesToSet, _headers) {
+        setAll(cookiesToSet) {
           try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
+            cookiesToSet.forEach(({ name, value }) =>
+              cookieStore.set(name, value)
             );
           } catch {
             // Can't set cookies from Server Components

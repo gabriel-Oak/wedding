@@ -16,6 +16,7 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
   const router = useRouter();
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [deletingGuest, setDeletingGuest] = useState<Guest | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const tableRef = useRef<{ refresh: () => void }>(null);
 
   useEffect(() => {
@@ -38,6 +39,21 @@ export default function AdminDashboardClient({ user }: AdminDashboardClientProps
           </button>
         </div>
       </header>
+
+      {/* Error Message */}
+      {error && (
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="bg-red-50 border border-red-300 rounded-lg p-4">
+            <p className="text-red-700 font-body">{error}</p>
+            <button
+              onClick={() => setError(null)}
+              className="mt-2 text-sm text-red-600 underline hover:text-red-800"
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-8">
