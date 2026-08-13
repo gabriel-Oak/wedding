@@ -48,7 +48,12 @@ export const GuestsTable = forwardRef<{ refresh: () => void }, GuestsTableProps>
   } | null>(null);
   const [toggling, setToggling] = useState<Set<string>>(new Set());
 
-  const toastTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  // Batch edits: acumula alterações até salvar
+  const [pendingEdits, setPendingEdits] = useState<
+    Record<string, { name?: string; phone?: string }>
+  >({});
+
+  const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const fetchGuests = useCallback(async () => {
     setLoading(true);
@@ -88,39 +93,18 @@ export const GuestsTable = forwardRef<{ refresh: () => void }, GuestsTableProps>
     setToast({ message, type });
   }, []);
 
-  // ─── Inline Edit: Name ─────────────────────────────────────────────
+  // ─── Batch Edit: Name ─────────────────────────────────────────────
   const handleNameEdit = async (guest: Guest, newName: string) => {
     if (!newName.trim()) return;
 
-    setEditingCell({ guestId: guest.id, field: 'name', value: newName });
-
-    const oldGuest = guests.find((g) => g.id === guest.id);
-    const oldName = oldGuest?.name;
-
-    // Optimistic update
-    setGuests((prev) =>
-      prev.map((g) => (g.id === guest.id ? { ...g, name: newName } : g)),
-    );
-
-    try {
-      const updated = await patchGuest(guest.id, { name: newName.trim() });
-      setGuests((prev) =>
-        prev.map((g) => (g.id === updated.id ? updated : g)),
-      );
-      showToast('Nome atualizado', 'success');
-    } catch (e) {
-      // Rollback
-      setGuests((prev) =>
-        prev.map((g) => (g.id === guest.id ? { ...g, name: oldName } : g)),
-      );
-      const msg = e instanceof Error ? e.message : 'Erro ao atualizar nome';
-      showToast(msg, 'error');
-    } finally {
-      setEditingCell(null);
-    }
+    // Add to pending edits
+    setPendingEdits((prev) => ({
+      ...prev,
+      [guest.id]: { ...prev[guest.id], name: newName.trim() },
+    }));
   };
 
-  // ─── Inline Edit: Phone ────────────────────────────────────────────
+  // ─── Batch Edit: Phone ────────────────────────────────────────────
   const handlePhoneEdit = async (guest: Guest, newPhone: string) => {
     const normalized = validatePhone(newPhone);
     if (!normalized) {
@@ -128,31 +112,49 @@ export const GuestsTable = forwardRef<{ refresh: () => void }, GuestsTableProps>
       return;
     }
 
-    setEditingCell({ guestId: guest.id, field: 'phone', value: newPhone });
+    // Add to pending edits
+    setPendingEdits((prev) => ({
+      ...prev,
+      [guest.id]: { ...prev[guest.id], phone: normalized },
+    }));
+  };
 
-    const oldGuest = guests.find((g) => g.id === guest.id);
-    const oldPhone = oldGuest?.phone;
+  // ─── Save All Pending Edits ───────────────────────────────────────
+  const handleSaveAllEdits = async () => {
+    const edits = Object.entries(pendingEdits);
+    if (edits.length === 0) return;
 
-    // Optimistic update
-    setGuests((prev) =>
-      prev.map((g) => (g.id === guest.id ? { ...g, phone: normalized } : g)),
-    );
+    // Optimistic update: apply all changes
+    const updatedGuests = guests.map((g) => {
+      const edit = pendingEdits[g.id];
+      if (!edit) return g;
+      return { ...g, ...edit };
+    });
+    setGuests(updatedGuests);
 
     try {
-      const updated = await patchGuest(guest.id, { phone: normalized });
-      setGuests((prev) =>
-        prev.map((g) => (g.id === updated.id ? updated : g)),
+      // Save all edits in parallel
+      const savePromises = edits.map(([guestId, updates]) =>
+        patchGuest(guestId, updates),
       );
-      showToast('Telefone atualizado', 'success');
+      await Promise.all(savePromises);
+
+      showToast(`${edits.length} convidado(s) atualizado(s)`, 'success');
+      setPendingEdits({});
     } catch (e) {
-      setGuests((prev) =>
-        prev.map((g) => (g.id === guest.id ? { ...g, phone: oldPhone } : g)),
-      );
-      const msg = e instanceof Error ? e.message : 'Erro ao atualizar telefone';
+      // Rollback on error
+      setGuests(guests);
+      const msg = e instanceof Error ? e.message : 'Erro ao atualizar convidados';
       showToast(msg, 'error');
-    } finally {
-      setEditingCell(null);
     }
+  };
+
+
+
+  // ─── Cancel Edits ─────────────────────────────────────────────────
+  const handleCancelEdits = () => {
+    setPendingEdits({});
+    setEditingCell(null);
   };
 
   // ─── Toggle: Hot/Natural ───────────────────────────────────────────
@@ -279,9 +281,17 @@ export const GuestsTable = forwardRef<{ refresh: () => void }, GuestsTableProps>
                 }
                 onNameChange={(name) => handleNameEdit(guest, name)}
                 onPhoneChange={(phone) => handlePhoneEdit(guest, phone)}
+                onEditValueChange={(value) =>
+                  setEditingCell((prev) =>
+                    prev?.guestId === guest.id ? { ...prev, value } : prev,
+                  )
+                }
                 onToggleHot={(val) => handleToggleType(guest, 'is_hot_guest', val)}
                 onToggleNatural={(val) => handleToggleType(guest, 'is_natural_guest', val)}
                 onDelete={() => onDelete(guest)}
+                hasPendingEdits={!!pendingEdits[guest.id]}
+                onSaveAll={handleSaveAllEdits}
+                onCancel={handleCancelEdits}
               />
             ))}
           </tbody>
@@ -301,9 +311,13 @@ interface GuestRowProps {
   onStartEdit: (field: 'name' | 'phone') => void;
   onNameChange: (name: string) => void;
   onPhoneChange: (phone: string) => void;
+  onEditValueChange: (value: string) => void;
   onToggleHot: (val: boolean) => void;
   onToggleNatural: (val: boolean) => void;
   onDelete: () => void;
+  hasPendingEdits: boolean;
+  onSaveAll: () => void;
+  onCancel: () => void;
 }
 
 function GuestRow({
@@ -315,9 +329,13 @@ function GuestRow({
   onStartEdit,
   onNameChange,
   onPhoneChange,
+  onEditValueChange,
   onToggleHot,
   onToggleNatural,
   onDelete,
+  hasPendingEdits,
+  onSaveAll,
+  onCancel,
 }: GuestRowProps) {
   const nameInputRef = useRef<HTMLInputElement>(null);
 
@@ -331,31 +349,19 @@ function GuestRow({
 
   const handleNameKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      onNameChange(editValue);
+      e.preventDefault();
+      onSaveAll();
     } else if (e.key === 'Escape') {
-      // Discard — revert to original via refetch is handled by parent
-      // For simplicity, just blur which triggers save
-      nameInputRef.current?.blur();
-    }
-  };
-
-  const handleNameBlur = () => {
-    if (editField === 'name') {
-      onNameChange(editValue);
+      onCancel();
     }
   };
 
   const handlePhoneKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      onPhoneChange(editValue);
+      e.preventDefault();
+      onSaveAll();
     } else if (e.key === 'Escape') {
-      onPhoneChange(editValue); // Save anyway to avoid stuck state
-    }
-  };
-
-  const handlePhoneBlur = () => {
-    if (editField === 'phone') {
-      onPhoneChange(editValue);
+      onCancel();
     }
   };
 
@@ -368,9 +374,11 @@ function GuestRow({
             ref={nameInputRef}
             type="text"
             value={editValue}
-            onChange={(e) => onNameChange(e.target.value)}
+            onChange={(e) => {
+              onNameChange(e.target.value);
+              onEditValueChange(e.target.value);
+            }}
             onKeyDown={handleNameKeyDown}
-            onBlur={handleNameBlur}
             className="font-body text-wedding-wood border border-wedding-blue rounded px-2 py-1 w-full"
           />
         ) : (
@@ -389,9 +397,11 @@ function GuestRow({
           <input
             type="text"
             value={editValue}
-            onChange={(e) => onPhoneChange(e.target.value)}
+            onChange={(e) => {
+              onPhoneChange(e.target.value);
+              onEditValueChange(e.target.value);
+            }}
             onKeyDown={handlePhoneKeyDown}
-            onBlur={handlePhoneBlur}
             placeholder="+55XX..."
             className="font-body text-wedding-wood border border-wedding-blue rounded px-2 py-1 w-full"
           />
@@ -457,12 +467,29 @@ function GuestRow({
 
       {/* Ações */}
       <td className="px-6 py-4 text-right">
-        <button
-          onClick={onDelete}
-          className="font-body text-sm text-red-600 hover:text-red-800 transition-colors"
-        >
-          Excluir
-        </button>
+        {hasPendingEdits ? (
+          <div className="flex gap-2 justify-end">
+            <button
+              onClick={onSaveAll}
+              className="font-body text-sm bg-wedding-blue text-white px-3 py-1 rounded hover:bg-wedding-blue/80 transition-colors"
+            >
+              Salvar
+            </button>
+            <button
+              onClick={onCancel}
+              className="font-body text-sm bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 transition-colors"
+            >
+              Cancelar
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={onDelete}
+            className="font-body text-sm text-red-600 hover:text-red-800 transition-colors"
+          >
+            Excluir
+          </button>
+        )}
       </td>
     </tr>
   );

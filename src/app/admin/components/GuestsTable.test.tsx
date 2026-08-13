@@ -145,7 +145,21 @@ describe('GuestsTable', () => {
   });
 
   it('should handle name inline edit', async () => {
-    mockFetchResponse(mockGuests);
+    const updatedGuest = { ...mockGuests[0], name: 'Maria Oliveira' };
+
+    // First call returns guests list, second call returns updated guest
+    fetchMock
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve(mockGuests),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve(updatedGuest),
+      });
+
     renderComponent();
 
     await waitFor(() => {
@@ -163,16 +177,25 @@ describe('GuestsTable', () => {
     // Change value
     fireEvent.change(input, { target: { value: 'Maria Oliveira' } });
 
-    // Mock successful PATCH for the name edit
-    const updatedGuest = { ...mockGuests[0], name: 'Maria Oliveira' };
-    mockFetchResponse(updatedGuest, true, 200);
+    // Should show Save/Cancel buttons
+    expect(screen.getByText('Salvar')).toBeInTheDocument();
+    expect(screen.getByText('Cancelar')).toBeInTheDocument();
 
-    // Press Enter to save
-    fireEvent.keyDown(input, { key: 'Enter' });
+    // Click Save button
+    fireEvent.click(screen.getByText('Salvar'));
 
+    // Wait for toast
     await waitFor(() => {
-      expect(screen.getByText('Maria Oliveira')).toBeInTheDocument();
+      expect(screen.getByText('1 convidado(s) atualizado(s)')).toBeInTheDocument();
     });
+
+    // Verify name updated
+    await waitFor(
+      () => {
+        expect(screen.getByText('Maria Oliveira')).toBeInTheDocument();
+      },
+      { timeout: 5000 },
+    );
   });
 
   it('should display RSVP status as readonly', async () => {
