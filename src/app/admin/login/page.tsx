@@ -4,11 +4,9 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createSupabaseClient } from '@/lib/supabase/client';
 
-const ADMIN_EMAIL = 'gabrielcarvalhocosta@live.com';
-
 export default function AdminLoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState(ADMIN_EMAIL);
+  const [email, setEmail] = useState('');
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -19,8 +17,7 @@ export default function AdminLoginPage() {
     const checkAuth = async () => {
       const supabase = createSupabaseClient();
       const { data: { user } } = await supabase.auth.getUser();
-      
-      if (user?.email === ADMIN_EMAIL) {
+      if (user?.email) {
         router.replace('/admin');
       } else {
         setChecking(false);

@@ -1,10 +1,41 @@
+import { createServerClient } from '@supabase/ssr';
 import { createClient } from '@supabase/supabase-js';
+import { cookies } from 'next/headers';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 export function createSupabaseClient(): SupabaseClient {
   return createClient(
     process.env.SUPABASE_URL!,
     process.env.SUPABASE_KEY!
+  );
+}
+
+/**
+ * Creates a Supabase client for server-side use (Server Components, Route Handlers).
+ * This client reads the session from cookies automatically.
+ */
+export async function createServerSupabaseClient(): Promise<SupabaseClient> {
+  const cookieStore = await cookies();
+
+  return createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll();
+        },
+        setAll(cookiesToSet: Array<{ name: string; value: string; options: Record<string, unknown> }>) {
+          try {
+            cookiesToSet.forEach(({ name, value }) =>
+              cookieStore.set(name, value)
+            );
+          } catch {
+            // Can't set cookies from Server Components
+          }
+        },
+      },
+    }
   );
 }
 

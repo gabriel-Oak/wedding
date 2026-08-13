@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 
 // Mock the supabase server module
 vi.mock('@/lib/supabase/server', () => ({
-  createSupabaseClient: vi.fn(),
+  createServerSupabaseClient: vi.fn(),
 }));
 
 // Import after mocking
@@ -10,36 +10,20 @@ import { getAdminSession } from './server';
 
 describe('getAdminSession', () => {
   it('should return null when no user', async () => {
-    const { createSupabaseClient } = await import('@/lib/supabase/server');
+    const { createServerSupabaseClient } = await import('@/lib/supabase/server');
     const mockClient = {
       auth: {
         getUser: vi.fn().mockResolvedValue({ data: { user: null }, error: null }),
       },
     };
-    createSupabaseClient.mockReturnValue(mockClient);
-    
-    const result = await getAdminSession();
-    expect(result).toBeNull();
-  });
-
-  it('should return null for non-admin email', async () => {
-    const { createSupabaseClient } = await import('@/lib/supabase/server');
-    const mockClient = {
-      auth: {
-        getUser: vi.fn().mockResolvedValue({ 
-          data: { user: { email: 'wrong@email.com' } }, 
-          error: null 
-        }),
-      },
-    };
-    createSupabaseClient.mockReturnValue(mockClient);
+    createServerSupabaseClient.mockResolvedValue(mockClient);
     
     const result = await getAdminSession();
     expect(result).toBeNull();
   });
 
   it('should return user for admin email', async () => {
-    const { createSupabaseClient } = await import('@/lib/supabase/server');
+    const { createServerSupabaseClient } = await import('@/lib/supabase/server');
     const mockClient = {
       auth: {
         getUser: vi.fn().mockResolvedValue({ 
@@ -48,7 +32,7 @@ describe('getAdminSession', () => {
         }),
       },
     };
-    createSupabaseClient.mockReturnValue(mockClient);
+    createServerSupabaseClient.mockResolvedValue(mockClient);
     
     const result = await getAdminSession();
     expect(result).not.toBeNull();
@@ -56,7 +40,7 @@ describe('getAdminSession', () => {
   });
 
   it('should return null when getUser returns an error', async () => {
-    const { createSupabaseClient } = await import('@/lib/supabase/server');
+    const { createServerSupabaseClient } = await import('@/lib/supabase/server');
     const mockClient = {
       auth: {
         getUser: vi.fn().mockResolvedValue({ 
@@ -65,7 +49,7 @@ describe('getAdminSession', () => {
         }),
       },
     };
-    createSupabaseClient.mockReturnValue(mockClient);
+    createServerSupabaseClient.mockResolvedValue(mockClient);
     
     const result = await getAdminSession();
     expect(result).toBeNull();

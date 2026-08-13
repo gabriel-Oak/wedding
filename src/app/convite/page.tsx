@@ -30,7 +30,7 @@ export default async function ConvitePage({
   if (guestPhone && !guestPhone.startsWith('+')) {
     // Only add +55 if it looks like a Brazilian number (starts with 55 or is 10-11 digits)
     // But DON'T add if it already starts with 55 (would duplicate)
-    const startsWith55 = /^55\d{9,10}$/.test(guestPhone);
+    const startsWith55 = /^55\d{9,11}$/.test(guestPhone);
     const isPlainDigits = /^\d{10,11}$/.test(guestPhone);
     
     if (startsWith55) {

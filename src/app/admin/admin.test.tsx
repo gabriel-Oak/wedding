@@ -2,41 +2,42 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
 // Mock next/navigation
+const mockReplace = vi.fn();
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
-    replace: vi.fn(),
+    replace: mockReplace,
     push: vi.fn(),
   }),
 }));
 
-// Mock useAuth
-vi.mock('@/lib/auth/client', () => ({
-  useAuth: vi.fn(),
-}));
+import { User } from '@supabase/supabase-js';
+import AdminDashboardClient from './AdminDashboardClient';
 
-import { useAuth } from '@/lib/auth/client';
-import AdminPage from './page';
-
-describe('AdminPage', () => {
+describe('AdminDashboardClient', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it('should render placeholder when authenticated', () => {
-    (useAuth as vi.Mock).mockReturnValue({ user: { email: 'test@test.com' }, loading: false });
-    
-    render(<AdminPage />);
-    
-    expect(screen.getByText('Área Admin')).toBeInTheDocument();
-    expect(screen.getByText('Em breve.')).toBeInTheDocument();
+  it('should render when authenticated', async () => {
+    // Mock fetch to return empty guests array
+    globalThis.fetch = vi.fn(() =>
+      Promise.resolve<Response>({
+        ok: true,
+        json: () => Promise.resolve([]),
+      })
+    );
+
+    render(<AdminDashboardClient user={{ email: 'test@test.com', id: 'test' } as User} />);
+
+    // Wait for loading to complete and content to appear
+    await screen.findByText('Painel Admin');
+    expect(screen.getByText('Painel Admin')).toBeInTheDocument();
+    expect(screen.getByText('Adicionar Convidado')).toBeInTheDocument();
   });
 
-  it('should redirect to login when not authenticated', () => {
-    (useAuth as vi.Mock).mockReturnValue({ user: null, loading: false });
-    
-    render(<AdminPage />);
-    
-    // Should not render admin content
-    expect(screen.queryByText('Área Admin')).not.toBeInTheDocument();
+  it('should redirect to login when not authenticated', async () => {
+    render(<AdminDashboardClient user={null} />);
+
+    expect(mockReplace).toHaveBeenCalledWith('/admin/login');
   });
 });

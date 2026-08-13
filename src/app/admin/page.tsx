@@ -1,19 +1,37 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/lib/auth/client';
+import { createSupabaseClient } from '@/lib/supabase/client';
+import type { User } from '@supabase/supabase-js';
+import AdminDashboardClient from './AdminDashboardClient';
 
 export default function AdminPage() {
   const router = useRouter();
-  const { user, loading } = useAuth();
-  
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    if (!loading && !user) {
-      router.replace('/admin/login');
-    }
-  }, [loading, user, router]);
-  
+    const supabase = createSupabaseClient();
+    
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (!user) {
+        router.replace('/admin/login');
+        return;
+      }
+      setUser(user);
+      setLoading(false);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!session?.user) {
+        router.replace('/admin/login');
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [router]);
+
   if (loading) {
     return (
       <div className="min-h-screen bg-wedding-cream flex items-center justify-center">
@@ -21,21 +39,6 @@ export default function AdminPage() {
       </div>
     );
   }
-  
-  if (!user) {
-    return null; // Redirecting to login
-  }
-  
-  return (
-    <div className="min-h-screen bg-wedding-cream flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="font-heading text-4xl text-wedding-blue mb-4">
-          Área Admin
-        </h1>
-        <p className="font-body text-wedding-wood text-lg">
-          Em breve.
-        </p>
-      </div>
-    </div>
-  );
+
+  return <AdminDashboardClient user={user} />;
 }

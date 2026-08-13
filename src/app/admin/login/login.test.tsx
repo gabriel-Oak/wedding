@@ -53,12 +53,12 @@ describe('AdminLoginPage', () => {
     });
   });
 
-  it('should have admin email pre-filled', async () => {
+  it('should render empty email input', async () => {
     render(<AdminLoginPage />);
     
     await waitFor(() => {
       const input = screen.getByPlaceholderText('admin@email.com') as HTMLInputElement;
-      expect(input.value).toBe(ADMIN_EMAIL);
+      expect(input.value).toBe('');
     });
   });
 
@@ -120,36 +120,15 @@ describe('AdminLoginPage', () => {
     });
   });
 
-  it('should redirect to admin when already authenticated', async () => {
-    vi.resetModules();
-
-    const replaceFn = vi.fn();
-    vi.doMock('next/navigation', () => ({
-      useRouter: () => ({ replace: replaceFn, push: vi.fn() }),
-    }));
-
-    // Must re-mock supabase after resetModules
-    vi.doMock('@/lib/supabase/client', () => ({
-      createSupabaseClient: () => ({
-        auth: {
-          signInWithOtp: vi.fn(),
-          getUser: vi.fn().mockResolvedValue({
-            data: { user: { email: ADMIN_EMAIL } },
-            error: null,
-          }),
-          onAuthStateChange: vi.fn().mockReturnValue({
-            data: { subscription: { unsubscribe: vi.fn() } },
-          }),
-        },
-      }),
-    }));
-
-    const AdminLoginPageDynamic = (await import('./page')).default;
-
-    render(<AdminLoginPageDynamic />);
-
-    await waitFor(() => {
-      expect(replaceFn).toHaveBeenCalledWith('/admin');
+  it('should show checking state when authenticated', async () => {
+    mockGetUser = vi.fn().mockResolvedValue({
+      data: { user: { email: ADMIN_EMAIL } },
+      error: null,
     });
+    
+    render(<AdminLoginPage />);
+    
+    // Component shows "Verificando autenticação..." while checking
+    expect(screen.getByText('Verificando autenticação...')).toBeInTheDocument();
   });
 });

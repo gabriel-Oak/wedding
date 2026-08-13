@@ -52,3 +52,5 @@ tmp/
 # Playwright
 playwright-report/
 test-results/
+/.temp
+supabase/.temp
