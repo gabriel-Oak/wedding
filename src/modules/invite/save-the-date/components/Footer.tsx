@@ -127,7 +127,7 @@ export default function Footer() {
           </div>
 
           <p className="font-heading text-white text-xl md:text-2xl font-semibold mb-3">
-            Nos vemos em 08 de novembro de 2026 💍
+            Nos vemos em 07 de novembro 💍
           </p>
           <p className="font-body text-white opacity-70 text-sm md:text-base font-light text-center">
             O convite com mais informações será enviado em breve.

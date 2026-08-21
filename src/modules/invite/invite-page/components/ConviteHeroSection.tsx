@@ -41,7 +41,7 @@ export default function ConviteHeroSection() {
 
           {/* Date */}
           <p className="animate-[fadeInUp_0.8s_ease-out_forwards] opacity-0 delay-300 font-heading text-xl md:text-2xl text-wedding-gold-darker tracking-widest">
-            08 . 11 . 2026
+            07 . 11 . 2026
           </p>
 
           {/* Subtitle */}

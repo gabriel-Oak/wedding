@@ -70,7 +70,7 @@ function MiniTent({ className = "" }: { className?: string }) {
   );
 }
 
-const targetDate = "2026-11-08T16:00:00";
+const targetDate = "2026-11-07T17:00:00";
 
 const labels = ["DIAS", "HORAS", "MINUTOS", "SEGUNDOS"];
 

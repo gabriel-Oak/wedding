@@ -15,11 +15,12 @@ import CornerEucalyptus from '@/shared/ui/CornerEucalyptus';
 import VineDivider from '@/shared/ui/VineDivider';
 import { useCountdown } from '@/shared/hooks/useCountdown';
 import LeafIcon from '@/shared/ui/LeafIcon';
+import { GiftsSection } from '@/modules/invite/invite-page/components/GiftsSection';
 
 type InitialGuest = Guest | null;
 
 function MinimalCountdown() {
-  const { days, hours, minutes, seconds } = useCountdown("2026-11-08T16:00:00");
+  const { days, hours, minutes, seconds } = useCountdown("2026-11-07T17:00:00");
   const values = [days, hours, minutes, seconds];
   const labels = ["DIAS", "HORAS", "MINUTOS", "SEGUNDOS"];
 
@@ -98,6 +99,9 @@ export default function ConvitePageClient({
 
           {/* Wedding Day Card - always visible */}
           <WeddingDayCard />
+
+          <VineDivider className="text-wedding-gold/40 mx-auto" thin={true} />
+          <GiftsSection />
         </div>
       </div>
     );
@@ -132,31 +136,34 @@ export default function ConvitePageClient({
           <div className="h-px flex-1 bg-wedding-gold/30" />
         </div>
 
-        {/* Event Cards - 1 col mobile, 2 cols md, 3 cols lg, always centered */}
-        <div className="flex flex-wrap justify-center gap-8">
-          {/* Conditional Bachelorette Card */}
+        {/* Event Cards - 1 col mobile, 2 cols md, 3 cols lg, equal height */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Bachelorette Party - Friday 06/11 (conditional) */}
           {activeGuest.is_hot_guest && (
-            <div className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.33%-1.33rem)]">
+            <div className="h-full">
               <BacheloretteCard />
             </div>
           )}
 
-          {/* Conditional Nature Card */}
+          {/* Wedding Day - Saturday 07/11 · 17h (always visible) */}
+          <div className="h-full">
+            <WeddingDayCard />
+          </div>
+
+          {/* Nature Party - Sunday 08/11 (conditional) */}
           {activeGuest.is_natural_guest && (
-            <div className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.33%-1.33rem)]">
+            <div className="h-full">
               <NatureCard />
             </div>
           )}
-
-          {/* Wedding Day Card - always visible */}
-          <div className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.33%-1.33rem)]">
-            <WeddingDayCard />
-          </div>
         </div>
 
         {/* Sessão Local do Evento */}
         <VineDivider className="text-wedding-gold/40 mx-auto my-8" thin={true} />
         <VenueSection />
+
+        <VineDivider className="text-wedding-gold/40 mx-auto my-8" thin={true} />
+        <GiftsSection />
 
         {/* RSVP Form - only for guests with phone and existing confirmation */}
         {guestPhone && rsvp_status !== null && (

@@ -11,7 +11,7 @@ describe("Footer", () => {
   it("displays the romantic phrase", () => {
     render(<Footer />);
     expect(
-      screen.getByText("Nos vemos em 08 de novembro de 2026 💍"),
+      screen.getByText("Nos vemos em 07 de novembro 💍"),
     ).toBeInTheDocument();
   });
 
