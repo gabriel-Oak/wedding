@@ -15,11 +15,12 @@ import CornerEucalyptus from '@/shared/ui/CornerEucalyptus';
 import VineDivider from '@/shared/ui/VineDivider';
 import { useCountdown } from '@/shared/hooks/useCountdown';
 import LeafIcon from '@/shared/ui/LeafIcon';
+import { GiftsSection } from '@/modules/invite/invite-page/components/GiftsSection';
 
 type InitialGuest = Guest | null;
 
 function MinimalCountdown() {
-  const { days, hours, minutes, seconds } = useCountdown("2026-11-08T16:00:00");
+  const { days, hours, minutes, seconds } = useCountdown("2026-11-07T17:00:00");
   const values = [days, hours, minutes, seconds];
   const labels = ["DIAS", "HORAS", "MINUTOS", "SEGUNDOS"];
 
@@ -98,6 +99,9 @@ export default function ConvitePageClient({
 
           {/* Wedding Day Card - always visible */}
           <WeddingDayCard />
+
+          <VineDivider className="text-wedding-gold/40 mx-auto" thin={true} />
+          <GiftsSection />
         </div>
       </div>
     );
@@ -134,6 +138,11 @@ export default function ConvitePageClient({
 
         {/* Event Cards - 1 col mobile, 2 cols md, 3 cols lg, always centered */}
         <div className="flex flex-wrap justify-center gap-8">
+          {/* Wedding Day Card - always visible */}
+          <div className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.33%-1.33rem)]">
+            <WeddingDayCard />
+          </div>
+
           {/* Conditional Bachelorette Card */}
           {activeGuest.is_hot_guest && (
             <div className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.33%-1.33rem)]">
@@ -147,16 +156,14 @@ export default function ConvitePageClient({
               <NatureCard />
             </div>
           )}
-
-          {/* Wedding Day Card - always visible */}
-          <div className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.33%-1.33rem)]">
-            <WeddingDayCard />
-          </div>
         </div>
 
         {/* Sessão Local do Evento */}
         <VineDivider className="text-wedding-gold/40 mx-auto my-8" thin={true} />
         <VenueSection />
+
+        <VineDivider className="text-wedding-gold/40 mx-auto my-8" thin={true} />
+        <GiftsSection />
 
         {/* RSVP Form - only for guests with phone and existing confirmation */}
         {guestPhone && rsvp_status !== null && (
