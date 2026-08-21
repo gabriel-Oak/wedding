@@ -7,7 +7,7 @@ test.describe('Save the Date Landing Page', () => {
     // Assert hero heading is visible
     await expect(page.getByRole('heading', { name: 'Gabriel & Mariana' })).toBeVisible();
     // Assert date badge is visible
-    await expect(page.getByText('08 . 11 . 2026')).toBeVisible();
+    await expect(page.getByText('07 . 11 . 2026')).toBeVisible();
     // Assert "SAVE THE DATE" label is visible
     await expect(page.getByLabel('Save the Date label')).toBeVisible();
   });
@@ -43,7 +43,7 @@ test.describe('Save the Date Landing Page', () => {
   test('footer contains RSVP message', async ({ page }) => {
     await page.goto('/');
     // Assert footer romantic phrase is visible
-    await expect(page.getByText(/nos vemos em 08 de novembro/i)).toBeVisible();
+    await expect(page.getByText(/nos vemos em 07 de novembro/i)).toBeVisible();
     // Assert RSVP notice is visible
     await expect(page.getByText(/convite com mais informações/i)).toBeVisible();
   });
@@ -55,9 +55,9 @@ test.describe('Save the Date Landing Page', () => {
     
     // Assert all sections are visible on mobile
     await expect(page.getByLabel('Save the Date label')).toBeVisible();
-    await expect(page.getByText('08 . 11 . 2026')).toBeVisible();
+    await expect(page.getByText('07 . 11 . 2026')).toBeVisible();
     await expect(page.getByText('Contagem Regressiva')).toBeVisible();
-    await expect(page.getByText(/nos vemos em 08 de novembro/i)).toBeVisible();
+    await expect(page.getByText(/nos vemos em 07 de novembro/i)).toBeVisible();
 
     await page.close();
     await context.close();

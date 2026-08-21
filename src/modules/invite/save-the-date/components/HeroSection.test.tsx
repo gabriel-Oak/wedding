@@ -17,9 +17,9 @@ describe("HeroSection", () => {
     expect(screen.getByText("Gabriel & Mariana")).toBeInTheDocument();
   });
 
-  it('renders the date badge "08 . 11 . 2026"', () => {
+  it('renders the date badge "07 . 11 . 2026"', () => {
     render(<HeroSection />);
-    expect(screen.getByText("08 . 11 . 2026")).toBeInTheDocument();
+    expect(screen.getByText("07 . 11 . 2026")).toBeInTheDocument();
   });
 
   it("renders the subtitle", () => {
