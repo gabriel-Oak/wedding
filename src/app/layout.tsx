@@ -14,7 +14,7 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   title: "Save the Date",
-  description: "Casamento — 08 de Novembro de 2026",
+  description: "Casamento — 07 de Novembro de 2026",
   icons: {
     icon: "/favicon.svg",
   },

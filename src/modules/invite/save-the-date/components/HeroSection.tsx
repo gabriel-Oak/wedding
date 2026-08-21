@@ -399,7 +399,7 @@ export default function HeroSection() {
           <p
             className="animate-[fadeInUp_0.8s_ease-out_forwards] opacity-0 delay-300 font-heading text-2xl text-wedding-gold tracking-widest transition-opacity md:text-3xl"
           >
-            08 . 11 . 2026
+            07 . 11 . 2026
           </p>
 
           {/* Decorative vine divider */}
