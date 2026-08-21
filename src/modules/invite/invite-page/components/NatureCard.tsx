@@ -4,7 +4,7 @@ import EucalyptusBranch from '@/shared/ui/EucalyptusBranch';
 
 export function NatureCard() {
   return (
-    <div className="relative w-full max-w-5xl mx-auto overflow-hidden rounded-2xl bg-white text-wedding-wood shadow-lg border-0">
+    <div className="relative w-full h-full overflow-hidden rounded-2xl bg-white text-wedding-wood shadow-lg border-0">
       {/* Decorative top branch */}
       <EucalyptusBranch className="absolute top-0 right-0 w-32 opacity-30 text-wedding-gold pointer-events-none animate-sway" />
 

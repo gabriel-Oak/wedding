@@ -136,23 +136,23 @@ export default function ConvitePageClient({
           <div className="h-px flex-1 bg-wedding-gold/30" />
         </div>
 
-        {/* Event Cards - 1 col mobile, 2 cols md, 3 cols lg, always centered */}
-        <div className="flex flex-wrap justify-center gap-8">
+        {/* Event Cards - 1 col mobile, 2 cols md, 3 cols lg, equal height */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Bachelorette Party - Friday 06/11 (conditional) */}
           {activeGuest.is_hot_guest && (
-            <div className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.33%-1.33rem)]">
+            <div className="h-full">
               <BacheloretteCard />
             </div>
           )}
 
           {/* Wedding Day - Saturday 07/11 · 17h (always visible) */}
-          <div className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.33%-1.33rem)]">
+          <div className="h-full">
             <WeddingDayCard />
           </div>
 
           {/* Nature Party - Sunday 08/11 (conditional) */}
           {activeGuest.is_natural_guest && (
-            <div className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.33%-1.33rem)]">
+            <div className="h-full">
               <NatureCard />
             </div>
           )}
