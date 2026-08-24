@@ -17,7 +17,7 @@ export function GiftsSection() {
 
       {/* Paragraph with Amazon link */}
       <p className="font-body text-wedding-wood/80 text-sm leading-relaxed max-w-md mx-auto">
-        Sua presença já é o nosso maior presente. Se quiser nos presentear,
+        Sua presença já é o nosso maior presente. Mas se quiser nos mimar,
         montamos uma{" "}
         <a
           href={AMAZON_WISHLIST_URL}
